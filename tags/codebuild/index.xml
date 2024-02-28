@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>CodeBuild on TechTeco</title><link>https://techteco.github.io/tags/codebuild/</link><description>Recent content in CodeBuild on TechTeco</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Wed, 19 Sep 2018 19:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/codebuild/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS CodeBuildをローカル環境で動かす</title><link>https://techteco.github.io/2018/09/19/aws-codebuild-local/</link><pubDate>Wed, 19 Sep 2018 19:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/09/19/aws-codebuild-local/</guid><description>AWS CodeBuildとは CodeBuildは使ったことはありましたが、検証が面倒くさいところがありました。
+ビルド自体は動き出すとなかなか変更する機会がなく、今回ようやくローカル環境でのテストを試すことになりました。
+ちなみに、CodeBuildとは、
+AWS CodeBuild とは
+AWS CodeBuild はクラウドで動作する、完全マネージド型のビルドサービスです。AWS CodeBuild はソースコードをコンパイルし、単体テストを実行して、すぐにデプロイできるアーティファクトを生成します。AWS CodeBuild により、独自のビルドサーバーのプロビジョニング、管理、スケーリングが不要になります。Apache Maven、Gradle などの最も一般的なプログラミング言語とビルドツール用のパッケージ済みのビルド環境を提供します。AWS CodeBuild のビルド環境をカスタマイズして、独自のビルドツールを使用することもできます。AWS CodeBuild はピーク時のビルドリクエストに合わせて自動的にスケーリングします。
+CodeBuildの使い方は、公式のリファレンスを見るとわかりやすく説明されています。
+AWS CodeBuild のビルド仕様に関するリファレンス
+AWS CodeBuild のビルド環境リファレンス
+実行環境 $ sw_vers ProductName:	Mac OS X ProductVersion:	10.13.6 BuildVersion:	17G2307 $ docker -v Docker version 18.06.1-ce, build e68fc7a 準備 Announcing Local Build Support for AWS CodeBuild
+Github aws/aws-codebuild-docker-images
+を参考に進めます。
+イントール $ git clone https://github.com/aws/aws-codebuild-docker-images.git build Docker image 今回は簡単な動作検証なので、ubuntu-baseを使って試します。
+AWS CodeBuild に用意されている Docker イメージ</description></item></channel></rss>

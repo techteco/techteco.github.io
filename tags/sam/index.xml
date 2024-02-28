@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sam on TechTeco</title><link>https://techteco.github.io/tags/sam/</link><description>Recent content in Sam on TechTeco</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Fri, 31 Aug 2018 19:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/sam/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS SAM CLIを使ってlambdaのローカル開発</title><link>https://techteco.github.io/2018/08/31/aws-sam-cli/</link><pubDate>Fri, 31 Aug 2018 19:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/08/31/aws-sam-cli/</guid><description>AWS SAM CLIとは AWS SAM自体は以前の投稿でも書いているので割愛。
+AWS SAM CLIは、もともとsam localと呼ばれていたものの進化版？のようですね。
+sam localは何度かつかってましたが、sam cliになったのを機に再度整理する。
+イントール 参考:SAM CLI のインストール
+dockerとイントールに使われるpip(Pythonのパッケージ管理)が必要になるが、詳細は割愛。
+$ pip install aws-sam-cli $ sam --version SAM CLI, version 0.6.0 参考サイトは0.3.0なので、少しずつ改善されているようですね。
+sam initでサンプルを動かす Simple App (sam init) の作成
+ここではgolangを使って試してみる。
+$ sam init --runtime go [&amp;#43;] Initializing project structure... [SUCCESS] - Read sam-app/README.md for further instructions on how to proceed [*] Project initialization is now complete # こんなファイルが自動生成されます。 $ tree sam-app/ sam-app/ ├── Makefile ├── README.</description></item><item><title>Lambda(Golang)からAWS KMSを復号化する方法</title><link>https://techteco.github.io/2018/01/30/lambda-go-kms/</link><pubDate>Tue, 30 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/30/lambda-go-kms/</guid><description>KMSについては、AWS KMSの使い方を参考
+環境構築 暗号化データ 暗号化する。ここでは、shared(alias)というkeyを使う。
+※自分の環境に合わせて。
+$ aws kms encrypt \ --key-id alias/shared \ --plaintext &amp;#34;I am seacret word&amp;#34; \ --output text \ --query CiphertextBlob ここで出力された値をLambdaの環境変数に渡します。
+Lambda構築用のSAMテンプレート 参考はこちらのAWS SAMを使ってみるをご確認ください。
+lambda-go-kms.yaml AWSTemplateFormatVersion : &amp;#39;2010-09-09&amp;#39; Transform: AWS::Serverless-2016-10-31 Description: KMS decrypt. Resources: KMSDecrypt: Type: AWS::Serverless::Function Properties: Handler: main Runtime: go1.x CodeUri: main.zip # KMSのDecrypt用のポリシー定義 Policies: - KMSDecryptPolicy: # 暗号化に使ったKeyID # aliasは対応していない KeyId: &amp;#34;01234567-0123-1234-1234-123456789012&amp;#34; Environment: Variables: # Encrypted: &amp;#34;ここに暗号化したCiphertextBlobの値&amp;#34; Golangのソースコード main.go package main import ( &amp;#34;context&amp;#34; &amp;#34;encoding/base64&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; &amp;#34;github.</description></item><item><title>AWS SAMを使ってみる</title><link>https://techteco.github.io/2018/01/27/lambda-go-sample-sam/</link><pubDate>Sat, 27 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/27/lambda-go-sample-sam/</guid><description>AWS SAMとは Github : AWS Serverless Application Model (AWS SAM)
+The goal of AWS SAM is to define a standard application model for serverless applications. This GitHub project is the starting point for AWS SAM, and contains general information, information about the model, and examples of common applications.
+日本語訳
+AWS SAMの目標は、サーバレスアプリケーション用の標準アプリケーションモデルを定義することです。 このGitHubプロジェクトは、AWS SAMの出発点であり、一般的な情報、モデルに関する情報、一般的なアプリケーションの例を含んでいます。
+AWS::Serverless 変換
+ここを見る限りだと、
+AWS SAMはCloudformationの拡張で、最終的にはCloudformationのテンプレートに展開されるイメージ。
+やること 基本的には、待望のAWS LambdaのGolang対応！ ここでやったことの、コンソールでの作業をコマンドベースでやろう！ということです。
+サンプル Githubにサンプルがあるので、一番シンプルなhello_worldを参考にしてみる。
+テンプレート lambda-go.yaml AWSTemplateFormatVersion : &amp;#39;2010-09-09&amp;#39; Transform: AWS::Serverless-2016-10-31 Description: lambda go sample application.</description></item></channel></rss>

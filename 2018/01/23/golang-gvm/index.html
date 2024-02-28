@@ -1,0 +1,156 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>Golangのバージョン管理GVM(Go Version Manager)の使い方 &#183; TechTeco</title>
+<meta name=description content="Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="Golangのバージョン管理GVM(Go Version Manager)の使い方 &#183; TechTeco"><meta name=twitter:description content="Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="Golangのバージョン管理GVM(Go Version Manager)の使い方 &#183; TechTeco"><meta property="og:description" content="Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ"><meta property="og:url" content="https://techteco.github.io/2018/01/23/golang-gvm/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2018-01-23 20:00:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2018年1月23日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2018/01/23/golang-gvm/ class=post-title>Golangのバージョン管理GVM(Go Version Manager)の使い方</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-GOLANG" href=https://techteco.github.io//categories/golang>GOLANG</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2018/01/23/golang-gvm/ data-description="Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ" data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#gvm-list>gvm list</a></li><li><a href=#gvm-listall>gvm listall</a></li><li><a href=#gvm-install>gvm install</a></li><li><a href=#gvm-use>gvm use</a></li></ul></nav></aside><div class=post-description><h1 id=gvmとは>GVMとは</h1><p><a href=https://github.com/moovweb/gvm>GVM(Github)</a></p><p><em><strong>Go Version Manager</strong></em>の頭文字をとって<em><strong>GVM</strong></em></p><p>一言で言うと</p><blockquote><p>GVM provides an interface to manage Go versions.</p></blockquote><p>日本語に直訳すると</p><blockquote><p>GVMは、Goバージョンを管理するためのインタフェースを提供します。</p></blockquote><h1 id=インストール>インストール</h1><p><a href=/2018/01/22/ansible_mac/#roles-golang>AnsibleでMacの開発環境を構築する</a>でも、gvmのインストールはされていますが、コマンドでも一発でインストール可能です。</p><pre><code class="language-bash line-numbers">bash &lt; &lt;(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+</code></pre><pre><code class="language-bash line-numbers">$ gvm version
+-bash: gvm: command not found
+</code></pre><p>おっと、パスが通ってませんでした。。。</p><pre><code class="language-bash line-numbers">$ source ~/.gvm/scripts/gvm
+$ gvm version
+Go Version Manager v1.0.22 installed at /Users/XXXXX/.gvm
+</code></pre><h1 id=使い方>使い方</h1><h2 id=gvm-list>gvm list</h2><p>インストール済のGoのバージョン一覧を表示<pre><code class="language-bash line-numbers">$ gvm list
+
+gvm gos (installed)
+
+   go1.4
+   go1.7.6
+   go1.8.3
+=&gt; go1.9.3
+   system
+</code></pre></p><p>バージョンを表示してみると<pre><code class="language-bash line-numbers">$ go version
+go version go1.9.3 darwin/amd64
+</code></pre></p><h2 id=gvm-listall>gvm listall</h2><p>GVMでインストール可能なGoのバージョン一覧を表示<pre><code class="language-bash line-numbers">$ gvm listall
+
+gvm gos (available)
+
+   go1
+   go1.0.1
+   go1.0.2
+   go1.0.3
+   go1.1
+   go1.1.1
+   go1.1.2
+   go1.10beta1
+   go1.10beta2
+   go1.10rc1
+   go1.1rc2
+   go1.1rc3
+   go1.2
+   go1.2.1
+   go1.2.2
+   go1.2rc2
+   go1.2rc3
+   go1.2rc4
+   go1.2rc5
+   go1.3
+   go1.3.1
+   go1.3.2
+   go1.3.3
+   go1.3beta1
+   go1.3beta2
+   go1.3rc1
+   go1.3rc2
+   go1.4
+   go1.4.1
+   go1.4.2
+   go1.4.3
+   go1.4beta1
+   go1.4rc1
+   go1.4rc2
+   go1.5
+   go1.5.1
+   go1.5.2
+   go1.5.3
+   go1.5.4
+   go1.5beta1
+   go1.5beta2
+   go1.5beta3
+   go1.5rc1
+   go1.6
+   go1.6.1
+   go1.6.2
+   go1.6.3
+   go1.6.4
+   go1.6beta1
+   go1.6beta2
+   go1.6rc1
+   go1.6rc2
+   go1.7
+   go1.7.1
+   go1.7.2
+   go1.7.3
+   go1.7.4
+   go1.7.5
+   go1.7.6
+   go1.7beta1
+   go1.7beta2
+   go1.7rc1
+   go1.7rc2
+   go1.7rc3
+   go1.7rc4
+   go1.7rc5
+   go1.7rc6
+   go1.8
+   go1.8.1
+   go1.8.2
+   go1.8.3
+   go1.8.4
+   go1.8.5
+   go1.8.5rc4
+   go1.8.5rc5
+   go1.8.6
+   go1.8beta1
+   go1.8beta2
+   go1.8rc1
+   go1.8rc2
+   go1.8rc3
+   go1.9
+   go1.9.1
+   go1.9.2
+   go1.9.3
+   go1.9beta1
+   go1.9beta2
+   go1.9rc1
+   go1.9rc2
+   release.r56
+   release.r57
+   release.r57.1
+   release.r57.2
+   release.r58
+   release.r58.1
+   release.r58.2
+   release.r59
+   release.r60
+   release.r60.1
+   release.r60.2
+   release.r60.3
+
+</code></pre></p><h2 id=gvm-install>gvm install</h2><p>gvmでバージョン指定してGoをイントールする</p><p>試しに、go1.9.2をインストールしてみる</p><pre><code class="language-bash line-numbers">$ gvm install go1.9.2
+Installing go1.9.2...
+ * Compiling...
+go1.9.2 successfully installed!
+</code></pre><pre><code class="language-bash line-numbers">$ gvm list
+
+gvm gos (installed)
+
+   go1.4
+   go1.7.6
+   go1.8.3
+   go1.9.2  # 追加されている
+=&gt; go1.9.3
+   system
+</code></pre><h2 id=gvm-use>gvm use</h2><p>gvmで利用するGoのバージョンを変更する</p><pre><code class="language-bash line-numbers">$ gvm use go1.8.3
+Now using version go1.8.3
+$ go version
+go version go1.8.3 darwin/amd64
+$ gvm list
+
+gvm gos (installed)
+
+   go1.4
+   go1.7.6
+=&gt; go1.8.3
+   go1.9.2
+   go1.9.3
+   system
+
+</code></pre><h1 id=最後に>最後に</h1><p>使い方はとても簡単ですね。</p><p>そこまでバージョン切り替えて使うシーンがどこまであるかわかりませんが、Golangで開発するなら導入しておいて損はないと思います。</p></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

@@ -1,0 +1,65 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>AWS SAMを使ってみる &#183; TechTeco</title>
+<meta name=description content="AWS SAMでLambdaに簡単にデプロイしてみる"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="AWS SAMを使ってみる &#183; TechTeco"><meta name=twitter:description content="AWS SAMでLambdaに簡単にデプロイしてみる"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="AWS SAMを使ってみる &#183; TechTeco"><meta property="og:description" content="AWS SAMでLambdaに簡単にデプロイしてみる"><meta property="og:url" content="https://techteco.github.io/2018/01/27/lambda-go-sample-sam/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2018-01-27 22:00:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2018年1月27日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2018/01/27/lambda-go-sample-sam/ class=post-title>AWS SAMを使ってみる</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-AWS" href=https://techteco.github.io//categories/aws>AWS</a><a class="post-category post-category-GOLANG" href=https://techteco.github.io//categories/golang>GOLANG</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2018/01/27/lambda-go-sample-sam/ data-description="AWS SAMでLambdaに簡単にデプロイしてみる" data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#テンプレート>テンプレート</a></li><li><a href=#package--deploy>package & deploy</a></li><li><a href=#動作確認>動作確認</a></li></ul></nav></aside><div class=post-description><h1 id=aws-samとは>AWS SAMとは</h1><p><a href=https://github.com/awslabs/serverless-application-model>Github : AWS Serverless Application Model (AWS SAM)</a></p><blockquote><p>The goal of AWS SAM is to define a standard application model for serverless applications.
+This GitHub project is the starting point for AWS SAM, and contains general information, information about the model, and examples of common applications.</p></blockquote><p>日本語訳</p><blockquote><p>AWS SAMの目標は、サーバレスアプリケーション用の標準アプリケーションモデルを定義することです。
+このGitHubプロジェクトは、AWS SAMの出発点であり、一般的な情報、モデルに関する情報、一般的なアプリケーションの例を含んでいます。</p></blockquote><p><a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html>AWS::Serverless 変換</a></p><p>ここを見る限りだと、</p><p>AWS SAMはCloudformationの拡張で、最終的にはCloudformationのテンプレートに展開されるイメージ。</p><h1 id=やること>やること</h1><p>基本的には、<a href=/2018/01/24/lambda-go-sample/>待望のAWS LambdaのGolang対応！</a> ここでやったことの、コンソールでの作業をコマンドベースでやろう！ということです。</p><h1 id=サンプル>サンプル</h1><p>Githubにサンプルがあるので、一番シンプルな<a href=https://github.com/awslabs/serverless-application-model/tree/master/examples/2016-10-31/hello_world>hello_world</a>を参考にしてみる。</p><h2 id=テンプレート>テンプレート</h2><ul><li>lambda-go.yaml</li></ul><pre><code class="language-yaml line-numbers">AWSTemplateFormatVersion : &#39;2010-09-09&#39;
+Transform: AWS::Serverless-2016-10-31
+Description: lambda go sample application.
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: go1.x
+      CodeUri: &#34;./../../lambda-go-sample/main.zip&#34;
+</code></pre><h2 id=package--deploy>package & deploy</h2><p><a href=https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html>Reference : cloudformation package</a></p><p>ここでは、</p><p>S3のバケットは<a href=/2018/01/25/cloudformation/>AWS CloudformationをAWS CLIから使ってみる</a>でサンプルで作成済のバケットを使用します。※基本的になんでも良いと思います。</p><pre><code class="language-bash line-numbers">$ aws cloudformation package \
+--template-file ./lambda-go.yaml \
+--s3-bucket techteco.sample.bucket \
+--s3-prefix lambda-go-sample \
+--output-template-file packaged-template.yaml
+</code></pre><p>ここまでで、S3にpackageがアップロードされています。</p><p>出力された<em><strong>packaged-template.yaml</strong></em>をつかってdeploy</p><p>ちなみに、出力内容はこちら</p><pre><code class="language-yaml line-numbers">AWSTemplateFormatVersion: &#39;2010-09-09&#39;
+Description: lambda go sample application.
+Resources:
+  HelloWorldFunction:
+    Properties:
+      CodeUri: s3://techteco.sample.bucket/lambda-go-sample/737fd29b764003ecb0a9c10ee290bfd9
+      Handler: main
+      Runtime: go1.x
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
+</code></pre><p><a href=https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html>Reference : cloudformation deploy</a></p><pre><code class="language-bash line-numbers">$ aws cloudformation deploy \
+--template-file packaged-template.yaml \
+--stack-name sampleSamLambdaGo \
+--capabilities CAPABILITY_IAM
+</code></pre><h2 id=動作確認>動作確認</h2><p>まずは、Cloudformationのstackの中身</p><pre><code class="language-bash line-numbers">$ aws cloudformation describe-stack-resources \
+--stack-name sampleSamLambdaGo \
+| jq .
+</code></pre><pre><code class="language-json line-numbers">{
+  &#34;StackResources&#34;: [
+    {
+      &#34;StackName&#34;: &#34;sampleSamLambdaGo&#34;,
+      &#34;StackId&#34;: &#34;arn:aws:cloudformation:ap-northeast-1:123456789012:stack/sampleSamLambdaGo/28efadc0-088c-11e8-b769-50a68a175a82&#34;,
+      &#34;LogicalResourceId&#34;: &#34;HelloWorldFunction&#34;,
+      &#34;PhysicalResourceId&#34;: &#34;sampleSamLambdaGo-HelloWorldFunction-YAWCC305TVCA&#34;,
+      &#34;ResourceType&#34;: &#34;AWS::Lambda::Function&#34;,
+      &#34;Timestamp&#34;: &#34;2018-02-03T02:46:15.113Z&#34;,
+      &#34;ResourceStatus&#34;: &#34;CREATE_COMPLETE&#34;
+    },
+    {
+      &#34;StackName&#34;: &#34;sampleSamLambdaGo&#34;,
+      &#34;StackId&#34;: &#34;arn:aws:cloudformation:ap-northeast-1:123456789012:stack/sampleSamLambdaGo/28efadc0-088c-11e8-b769-50a68a175a82&#34;,
+      &#34;LogicalResourceId&#34;: &#34;HelloWorldFunctionRole&#34;,
+      &#34;PhysicalResourceId&#34;: &#34;sampleSamLambdaGo-HelloWorldFunctionRole-1HGTSQ58UEK91&#34;,
+      &#34;ResourceType&#34;: &#34;AWS::IAM::Role&#34;,
+      &#34;Timestamp&#34;: &#34;2018-02-03T02:46:09.876Z&#34;,
+      &#34;ResourceStatus&#34;: &#34;CREATE_COMPLETE&#34;
+    }
+  ]
+}
+</code></pre><p>正しく実行されればOK!</p><pre><code class="language-bash line-numbers">$ aws lambda invoke \
+--invocation-type Event \
+--function-name sampleSamLambdaGo-HelloWorldFunction-YAWCC305TVCA \
+--payload &#39;{&#34;name&#34;: &#34;テスト太郎&#34;}&#39; \
+outputfile.txt
+</code></pre></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

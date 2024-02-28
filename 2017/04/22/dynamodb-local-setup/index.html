@@ -1,0 +1,90 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>DynamoDBローカルを使ってみる &#183; TechTeco</title>
+<meta name=description content="DynamoDBローカルを使ってみる（セットアップ）"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="DynamoDBローカルを使ってみる &#183; TechTeco"><meta name=twitter:description content="DynamoDBローカルを使ってみる（セットアップ）"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="DynamoDBローカルを使ってみる &#183; TechTeco"><meta property="og:description" content="DynamoDBローカルを使ってみる（セットアップ）"><meta property="og:url" content="https://techteco.github.io/2017/04/22/dynamodb-local-setup/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2017-04-22 22:00:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2017年4月22日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2017/04/22/dynamodb-local-setup/ class=post-title>DynamoDBローカルを使ってみる</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-AWS" href=https://techteco.github.io//categories/aws>AWS</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2017/04/22/dynamodb-local-setup/ data-description=DynamoDBローカルを使ってみる（セットアップ） data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#-cors-value><strong>-cors value</strong></a></li><li><a href=#-dbpath-value><strong>-dbPath value</strong></a></li><li><a href=#-delaytransientstatuses><strong>-delayTransientStatuses</strong></a></li><li><a href=#-help><strong>-help</strong></a></li><li><a href=#-inmemory><strong>-inMemory</strong></a></li><li><a href=#-optimizedbbeforestartup><strong>-optimizeDbBeforeStartup</strong></a></li><li><a href=#-port-value><strong>-port value</strong></a></li><li><a href=#-shareddb><strong>-sharedDb</strong></a></li></ul><ul><li><a href=#テーブルリストを表示>テーブルリストを表示</a></li><li><a href=#テーブルを作成>テーブルを作成</a></li><li><a href=#テーブルリストを表示-1>テーブルリストを表示</a></li></ul></nav></aside><div class=post-description><h1 id=公式ドキュメント>公式ドキュメント</h1><ul><li><a href=http://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/DynamoDBLocal.html>DynamoDB ローカル (ダウンロード可能バージョン) のセットアップ</a></li></ul><h1 id=前提>前提</h1><ul><li>AWS CLIの設定とJavaが導入済み<pre><code class="language-bash line-numbers">$ aws --version
+aws-cli/1.11.76 Python/2.7.10 Darwin/16.5.0 botocore/1.5.39
+
+$ java -version
+java version &#34;1.8.0_121&#34;
+Java(TM) SE Runtime Environment (build 1.8.0_121-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)
+</code></pre></li></ul><h1 id=ダウンロード>ダウンロード</h1><pre><code class="language-bash line-numbers">$ cd your_path
+$ mkdir dynamodb_local_latest
+$ curl -sL https://s3-ap-northeast-1.amazonaws.com/dynamodb-local-tokyo/dynamodb_local_latest.tar.gz | tar zx -C your_path/dynamodb_local_latest
+</code></pre><h1 id=実行>実行</h1><pre><code class="language-bash line-numbers">$ java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+
+Initializing DynamoDB Local with the following configuration:
+Port:	8000
+InMemory:	false
+DbPath:	null
+SharedDb:	true
+shouldDelayTransientStatuses:	false
+CorsParams:	*
+</code></pre><h1 id=実行オプション>実行オプション</h1><h2 id=-cors-value><strong>-cors value</strong></h2><blockquote><p>JavaScript で CORS (Cross-Origin Resource Sharing) のサポートを有効にします。特定のドメインのカンマ区切りの &ldquo;許可&rdquo; リストを指定する必要があります。
+-cors のデフォルト設定は、パブリックアクセスを許可するアスタリスク（*）です。</p></blockquote><h2 id=-dbpath-value><strong>-dbPath value</strong></h2><blockquote><p>DynamoDB がそのデータベースファイルを書き込むディレクトリ。このオプションを指定しない場合、ファイルは現在のディレクトリに書き込まれます。
+-dbPath と -inMemory の両方を同時に指定することはできません。</p></blockquote><h2 id=-delaytransientstatuses><strong>-delayTransientStatuses</strong></h2><blockquote><p>DynamoDB で特定のオペレーションの遅延を発生させます。DynamoDB は、テーブルやインデックスでの作成/更新/削除オペレーションなど、一部のタスクをほぼ瞬時に実行できます。
+ただし、実際の DynamoDB サービスでは、それらのタスクにはより多くの時間が必要です。
+このパラメーターを設定すると、DynamoDB は Amazon DynamoDB ウェブサービスの動作をより正確にシミュレートできます（現在、このパラメータではステータスが CREATING または DELETING のグローバルセカンダリインデックスに対してのみ遅延が発生します）。</p></blockquote><h2 id=-help><strong>-help</strong></h2><blockquote><p>使用方法の概要とオプションを出力します。</p></blockquote><h2 id=-inmemory><strong>-inMemory</strong></h2><blockquote><p>DynamoDB は、データベースファイルを使用する代わりにメモリで実行されます。DynamoDB を停止したとき、保存されるデータはありません。
+-dbPath と -inMemory の両方を同時に指定することはできません。</p></blockquote><h2 id=-optimizedbbeforestartup><strong>-optimizeDbBeforeStartup</strong></h2><blockquote><p>コンピュータで DynamoDB を開始する前に、基になるデータベーステーブルを最適化します。
+このパラメータを使用するときは、-dbPath も指定する必要があります。</p></blockquote><h2 id=-port-value><strong>-port value</strong></h2><blockquote><p>DynamoDB がアプリケーションと通信するために使用するポート番号。
+このオプションを指定しない場合、デフォルトポートは 8000 になります。</p></blockquote><h2 id=-shareddb><strong>-sharedDb</strong></h2><blockquote><p>DynamoDB は、認証情報とリージョンごとに別のファイルを使用する代わりに、単一のデータベースファイルを使用します。
+-sharedDb を指定すると、すべての DynamoDB クライアントは、リージョンと認証情報の設定にかかわらず、テーブルの同じセットを操作します。</p></blockquote><h1 id=動作確認>動作確認</h1><h2 id=テーブルリストを表示>テーブルリストを表示</h2><pre><code class="language-bash line-numbers">$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+{
+    &#34;TableNames&#34;: []
+}
+</code></pre><h2 id=テーブルを作成>テーブルを作成</h2><pre><code class="language-bash line-numbers">$ aws dynamodb create-table \
+--endpoint-url http://localhost:8000 \
+--table-name testTable \
+--attribute-definitions \
+    AttributeName=hash_key_attribute_name,AttributeType=S \
+    AttributeName=range_key_attribute_name,AttributeType=S \
+--key-schema \
+    AttributeName=hash_key_attribute_name,KeyType=HASH \
+    AttributeName=range_key_attribute_name,KeyType=RANGE \
+--provisioned-throughput \
+    ReadCapacityUnits=5,WriteCapacityUnits=5
+
+{
+    &#34;TableDescription&#34;: {
+        &#34;TableArn&#34;: &#34;arn:aws:dynamodb:ddblocal:000000000000:table/testTable&#34;,
+        &#34;AttributeDefinitions&#34;: [
+            {
+                &#34;AttributeName&#34;: &#34;hash_key_attribute_name&#34;,
+                &#34;AttributeType&#34;: &#34;S&#34;
+            },
+            {
+                &#34;AttributeName&#34;: &#34;range_key_attribute_name&#34;,
+                &#34;AttributeType&#34;: &#34;S&#34;
+            }
+        ],
+        &#34;ProvisionedThroughput&#34;: {
+            &#34;NumberOfDecreasesToday&#34;: 0,
+            &#34;WriteCapacityUnits&#34;: 5,
+            &#34;LastIncreaseDateTime&#34;: 0.0,
+            &#34;ReadCapacityUnits&#34;: 5,
+            &#34;LastDecreaseDateTime&#34;: 0.0
+        },
+        &#34;TableSizeBytes&#34;: 0,
+        &#34;TableName&#34;: &#34;testTable&#34;,
+        &#34;TableStatus&#34;: &#34;ACTIVE&#34;,
+        &#34;KeySchema&#34;: [
+            {
+                &#34;KeyType&#34;: &#34;HASH&#34;,
+                &#34;AttributeName&#34;: &#34;hash_key_attribute_name&#34;
+            },
+            {
+                &#34;KeyType&#34;: &#34;RANGE&#34;,
+                &#34;AttributeName&#34;: &#34;range_key_attribute_name&#34;
+            }
+        ],
+        &#34;ItemCount&#34;: 0,
+        &#34;CreationDateTime&#34;: 1492755625.133
+    }
+}
+</code></pre><h2 id=テーブルリストを表示-1>テーブルリストを表示</h2><pre><code class="language-bash line-numbers">$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+{
+    &#34;TableNames&#34;: [
+        &#34;testTable&#34;
+    ]
+}
+</code></pre><p>できた。</p></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

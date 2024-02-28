@@ -1,0 +1,107 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>LambdaのGolangでSlackにメッセージを送る &#183; TechTeco</title>
+<meta name=description content="LambdaのGolang対応したので、Slackにメッセージを送ってみる"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="LambdaのGolangでSlackにメッセージを送る &#183; TechTeco"><meta name=twitter:description content="LambdaのGolang対応したので、Slackにメッセージを送ってみる"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="LambdaのGolangでSlackにメッセージを送る &#183; TechTeco"><meta property="og:description" content="LambdaのGolang対応したので、Slackにメッセージを送ってみる"><meta property="og:url" content="https://techteco.github.io/2018/01/28/lambda-go-slack/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2018-01-28 22:00:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2018年1月28日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2018/01/28/lambda-go-slack/ class=post-title>LambdaのGolangでSlackにメッセージを送る</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-AWS" href=https://techteco.github.io//categories/aws>AWS</a><a class="post-category post-category-GOLANG" href=https://techteco.github.io//categories/golang>GOLANG</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2018/01/28/lambda-go-slack/ data-description=LambdaのGolang対応したので、Slackにメッセージを送ってみる data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#incoming-webhooks>Incoming WebHooks</a></li></ul><ul><li><a href=#golang>golang</a><ul><li><a href=#コンパイル>コンパイル</a></li><li><a href=#ファイル圧縮>ファイル圧縮</a></li></ul></li><li><a href=#sam>SAM</a></li><li><a href=#デプロイ>デプロイ</a></li></ul></nav></aside><div class=post-description><h1 id=slackの設定>Slackの設定</h1><h2 id=incoming-webhooks>Incoming WebHooks</h2><p><em><strong>Incoming WebHooks</strong></em>を使って、Lambdaからメッセージ送信をする。</p><p>詳細は割愛しますが、ドキュメント [Slack API] (<a href=https://api.slack.com/incoming-webhooks>https://api.slack.com/incoming-webhooks</a>) をみると使い方は簡単です。</p><p>Slackの管理画面<a href=https://XXXXXXXX.slack.com/apps>https://XXXXXXXX.slack.com/apps</a>からIncoming WebHooksの設定を行い、Webhook URLが取得できたら、curlコマンドでテストしてみる。</p><pre><code class="language-bash line-numbers">$ curl -X POST -H &#39;Content-type: application/json&#39; \
+--data &#39;{&#34;text&#34;:&#34;This is a line of text.\nAnd this is another one.&#34;}&#39; \
+https://hooks.slack.com/services/000000000/000000000/XXXXXXXXXXXXXXXXXXXXXXXX
+</code></pre><p>こんな感じで送信されれば準備OK！</p><img src=https://techteco.github.io/2018/01/28/lambda-go-slack/slack.png alt=slak class=pure-img><h1 id=lambdaの作成>Lambdaの作成</h1><h2 id=golang>golang</h2><p>Lambdaの環境変数からSlackのWebhook URLを取得する</p><ul><li>main.go</li></ul><pre><code class="language-go line-numbers">package main
+
+import (
+	&#34;context&#34;
+	&#34;os&#34;
+
+	slack &#34;./slack&#34;
+	&#34;github.com/aws/aws-lambda-go/lambda&#34;
+)
+
+func HandleRequest(ctx context.Context) (string, error) {
+	var slackURL = os.Getenv(&#34;slackURL&#34;) // Get Environment Variables
+
+	sl := slack.NewSlack(slackURL, &#34;This is a line of text.\nAnd this is another one.&#34;, &#34;user&#34;, &#34;:eyes:&#34;, &#34;&#34;, &#34;#random&#34;)
+	sl.Send()
+	return &#34;&#34;, nil
+}
+
+func main() {
+	lambda.Start(HandleRequest)
+}
+</code></pre><ul><li>./slack/slack.go</li></ul><pre><code class="language-go line-numbers">package slack
+
+import (
+	&#34;encoding/json&#34;
+	&#34;log&#34;
+	&#34;net/http&#34;
+	&#34;net/url&#34;
+)
+
+type slack struct {
+	params params
+	url    string
+}
+
+type params struct {
+	Text      string `json:&#34;text&#34;`
+	Username  string `json:&#34;username&#34;`
+	IconEmoji string `json:&#34;icon_emoji&#34;`
+	IconURL   string `json:&#34;icon_url&#34;`
+	Channel   string `json:&#34;channel&#34;`
+}
+
+func NewSlack(url string, text string, username string, iconEmoji string, iconURL string, channel string) *slack {
+
+	p := params{
+		Text:      text,
+		Username:  username,
+		IconEmoji: iconEmoji,
+		IconURL:   iconURL,
+		Channel:   channel}
+
+	return &amp;slack{
+		params: p,
+		url:    url}
+}
+
+func (s *slack) Send() {
+
+	params, _ := json.Marshal(s.params)
+
+	resp, err := http.PostForm(
+		s.url,
+		url.Values{&#34;payload&#34;: {string(params)}},
+	)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+	defer resp.Body.Close()
+}
+</code></pre><p><a href=/2018/01/24/lambda-go-sample/>待望のAWS LambdaのGolang対応！</a>を参考に、コンパイルする。</p><h3 id=コンパイル>コンパイル</h3><p>Linux用のコンパイルなのでGOOS=linuxを指定します。</p><pre><code class="language-bash line-numbers">$ GOOS=linux go build -o main</code></pre><h3 id=ファイル圧縮>ファイル圧縮</h3><p>Lambdaにアップロードするためにzipで圧縮する</p><pre><code class="language-bash line-numbers">$ zip main.zip main</code></pre><h2 id=sam>SAM</h2><p><a href=/2018/01/27/lambda-go-sample-sam/>AWS SAMを使ってみる</a>を参考に、SAMのテンプレートを作成。</p><p>LambdaのEvent実行の定義、SlackのWebhook URLの環境変数への登録を追加</p><ul><li>lambda-go-slack.yaml</li></ul><pre><code class="language-yaml line-numbers">AWSTemplateFormatVersion : &#39;2010-09-09&#39;
+Transform: AWS::Serverless-2016-10-31
+Description: lambda go send to slack.
+Resources:
+  SendSlack:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: go1.x
+      CodeUri: &#34;main.zip&#34;
+      # CloudWatch Event設定（毎分起動）
+      Events:
+        Timer:
+          Type: Schedule
+          Properties:
+            Schedule: cron(* * * * ? *)
+      # 環境変数
+      Environment:
+        Variables:
+          slackURL: https://hooks.slack.com/services/000000000/000000000/XXXXXXXXXXXXXXXXXXXXXXXX
+</code></pre><h2 id=デプロイ>デプロイ</h2><pre><code class="language-bash line-numbers">$ aws cloudformation package \
+--template-file ./lambda-go-slack.yaml \
+--s3-bucket techteco.sample.bucket \
+--s3-prefix lambda-go-sample \
+--output-template-file packaged-template.yaml
+</code></pre><pre><code class="language-bash line-numbers">$ aws cloudformation deploy \
+--template-file packaged-template.yaml \
+--stack-name sampleLambdaGoSlack \
+--capabilities CAPABILITY_IAM
+</code></pre><h1 id=結果>結果</h1><p>デプロイが完了すると毎分Slackにが通知が来てることを確認</p></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

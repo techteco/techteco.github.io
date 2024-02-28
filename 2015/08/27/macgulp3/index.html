@@ -1,0 +1,42 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>Macでgulpを動かそう #3 gulpをインストール &#183; TechTeco</title>
+<meta name=description content="Macでgulpを動かそう #3 gulpをインストール"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="Macでgulpを動かそう #3 gulpをインストール &#183; TechTeco"><meta name=twitter:description content="Macでgulpを動かそう #3 gulpをインストール"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="Macでgulpを動かそう #3 gulpをインストール &#183; TechTeco"><meta property="og:description" content="Macでgulpを動かそう #3 gulpをインストール"><meta property="og:url" content="https://techteco.github.io/2015/08/27/macgulp3/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2015-08-27 15:10:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2015年8月27日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2015/08/27/macgulp3/ class=post-title>Macでgulpを動かそう #3 gulpをインストール</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-FRONT" href=https://techteco.github.io//categories/front>FRONT</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2015/08/27/macgulp3/ data-description="Macでgulpを動かそう #3 gulpをインストール" data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#npm>npm</a><ul><li><a href=#npmのバージョン確認>npmのバージョン確認</a></li><li><a href=#npmを最新に更新する>npmを最新に更新する</a></li></ul></li><li><a href=#gulp>gulp</a><ul><li><a href=#npmでgulpをインストール>npmでgulpをインストール</a></li><li><a href=#gulpを動かしてみる>gulpを動かしてみる</a></li></ul></li></ul></nav></aside><div class=post-description><ol><li><a href=/post/2015/08/macgulp1/>nodebrewをインストール</a></li><li><a href=/post/2015/08/macgulp2/>node.jsをインストール</a></li><li><a href=/post/2015/08/macgulp3/>gulpをインストール</a> ← ここ</li></ol><h1 id=3-gulpをインストール>3. gulpをインストール</h1><p><strong>gulp</strong>は、<strong>npm</strong>を使ってインストールする</p><ul><li><a href=http://gulpjs.com/>公式サイト gulp</a></li><li><a href=https://www.npmjs.com/>公式サイト npm</a></li></ul><h2 id=npm>npm</h2><p><strong>npm</strong>は、<strong>node.js</strong>インストール時に、同時にインストールされている</p><h3 id=npmのバージョン確認>npmのバージョン確認</h3><pre><code class="language-bash line-numbers">$ npm version
+{ npm: &#39;2.11.3&#39;,
+  http_parser: &#39;2.3&#39;,
+  modules: &#39;14&#39;,
+  node: &#39;0.12.7&#39;,
+  openssl: &#39;1.0.1p&#39;,
+  uv: &#39;1.6.1&#39;,
+  v8: &#39;3.28.71.19&#39;,
+  zlib: &#39;1.2.8&#39; }
+
+</code></pre><h3 id=npmを最新に更新する>npmを最新に更新する</h3><pre><code class="language-bash line-numbers">$ npm upgrade -g npm
+$ npm version
+{ npm: &#39;2.14.0&#39;,
+  http_parser: &#39;2.3&#39;,
+  modules: &#39;14&#39;,
+  node: &#39;0.12.7&#39;,
+  openssl: &#39;1.0.1p&#39;,
+  uv: &#39;1.6.1&#39;,
+  v8: &#39;3.28.71.19&#39;,
+  zlib: &#39;1.2.8&#39; }
+$
+</code></pre><h2 id=gulp>gulp</h2><ul><li><a href=https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md>公式サイト gulp(GitHub)</a></li></ul><h3 id=npmでgulpをインストール>npmでgulpをインストール</h3><pre><code class="language-bash line-numbers">$ npm install --global gulp
+$ npm install --save-dev gulp
+$ gulp -v
+[15:10:53] CLI version 3.9.0
+[15:10:53] Local version 3.9.0
+$
+</code></pre><h3 id=gulpを動かしてみる>gulpを動かしてみる</h3><p>お決まりの<em><strong>hello world</strong></em>ですね。
+適当なフォルダに<strong>gulpfile.js</strong>を作成する。</p><pre><code class="language-js line-numbers">var gulp = require(&#39;gulp&#39;);
+
+gulp.task(&#39;default&#39;, function() {
+  console.log(&#39;Hello World!&#39;);
+});
+</code></pre><p>同じフォルダで<strong>gulp</strong>を実行する</p><pre><code class="language-bash line-numbers">$ gulp
+[15:27:54] Using gulpfile ~/path_to_project/gulpfile.js
+[15:27:54] Starting &#39;default&#39;...
+Hello World!
+[15:27:54] Finished &#39;default&#39; after 98 μs
+</code></pre><p>動きましたね。</p></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

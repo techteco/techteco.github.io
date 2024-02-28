@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Laravel on TechTeco</title><link>https://techteco.github.io/tags/laravel/</link><description>Recent content in Laravel on TechTeco</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Wed, 15 Feb 2017 08:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/laravel/index.xml" rel="self" type="application/rss+xml"/><item><title>lumenを試してみる</title><link>https://techteco.github.io/2017/02/15/lumen-install/</link><pubDate>Wed, 15 Feb 2017 08:00:00 +0900</pubDate><guid>https://techteco.github.io/2017/02/15/lumen-install/</guid><description>Lumenとは Limenのオフィシャルページ
+The stunningly fast micro-framework by Laravel.
+直訳すると、&amp;ldquo;Laravelによるほどろくほど高速なマイクロフレームワーク&amp;quot;ってことですね。
+現時点（2017年2月14日）では、バージョン5.4が最新のようです。 Limen Documentation
+laravel5.2は使ったあるので、そこまで苦労しないで使えるはず。。
+Limenを試してみる ここに書いてあるとおりやってみる Limen Installation
+環境 mac OS 10.12.3 $ php -v PHP 7.1.1 (cli) (built: Jan 21 2017 13:36:56) ( NTS ) Copyright (c) 1997-2017 The PHP Group Zend Engine v3.1.0, Copyright (c) 1998-2017 Zend Technologies $ composer -V Composer version 1.3.2 2017-01-27 18:23:41 $ openssl version OpenSSL 0.9.8zh 14 Jan 2016 $ php -m | grep -i pdo PDO pdo_mysql PDO_ODBC pdo_sqlite $ php -m | grep -i mbstring mbstring $ ComposerでLumen installerをインストール $ composer global require &amp;#34;laravel/lumen-installer&amp;#34; Changed current directory to /Users/hoge/.</description></item></channel></rss>

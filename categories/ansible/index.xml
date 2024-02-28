@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ANSIBLE on TechTeco</title><link>https://techteco.github.io/categories/ansible/</link><description>Recent content in ANSIBLE on TechTeco</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Mon, 22 Jan 2018 20:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/categories/ansible/index.xml" rel="self" type="application/rss+xml"/><item><title>AnsibleでMacの開発環境を構築する</title><link>https://techteco.github.io/2018/01/22/ansible-mac/</link><pubDate>Mon, 22 Jan 2018 20:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/22/ansible-mac/</guid><description>※2018年12月12日更新
+定期的にmacのお掃除をしたくなるんですが、クリーンインストールして０から環境構築したいものです。
+それ以外にも、PCの新規購入や買い替え、職場のPCが変わったりと、０から開発環境を構築する場面は多々あります。
+しかしながら、この環境構築、やることが盛り沢山で大変です。
+しかも頻繁にやる作業でもないので結構忘れてしまって、毎回調べながらやってる気がします。
+いざ環境構築が終わって開発していると、あれインストールしてないや、あの設定どうだったっけ？
+みたいなことは、あるあるですよね。
+そこで、今後のことも考えて、macの環境構築をAnsibleを使って自動化（60〜70%くらい）したいと思います。
+前提 Ansibleの基本的な知識があること
+※参考サイト
+Ansible Documentation(official)
+実行環境 $ sw_vers ProductName:	Mac OS X ProductVersion:	10.14.1 BuildVersion:	18B75 手順 Macのクリーンインストール（ここでは省略） ※参考サイト
+macOS を消去して再インストールする
+Homebrewのインストール Homebrew公式
+$ /usr/bin/ruby -e &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;#34; $ brew -v Homebrew 1.8.5 MacにAnsibleをインストール ここでは、brewコマンドを使ってAnsibleをインストール
+$ brew install ansible $ ansible --version ansible 2.7.4 ファイル構成 tree コマンドで表示するとこんな感じです。
+Ansible利用したことある方なら特に違和感ないと思います。
+$ tree . ├── README.md ├── localhost ├── roles │ ├── awscli │ │ ├── tasks │ │ │ └── main.</description></item><item><title>ansibleでsshdの設定</title><link>https://techteco.github.io/2016/12/08/ansible-sshd/</link><pubDate>Thu, 08 Dec 2016 17:00:00 +0900</pubDate><guid>https://techteco.github.io/2016/12/08/ansible-sshd/</guid><description>前提 ここまで終わってること
+ansible実行用のhostをvagrantのansible_localで設定 hostからansibleでcentOS 7.2の基本設定 やること ansibleでsshdの設定 ansible実行で設定反映 sshdの起動確認 1.ansibleでsshdの設定 ファイル構成 $ tree . ├── Vagrantfile ├── ansible.cfg └── provision ├── development ├── group_vars │ └── web.yml ├── host ├── roles │ ├── CentOS7.2 │ │ ├── handlers │ │ │ └── main.yml &amp;lt;&amp;lt;&amp;lt;&amp;lt; 変更 │ │ ├── tasks │ │ │ ├── chrony.yml │ │ │ ├── env.yml │ │ │ ├── locale.yml │ │ │ ├── main.yml &amp;lt;&amp;lt;&amp;lt;&amp;lt; 変更 │ │ │ ├── selinux.</description></item></channel></rss>

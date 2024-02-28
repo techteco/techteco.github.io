@@ -1,0 +1,208 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>ansibleでsshdの設定 &#183; TechTeco</title>
+<meta name=description content="ansibleでsshdの設定をする"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="ansibleでsshdの設定 &#183; TechTeco"><meta name=twitter:description content="ansibleでsshdの設定をする"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="ansibleでsshdの設定 &#183; TechTeco"><meta property="og:description" content="ansibleでsshdの設定をする"><meta property="og:url" content="https://techteco.github.io/2016/12/08/ansible-sshd/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2016-12-08 17:00:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2016年12月8日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2016/12/08/ansible-sshd/ class=post-title>ansibleでsshdの設定</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-SERVER" href=https://techteco.github.io//categories/server>SERVER</a><a class="post-category post-category-ANSIBLE" href=https://techteco.github.io//categories/ansible>ANSIBLE</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2016/12/08/ansible-sshd/ data-description=ansibleでsshdの設定をする data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#ファイル構成>ファイル構成</a></li><li><a href=#各ファイル>各ファイル</a><ul><li><a href=#provisionrolescentos72tasksmainyml>provision/roles/CentOS7.2/tasks/main.yml</a></li><li><a href=#provisionrolescentos72taskssshyml>provision/roles/CentOS7.2/tasks/ssh.yml</a></li><li><a href=#provisionrolescentos72handlersmainyml>provision/roles/CentOS7.2/handlers/main.yml</a></li></ul></li><li><a href=#ansible実行で設定反映>ansible実行で設定反映</a></li><li><a href=#sshdの起動確認>sshdの起動確認</a></li></ul></nav></aside><div class=post-description><h1 id=前提>前提</h1><p>ここまで終わってること</p><ol><li><a href=https://techteco.github.io/2016/11/28/vagrant-ansible-local-1/>ansible実行用のhostをvagrantのansible_localで設定</a></li><li><a href=https://techteco.github.io/2016/11/29/vagrant-ansible-local-2/>hostからansibleでcentOS 7.2の基本設定</a></li></ol><h1 id=やること>やること</h1><ol><li>ansibleでsshdの設定</li><li>ansible実行で設定反映</li><li>sshdの起動確認</li></ol><h1 id=1ansibleでsshdの設定>1.ansibleでsshdの設定</h1><h2 id=ファイル構成>ファイル構成</h2><pre><code class="language-bash line-numbers">$ tree
+.
+├── Vagrantfile
+├── ansible.cfg
+└── provision
+    ├── development
+    ├── group_vars
+    │   └── web.yml
+    ├── host
+    ├── roles
+    │   ├── CentOS7.2
+    │   │   ├── handlers
+    │   │   │   └── main.yml        &lt;&lt;&lt;&lt; 変更
+    │   │   ├── tasks
+    │   │   │   ├── chrony.yml
+    │   │   │   ├── env.yml
+    │   │   │   ├── locale.yml
+    │   │   │   ├── main.yml        &lt;&lt;&lt;&lt; 変更
+    │   │   │   ├── selinux.yml
+    │   │   │   ├── sshd.yml        &lt;&lt;&lt;&lt; 追加
+    │   │   │   └── yumallupdate.yml
+    │   │   ├── templates
+    │   │   │   ├── alias.sh.j2
+    │   │   │   └── chrony.conf.j2
+    │   │   └── vars
+    │   │       └── main.yml
+    │   └── ansible
+    │       ├── tasks
+    │       │   ├── main.yml
+    │       │   └── ssh.yml
+    │       └── templates
+    │           └── ssh
+    │               └── config.j2
+    └── site.yml
+
+12 directories, 20 files
+</code></pre><h2 id=各ファイル>各ファイル</h2><h3 id=provisionrolescentos72tasksmainyml>provision/roles/CentOS7.2/tasks/main.yml</h3><pre><code class="language-diff line-numbers">@@ -6,3 &#43;6,4 @@
+ - include: chrony.yml
+ - include: env.yml
+ - include: selinux.yml
+&#43;- include: sshd.yml
+</code></pre><h3 id=provisionrolescentos72taskssshyml>provision/roles/CentOS7.2/tasks/ssh.yml</h3><pre><code class="language-yaml line-numbers">---
+# file: ./CentOS7.2/tasks/sshd.yml
+
+- block:
+
+  - name: check existing sshd_config backup file
+    stat:
+      path: /etc/ssh/sshd_config.bk
+    register: sshd_config_bkup
+
+  - debug: var=sshd_config_bkup
+
+  - name: copy sshd_config to bk
+    command: cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
+    when: sshd_config_bkup.stat.exists == False
+
+  - name: modify sshd_config
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      state: present
+      backrefs: yes
+      regexp: &#39;{{ item.regexp }}&#39;
+      line: &#39;{{ item.line }}&#39;
+    with_items:
+      - regexp: &#39;^#?\s*Port&#39;
+        line: &#39;Port {{ ansible_port }}&#39;
+      - regexp: &#39;^#?\s*PermitRootLogin&#39;
+        line: &#39;PermitRootLogin no&#39;
+      - regexp: &#39;^PasswordAuthentication yes&#39;
+        line: &#39;PasswordAuthentication no&#39;
+      - regexp: &#39;^#?\s*PubkeyAuthentication&#39;
+        line: &#39;PubkeyAuthentication yes&#39;
+    notify:
+      - restart sshd
+    tags:
+      - construct
+      - ssh
+
+  - name: check sshd_config changed
+    command: diff /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
+    register: sshd_config_diff
+    ignore_errors: yes
+
+  - debug: var=sshd_config_diff.stdout_lines
+
+  become: yes
+  tags:
+    - construct
+    - sshd
+</code></pre><h3 id=provisionrolescentos72handlersmainyml>provision/roles/CentOS7.2/handlers/main.yml</h3><pre><code class="language-diff line-numbers">@@ -8,3 &#43;8,10 @@
+       name: chronyd
+       state: restarted
+       enabled: yes
+&#43;
+&#43;  - name: restart sshd
+&#43;    become: yes
+&#43;    service:
+&#43;      name: sshd
+&#43;      state: restarted
+&#43;      enabled: yes
+</code></pre><h2 id=ansible実行で設定反映>ansible実行で設定反映</h2><pre><code class="language-bash line-numbers">$ ansible-playbook -i /vagrant/development /vagrant/site.yml
+
+PLAY [web] *********************************************************************
+
+TASK [setup] *******************************************************************
+ok: [192.168.52.52]
+
+TASK [CentOS7.2 : yum update all] **********************************************
+ok: [192.168.52.52]
+
+TASK [CentOS7.2 : check CentOS version] ****************************************
+changed: [192.168.52.52]
+
+TASK [CentOS7.2 : set LANG] ****************************************************
+changed: [192.168.52.52]
+
+TASK [CentOS7.2 : set keymap] **************************************************
+changed: [192.168.52.52]
+
+TASK [CentOS7.2 : set timezone] ************************************************
+changed: [192.168.52.52]
+
+TASK [CentOS7.2 : install chrony] **********************************************
+ok: [192.168.52.52]
+
+TASK [CentOS7.2 : start chrony] ************************************************
+ok: [192.168.52.52]
+
+TASK [CentOS7.2 : copy chrony.conf template] ***********************************
+ok: [192.168.52.52]
+
+TASK [CentOS7.2 : copy /etc/profile.d/alias.sh template] ***********************
+ok: [192.168.52.52]
+
+TASK [CentOS7.2 : install selinux util] ****************************************
+ok: [192.168.52.52] =&gt; (item=[u&#39;libselinux-python&#39;, u&#39;libselinux-utils&#39;, u&#39;selinux-policy&#39;, u&#39;selinux-policy-targeted&#39;])
+
+TASK [CentOS7.2 : disable selinux] *********************************************
+ok: [192.168.52.52]
+
+TASK [CentOS7.2 : check existing sshd_config backup file] **********************
+ok: [192.168.52.52]
+
+TASK [CentOS7.2 : debug] *******************************************************
+ok: [192.168.52.52] =&gt; {
+    &#34;sshd_config_bkup&#34;: {
+        &#34;changed&#34;: false,
+        &#34;stat&#34;: {
+            &#34;exists&#34;: false
+        }
+    }
+}
+
+TASK [CentOS7.2 : copy sshd_config to bk] **************************************
+changed: [192.168.52.52]
+
+TASK [CentOS7.2 : modify sshd_config] ******************************************
+changed: [192.168.52.52] =&gt; (item={u&#39;regexp&#39;: u&#39;^#?\\s*Port&#39;, u&#39;line&#39;: u&#39;Port 22&#39;})
+changed: [192.168.52.52] =&gt; (item={u&#39;regexp&#39;: u&#39;^#?\\s*PermitRootLogin&#39;, u&#39;line&#39;: u&#39;PermitRootLogin no&#39;})
+changed: [192.168.52.52] =&gt; (item={u&#39;regexp&#39;: u&#39;^PasswordAuthentication yes&#39;, u&#39;line&#39;: u&#39;PasswordAuthentication no&#39;})
+changed: [192.168.52.52] =&gt; (item={u&#39;regexp&#39;: u&#39;^#?\\s*PubkeyAuthentication&#39;, u&#39;line&#39;: u&#39;PubkeyAuthentication yes&#39;})
+
+TASK [CentOS7.2 : check sshd_config changed] ***********************************
+fatal: [192.168.52.52]: FAILED! =&gt; {&#34;changed&#34;: true, &#34;cmd&#34;: [&#34;diff&#34;, &#34;/etc/ssh/sshd_config&#34;, &#34;/etc/ssh/sshd_config.bk&#34;], &#34;delta&#34;: &#34;0:00:00.002562&#34;, &#34;end&#34;: &#34;2016-12-08 16:24:22.570969&#34;, &#34;failed&#34;: true, &#34;rc&#34;: 1, &#34;start&#34;: &#34;2016-12-08 16:24:22.568407&#34;, &#34;stderr&#34;: &#34;&#34;, &#34;stdout&#34;: &#34;17c17\n&lt; Port 22\n---\n&gt; #Port 22\n49c49\n&lt; PermitRootLogin no\n---\n&gt; #PermitRootLogin yes\n55c55\n&lt; PubkeyAuthentication yes\n---\n&gt; #PubkeyAuthentication yes\n79c79\n&lt; PasswordAuthentication no\n---\n&gt; PasswordAuthentication yes&#34;, &#34;stdout_lines&#34;: [&#34;17c17&#34;, &#34;&lt; Port 22&#34;, &#34;---&#34;, &#34;&gt; #Port 22&#34;, &#34;49c49&#34;, &#34;&lt; PermitRootLogin no&#34;, &#34;---&#34;, &#34;&gt; #PermitRootLogin yes&#34;, &#34;55c55&#34;, &#34;&lt; PubkeyAuthentication yes&#34;, &#34;---&#34;, &#34;&gt; #PubkeyAuthentication yes&#34;, &#34;79c79&#34;, &#34;&lt; PasswordAuthentication no&#34;, &#34;---&#34;, &#34;&gt; PasswordAuthentication yes&#34;], &#34;warnings&#34;: []}
+...ignoring
+
+TASK [CentOS7.2 : debug] *******************************************************
+ok: [192.168.52.52] =&gt; {
+    &#34;sshd_config_diff.stdout_lines&#34;: [
+        &#34;17c17&#34;,
+        &#34;&lt; Port 22&#34;,
+        &#34;---&#34;,
+        &#34;&gt; #Port 22&#34;,
+        &#34;49c49&#34;,
+        &#34;&lt; PermitRootLogin no&#34;,
+        &#34;---&#34;,
+        &#34;&gt; #PermitRootLogin yes&#34;,
+        &#34;55c55&#34;,
+        &#34;&lt; PubkeyAuthentication yes&#34;,
+        &#34;---&#34;,
+        &#34;&gt; #PubkeyAuthentication yes&#34;,
+        &#34;79c79&#34;,
+        &#34;&lt; PasswordAuthentication no&#34;,
+        &#34;---&#34;,
+        &#34;&gt; PasswordAuthentication yes&#34;
+    ]
+}
+
+RUNNING HANDLER [CentOS7.2 : restart sshd] *************************************
+changed: [192.168.52.52]
+
+PLAY RECAP *********************************************************************
+192.168.52.52              : ok=19   changed=7    unreachable=0    failed=0
+</code></pre><h2 id=sshdの起動確認>sshdの起動確認</h2><pre><code class="language-bash line-numbers">[vagrant@web ssh]$ systemctl status  sshd.service
+● sshd.service - OpenSSH server daemon
+   Loaded: loaded (/usr/lib/systemd/system/sshd.service; enabled; vendor preset: enabled)
+   Active: active (running) since 木 2016-12-08 16:24:22 JST; 48min ago
+     Docs: man:sshd(8)
+           man:sshd_config(5)
+ Main PID: 15539 (sshd)
+   CGroup: /system.slice/sshd.service
+           └─15539 /usr/sbin/sshd -D
+[vagrant@web ssh]$
+</code></pre></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

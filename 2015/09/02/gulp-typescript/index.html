@@ -1,0 +1,105 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>gulpでtypescript環境を構築する &#183; TechTeco</title>
+<meta name=description content="gulpでtypescript環境を構築する"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="gulpでtypescript環境を構築する &#183; TechTeco"><meta name=twitter:description content="gulpでtypescript環境を構築する"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="gulpでtypescript環境を構築する &#183; TechTeco"><meta property="og:description" content="gulpでtypescript環境を構築する"><meta property="og:url" content="https://techteco.github.io/2015/09/02/gulp-typescript/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2015-09-02 17:22:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2015年9月2日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2015/09/02/gulp-typescript/ class=post-title>gulpでtypescript環境を構築する</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-FRONT" href=https://techteco.github.io//categories/front>FRONT</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2015/09/02/gulp-typescript/ data-description=gulpでtypescript環境を構築する data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#packagejsonを作成>package.jsonを作成</a></li><li><a href=#gulpをローカルにインストール>gulpをローカルにインストール</a></li><li><a href=#gulpfilejsを作成>gulpfile.jsを作成</a></li><li><a href=#defaultjsを作成>default.jsを作成</a></li><li><a href=#watchjsを作成>watch.jsを作成</a></li><li><a href=#tscjs>tsc.js</a></li><li><a href=#gulpを実行する>gulpを実行する</a></li></ul></nav></aside><div class=post-description><h1 id=typescriptをやってみる>typescriptをやってみる</h1><ul><li><a href=http://www.typescriptlang.org/>公式サイト typescript</a></li></ul><p>typescriptでも触ってみようということで、gulpで環境をつくってみます</p><p>ゴールは、</p><ul><li>tsファイルを監視して、ファイルが更新されたら、コンパイルしてjsファイルを出力する</li></ul><h1 id=構築>構築</h1><h2 id=packagejsonを作成>package.jsonを作成</h2><p>npm init コマンドでpackage.jsonのひな形を作成。入力内容は適当に。</p><pre><code class="language-bash line-numbers">$ npm init
+</code></pre><p>とりあえず、こんな感じにしておく。</p><pre><code class="language-js line-numbers">{
+  &#34;name&#34;: &#34;gulp_typescript&#34;,
+  &#34;version&#34;: &#34;1.0.0&#34;,
+  &#34;description&#34;: &#34;gulp for typescript&#34;,
+  &#34;main&#34;: &#34;gulpfile.js&#34;,
+  &#34;scripts&#34;: {
+    &#34;test&#34;: &#34;echo \&#34;Error: no test specified\&#34; &amp;&amp; exit 1&#34;
+  }
+}
+</code></pre><h2 id=gulpをローカルにインストール>gulpをローカルにインストール</h2><p>ローカルイントールで、&ndash;save-devオプションでpackage.jsonを更新する</p><pre><code class="language-bash line-numbers">$ npm install --save-dev gulp
+</code></pre><h2 id=gulpfilejsを作成>gulpfile.jsを作成</h2><p>タスクをファイル分割して管理出来るようにrequire-dirをインストール</p><ul><li><a href=https://www.npmjs.com/package/require-dir>npm require-dir</a></li></ul><pre><code class="language-bash line-numbers">$ npm install --save-dev require-dir
+</code></pre><p><em><strong>gulpfile.js</strong></em></p><pre><code class="language-js line-numbers">var dir = require(&#39;require-dir&#39;);
+dir(&#39;./gulp/tasks&#39;, {
+  recurse: true
+});
+</code></pre><h2 id=defaultjsを作成>default.jsを作成</h2><p>gulpコマンド実行時に最初に読み込むタスクファイル
+gulpのタスクを保存していく <strong>./gulp/tasks</strong> とtypescript用 <strong>./src/ts</strong> と実行後のjavascript用 <strong>./src/js</strong> を作成</p><pre><code class="language-bash line-numbers">$ tree -L 2
+.
+├── gulp
+│   └── tasks
+├── gulpfile.js
+├── node_modules
+│   ├── gulp
+│   └── require-dir
+├── package.json
+└── src
+    ├── js
+    └── ts
+
+7 directories, 2 files
+</code></pre><p><strong>./gulp/tasks/default.js</strong>の内容
+"watch"タスクを実行しますよってことなので、次にwatchタスクをつくる</p><p><em><strong>./gulp/tasks/default.js</strong></em></p><pre><code class="language-js line-numbers">var gulp = require(&#34;gulp&#34;);
+
+gulp.task(&#34;default&#34;, [&#34;watch&#34;]);
+</code></pre><h2 id=watchjsを作成>watch.jsを作成</h2><p>ファイル監視するためにgulp-watchをインストール</p><ul><li><a href=https://www.npmjs.com/package/gulp-watch>npm gulp-watch</a></li></ul><pre><code class="language-bash line-numbers">$ npm install --save-dev gulp-watch
+</code></pre><p><strong>./gulp/tasks/watch.js</strong>の内容
+対象ファイルに変更があったら、"tsc"タスクを実行しますよってこと 対象のファイルは、configから読みこむようにする</p><p><em><strong>./gulp/tasks/watch.js</strong></em></p><pre><code class="language-js line-numbers">var gulp = require(&#34;gulp&#34;);
+var watch = require(&#34;gulp-watch&#34;);
+var config = require(&#34;../config&#34;);
+
+gulp.task(&#34;watch&#34;, function() {
+  watch(config.ts.src, function() {
+    gulp.start([&#34;tsc&#34;]);
+  });
+});
+</code></pre><p><strong>./gulp/config.js</strong></p><pre><code class="language-js line-numbers">module.exports = {
+  ts: {
+    src: &#34;./src/ts/**/*.ts&#34;,
+  }
+};
+</code></pre><h2 id=tscjs>tsc.js</h2><p>typescriptのコンパイラとしてgulp-typescriptをインストール</p><ul><li><a href=https://www.npmjs.com/package/gulp-typescript>npm gulp-typescript</a></li></ul><pre><code class="language-bash line-numbers">$ npm install --save-dev gulp-typescript
+</code></pre><p><strong>./gulp/config.js</strong>に設定追加</p><pre><code class="language-js line-numbers">module.exports = {
+  ts: {
+    src: &#34;./src/ts/**/*.ts&#34;,
+    dest: &#34;./src/js&#34;,
+    options: {
+      removeComments: true,
+      noImplicitAny: true,
+      noLib: false,
+      noEmitOnError: false,
+      target: &#34;ES5&#34;
+    }
+  }
+};
+</code></pre><p><strong>./gulp/tsc.js</strong></p><pre><code class="language-js line-numbers">var gulp = require(&#34;gulp&#34;);
+var ts = require(&#34;gulp-typescript&#34;);
+var config = require(&#34;../config&#34;);
+
+gulp.task(&#34;tsc&#34;, function() {
+  gulp.src(config.ts.src)
+    .pipe(ts(config.ts.options))
+    .js
+    .pipe(gulp.dest(config.ts.dest));
+});
+</code></pre><h2 id=gulpを実行する>gulpを実行する</h2><p>なんかwatchしてるっぽい</p><pre><code class="language-bash line-numbers">$ gulp
+[17:03:52] Using gulpfile ~/gulpfile.js
+[17:03:52] Starting &#39;watch&#39;...
+[17:03:52] Finished &#39;watch&#39; after 6.91 ms
+[17:03:52] Starting &#39;default&#39;...
+[17:03:52] Finished &#39;default&#39; after 10 μs
+</code></pre><p>適当なtypescriptのファイルをおいてみる</p><p><strong>./src/ts/sample.ts</strong></p><pre><code class="language-typescript line-numbers">class Greeter {
+  constructor(public greeting: string) { }
+  greet() {
+    return &#34;&lt;h1&gt;&#34; &#43; this.greeting &#43; &#34;&lt;/h1&gt;&#34;;
+  }
+};
+var greeter = new Greeter(&#34;Hello, world!&#34;);
+document.body.innerHTML = greeter.greet();
+</code></pre><p><strong>./src/js/sample.js</strong> ができてますね</p><pre><code class="language-js line-numbers">var Greeter = (function () {
+  function Greeter(greeting) {
+    this.greeting = greeting;
+  }
+  Greeter.prototype.greet = function () {
+    return &#34;&lt;h1&gt;&#34; &#43; this.greeting &#43; &#34;&lt;/h1&gt;&#34;;
+  };
+  return Greeter;
+})();
+;
+var greeter = new Greeter(&#34;Hello, world!&#34;);
+document.body.innerHTML = greeter.greet();
+</code></pre></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

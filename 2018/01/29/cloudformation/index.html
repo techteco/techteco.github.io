@@ -1,0 +1,324 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>AWS Cloudformationでネットワークの基本設定 &#183; TechTeco</title>
+<meta name=description content="AWS Cloudformationでネットワークの基本設定をしてみる"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="AWS Cloudformationでネットワークの基本設定 &#183; TechTeco"><meta name=twitter:description content="AWS Cloudformationでネットワークの基本設定をしてみる"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="AWS Cloudformationでネットワークの基本設定 &#183; TechTeco"><meta property="og:description" content="AWS Cloudformationでネットワークの基本設定をしてみる"><meta property="og:url" content="https://techteco.github.io/2018/01/29/cloudformation/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2018-01-29 22:00:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2018年1月29日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2018/01/29/cloudformation/ class=post-title>AWS Cloudformationでネットワークの基本設定</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-AWS" href=https://techteco.github.io//categories/aws>AWS</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2018/01/29/cloudformation/ data-description="AWS Cloudformationでネットワークの基本設定をしてみる" data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#設定内容>設定内容</a></li><li><a href=#テンプレート>テンプレート</a></li><li><a href=#実行>実行</a></li><li><a href=#aclのデフォルト削除>ACLのデフォルト削除</a></li></ul></nav></aside><div class=post-description><h1 id=基本的な使い方>基本的な使い方</h1><h2 id=設定内容>設定内容</h2><p>ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いです。</p><ul><li>VPC設定</li><li>Internet Gateway設定</li><li>Subnetの設定</li><li>DHCP Optionの設定</li><li>Route Tableの設定</li><li>ACLの設定</li></ul><p>※設定値は参考までに。</p><h2 id=テンプレート>テンプレート</h2><pre><code class="language-yaml line-numbers">AWSTemplateFormatVersion: &#34;2010-09-09&#34;
+Description: &#34;Basic Network Setting&#34;
+Parameters:
+  pramStackNamePrefic:
+    Description: &#34;Common stack name prefix&#34;
+    Type: String
+    Default: &#34;&#34;
+Resources:
+  VPC:
+    Type: &#34;AWS::EC2::VPC&#34;
+    Properties:
+      CidrBlock: &#34;192.168.0.0/16&#34;
+      InstanceTenancy: default
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Join
+              - &#34;&#34;
+              - - !Ref pramStackNamePrefic
+                - vpc
+  igw:
+    Type: &#34;AWS::EC2::InternetGateway&#34;
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Join
+              - &#34;&#34;
+              - - !Ref pramStackNamePrefic
+                - igw
+  vpcgwattc:
+    Type: &#34;AWS::EC2::VPCGatewayAttachment&#34;
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref igw
+  subnetA:
+    Type: &#34;AWS::EC2::Subnet&#34;
+    Properties:
+      CidrBlock: &#34;192.168.0.0/20&#34;
+      AvailabilityZone: &#34;ap-northeast-1a&#34;
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join
+              - &#34;&#34;
+              - - !Ref pramStackNamePrefic
+                - subnet
+  subnetC:
+    Type: &#34;AWS::EC2::Subnet&#34;
+    Properties:
+      CidrBlock: &#34;192.168.16.0/20&#34;
+      AvailabilityZone: &#34;ap-northeast-1c&#34;
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join
+              - &#34;&#34;
+              - - !Ref pramStackNamePrefic
+                - subnet
+  DHCPOpt:
+    Type: &#34;AWS::EC2::DHCPOptions&#34;
+    Properties:
+      DomainName: &#34;ap-northeast-1.compute.internal&#34;
+      DomainNameServers:
+        - AmazonProvidedDNS
+      Tags:
+        - Key: Name
+          Value: !Join
+              - &#34;&#34;
+              - - !Ref pramStackNamePrefic
+                - dhcp-ops
+  rtb:
+    Type: &#34;AWS::EC2::RouteTable&#34;
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join
+              - &#34;&#34;
+              - - !Ref pramStackNamePrefic
+                - rtb
+  SubnetRouteTableAssociationA:
+    Type: &#34;AWS::EC2::SubnetRouteTableAssociation&#34;
+    Properties:
+      SubnetId: !Ref subnetA
+      RouteTableId: !Ref rtb
+  SubnetRouteTableAssociationC:
+    Type: &#34;AWS::EC2::SubnetRouteTableAssociation&#34;
+    Properties:
+      SubnetId: !Ref subnetC
+      RouteTableId: !Ref rtb
+  # out-bound
+  aclOutAll:
+    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
+    Properties:
+      CidrBlock: &#34;0.0.0.0/0&#34;
+      Egress: true  # out-bound
+      Protocol: &#34;-1&#34;
+      RuleAction: allow
+      RuleNumber: 100
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+  aclOut2:
+    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
+    Properties:
+      Ipv6CidrBlock: &#34;::/0&#34;
+      Egress: true  # out-bound
+      Protocol: &#34;-1&#34;
+      RuleAction: allow
+      RuleNumber: 101
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+  # in-bound
+  aclInHttp:
+    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
+    Properties:
+      CidrBlock: &#34;0.0.0.0/0&#34;
+      Egress: false  # in-bound
+      Protocol: &#34;6&#34;
+      PortRange:
+        From: 80
+        To: 80
+      RuleAction: allow
+      RuleNumber: 200
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+  aclInHttp2:
+    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
+    Properties:
+      CidrBlock: &#34;0.0.0.0/0&#34;
+      Egress: false  # in-bound
+      Protocol: &#34;6&#34;
+      PortRange:
+        From: 8080
+        To: 8080
+      RuleAction: allow
+      RuleNumber: 300
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+  aclInHttps:
+    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
+    Properties:
+      CidrBlock: &#34;0.0.0.0/0&#34;
+      Egress: false  # in-bound
+      Protocol: &#34;6&#34;
+      PortRange:
+        From: 443
+        To: 443
+      RuleAction: allow
+      RuleNumber: 400
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+  aclInSSH:
+    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
+    Properties:
+      CidrBlock: &#34;0.0.0.0/0&#34;
+      Egress: false  # in-bound
+      Protocol: &#34;6&#34;
+      PortRange:
+        From: 22
+        To: 22
+      RuleAction: allow
+      RuleNumber: 500
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+  aclInEphemeral:
+    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
+    Properties:
+      CidrBlock: &#34;0.0.0.0/0&#34;
+      Egress: false  # in-bound
+      Protocol: &#34;6&#34;
+      PortRange:
+        From: 1024
+        To: 65535
+      RuleAction: allow
+      RuleNumber: 600
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+  subnetacl1:
+    Type: &#34;AWS::EC2::SubnetNetworkAclAssociation&#34;
+    Properties:
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+      SubnetId: !Ref subnetA
+  subnetacl2:
+    Type: &#34;AWS::EC2::SubnetNetworkAclAssociation&#34;
+    Properties:
+      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
+      SubnetId: !Ref subnetC
+  route1:
+    Type: &#34;AWS::EC2::Route&#34;
+    Properties:
+      DestinationCidrBlock: &#34;0.0.0.0/0&#34;
+      RouteTableId: !Ref rtb
+      GatewayId: !Ref igw
+    DependsOn: vpcgwattc
+  dchpassoc1:
+    Type: &#34;AWS::EC2::VPCDHCPOptionsAssociation&#34;
+    Properties:
+      VpcId: !Ref VPC
+      DhcpOptionsId: !Ref DHCPOpt
+Outputs:
+  VPCId:
+    Value: !Ref VPC
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - VPC-ID
+  VPCCidrBlock:
+    Value: !GetAtt
+        - VPC
+        - CidrBlock
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - VPC-CidrBlockD
+  VPCDefaultNetworkAcl:
+    Value: !GetAtt
+        - VPC
+        - DefaultNetworkAcl
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - VPC-DefaultNetworkAcl
+  VPCDefaultSecurityGroup:
+    Value: !GetAtt
+        - VPC
+        - DefaultSecurityGroup
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - VPC-DefaultSecurityGroup
+  igwId:
+    Value: !Ref igw
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - IGW-ID
+  subnetAId:
+    Value: !Ref subnetA
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - Subnet-apne1a-ID
+  subnetCId:
+    Value: !Ref subnetC
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - Subnet-apne1c-ID
+  subnetAAZ:
+    Value: !GetAtt
+        - subnetA
+        - AvailabilityZone
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - Subnet-apne1a-AvailabilityZone
+  subnetCAZ:
+    Value: !GetAtt
+        - subnetC
+        - AvailabilityZone
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - Subnet-apne1c-AvailabilityZone
+  DHCPOptID:
+    Value: !Ref DHCPOpt
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - DHCPOptions-ID
+  aclId:
+    Value: !GetAtt
+        - VPC
+        - DefaultNetworkAcl
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - ACL-ID
+  rtbId:
+    Value: !Ref rtb
+    Export:
+      Name: !Join
+          - &#34;&#34;
+          - - !Ref pramStackNamePrefic
+            - RTB-ID
+</code></pre><h2 id=実行>実行</h2><p>パラメータ</p><pre><code class="language-bash line-numbers">$ CF_TAG_KEY=service
+$ CF_TAG_NAME=sample
+$ CF_STACK_NAME_PREFIX=sample-
+$ CF_STACK_NAME=${CF_STACK_NAME_PREFIX}network
+$ CF_FILE_NAME=cftemplate.yaml
+</code></pre><pre><code class="language-bash line-numbers">$ aws cloudformation \
+create-stack \
+--tags Key=${CF_TAG_KEY},Value=${CF_TAG_NAME} \
+--stack-name ${CF_STACK_NAME} \
+--template-body file://./${CF_FILE_NAME} \
+--parameters \
+ParameterKey=pramStackNamePrefic,ParameterValue=${CF_STACK_NAME_PREFIX} \
+| jq .
+</code></pre><p>ちなみに,ACLにはタグがつけられなかったので、強引に、VPC ID取得→ACL ID取得→タグ付けをしてみる。</p><pre><code class="language-bash line-numbers">$ VpcId=`aws ec2 describe-vpcs \
+&gt; --filters &#34;Name=tag:Name,Values=${CF_STACK_NAME_PREFIX}vpc&#34; \
+&gt; | jq -r &#39;.Vpcs[].VpcId&#39;`
+$ echo $VpcId
+vpc-XXXXXXXX
+</code></pre><pre><code class="language-bash line-numbers">$ AclId=`aws ec2 describe-network-acls \
+&gt; --filters &#34;Name=vpc-id,Values=${VpcId}&#34; \
+&gt; | jq -r &#39;.NetworkAcls[].NetworkAclId&#39;`
+$ echo $AclId
+acl-XXXXXXXXX
+</code></pre><pre><code class="language-bash line-numbers">$ aws ec2 create-tags --resources ${AclId} \
+--tags Key=Name,Value=${CF_STACK_NAME_PREFIX}acl \
+Key=${CF_TAG_KEY},Value=${CF_TAG_NAME}
+</code></pre><h2 id=aclのデフォルト削除>ACLのデフォルト削除</h2><p>ACLのインバウンドはデフォルトですべて許可されているので、削除しておくことを推奨</p><pre><code class="language-bash line-numbers">$ aws ec2 delete-network-acl-entry \
+--network-acl-id ${AclId} \
+--ingress \
+--rule-number 100
+</code></pre></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

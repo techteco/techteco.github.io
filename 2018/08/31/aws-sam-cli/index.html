@@ -1,0 +1,97 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>AWS SAM CLIを使ってlambdaのローカル開発 &#183; TechTeco</title>
+<meta name=description content="AWS SAM CLIを使ってlambdaのローカル開発を試してみる"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="AWS SAM CLIを使ってlambdaのローカル開発 &#183; TechTeco"><meta name=twitter:description content="AWS SAM CLIを使ってlambdaのローカル開発を試してみる"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="AWS SAM CLIを使ってlambdaのローカル開発 &#183; TechTeco"><meta property="og:description" content="AWS SAM CLIを使ってlambdaのローカル開発を試してみる"><meta property="og:url" content="https://techteco.github.io/2018/08/31/aws-sam-cli/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2018-08-31 19:00:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2018年8月31日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2018/08/31/aws-sam-cli/ class=post-title>AWS SAM CLIを使ってlambdaのローカル開発</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-AWS" href=https://techteco.github.io//categories/aws>AWS</a><a class="post-category post-category-SAM" href=https://techteco.github.io//categories/sam>SAM</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2018/08/31/aws-sam-cli/ data-description="AWS SAM CLIを使ってlambdaのローカル開発を試してみる" data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents></nav></aside><div class=post-description><h1 id=aws-sam-cliとは>AWS SAM CLIとは</h1><p>AWS SAM自体は<a href=/2018/01/27/lambda-go-sample-sam/>以前の投稿</a>でも書いているので割愛。</p><p>AWS SAM CLIは、もともとsam localと呼ばれていたものの進化版？のようですね。</p><p>sam localは何度かつかってましたが、sam cliになったのを機に再度整理する。</p><h1 id=イントール>イントール</h1><p><a href=https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/sam-cli-requirements.html>参考:SAM CLI のインストール</a></p><p>dockerとイントールに使われるpip(Pythonのパッケージ管理)が必要になるが、詳細は割愛。</p><pre><code class="language-bash line-numbers">$ pip install aws-sam-cli
+$ sam --version
+SAM CLI, version 0.6.0
+</code></pre><p>参考サイトは0.3.0なので、少しずつ改善されているようですね。</p><h1 id=sam-initでサンプルを動かす>sam initでサンプルを動かす</h1><p><a href=https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/serverless_app.html#serv-app-sam-init>Simple App (sam init) の作成</a></p><p>ここではgolangを使って試してみる。</p><pre><code class="language-bash line-numbers">$ sam init --runtime go
+[&#43;] Initializing project structure...
+[SUCCESS] - Read sam-app/README.md for further instructions on how to proceed
+[*] Project initialization is now complete
+
+# こんなファイルが自動生成されます。
+$ tree sam-app/
+sam-app/
+├── Makefile
+├── README.md
+├── hello-world
+│   ├── main.go
+│   └── main_test.go
+└── template.yaml
+
+1 directory, 5 files
+</code></pre><p>ちなみに、template.yamlは、今までと変わってない（？）ので既存のリソースにも使えるはず。</p><pre><code class="language-yaml line-numbers">AWSTemplateFormatVersion: &#39;2010-09-09&#39;
+Transform: AWS::Serverless-2016-10-31
+Description: &gt;
+  sam-app
+
+  Sample SAM Template for sam-app
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 5
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: hello-world/
+      Handler: hello-world
+      Runtime: go1.x
+      Tracing: Active # https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html
+      Events:
+        CatchAll:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /hello
+            Method: GET
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+
+Outputs:
+  HelloWorldAPI:
+    Description: &#34;API Gateway endpoint URL for Prod environment for First Function&#34;
+    Value: !Sub &#34;https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/&#34;
+
+  HelloWorldFunction:
+    Description: &#34;First Lambda Function ARN&#34;
+    Value: !GetAtt HelloWorldFunction.Arn
+
+  HelloWorldFunctionIamRole:
+    Description: &#34;Implicit IAM Role created for Hello World function&#34;
+    Value: !GetAtt HelloWorldFunctionRole.Arn
+</code></pre><h1 id=go-test>go test</h1><p>テストも用意されてるので実行してみる（本題からそれますが、、）</p><pre><code class="language-bash line-numbers">$ cd hello-world/
+$ go test
+PASS
+ok  	_/Users/********/development/private/sam-cli/sam-app/hello-world	0.034s
+</code></pre><h1 id=go-build>go build</h1><pre><code class="language-bash line-numbers">$ GOOS=linux GOARCH=amd64 go build -o hello-world/hello-world ./hello-world
+
+# hello-worldができてますね。
+$ tree
+.
+├── Makefile
+├── README.md
+├── hello-world
+│   ├── hello-world
+│   ├── main.go
+│   └── main_test.go
+└── template.yaml
+</code></pre><h1 id=ローカルでapiサーバapi-gateway--lambdaを起動>ローカルでAPIサーバ(api gateway + lambda)を起動</h1><pre><code class="language-bash line-numbers">$ sam local start-api
+2018-08-31 16:16:58 Mounting HelloWorldFunction at http://127.0.0.1:3000/hello [GET]
+2018-08-31 16:16:58 You can now browse to the above endpoints to invoke your functions. You do not need to restart/reload SAM CLI while working on your functions changes will be reflected instantly/automatically. You only need to restart SAM CLI if you update your AWS SAM template
+2018-08-31 16:16:58  * Running on http://127.0.0.1:3000/ (Press CTRL&#43;C to quit)
+</code></pre><p>http://127.0.0.1:3000/ で起動するので、http://127.0.0.1:3000/hello をブラウザで表示してみると</p><pre><code class="language- line-numbers">Hello, XXX.XXX.XXX.XXX
+</code></pre><p>XXX.XXX.XXX.XXXはアクセス元のIPアドレスが表示されます。
+<a href=https://checkip.amazonaws.com/>https://checkip.amazonaws.com/</a> の結果を表示しているだけ。</p><p>コンソールには下記の感じでログが表示されていきます。</p><pre><code class="language-bash line-numbers">2018-08-31 16:18:17 Invoking hello-world (go1.x)
+2018-08-31 16:18:17 Found credentials in shared credentials file: ~/.aws/credentials
+
+Fetching lambci/lambda:go1.x Docker container image......
+2018-08-31 16:18:20 Mounting /Users/**********/development/private/sam-cli/sam-app/hello-world as /var/task:ro inside runtime container
+START RequestId: d12296fa-78d8-1bf6-a821-f7bd494db81c Version: $LATEST
+END RequestId: d12296fa-78d8-1bf6-a821-f7bd494db81c
+REPORT RequestId: d12296fa-78d8-1bf6-a821-f7bd494db81c	Duration: 763.56 ms	Billed Duration: 800 ms	Memory Size: 128 MB	Max Memory Used: 11 MB
+2018-08-31 16:18:22 No Content-Type given. Defaulting to &#39;application/json&#39;.
+2018-08-31 16:18:22 127.0.0.1 - - [31/Aug/2018 16:18:22] &#34;GET /hello HTTP/1.1&#34; 200 -
+</code></pre><p>ローカルで検証できるととても便利。serverless開発には欠かせないですね。</p></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>

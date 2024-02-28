@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mac on TechTeco</title><link>https://techteco.github.io/tags/mac/</link><description>Recent content in Mac on TechTeco</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Mon, 22 Jan 2018 20:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/mac/index.xml" rel="self" type="application/rss+xml"/><item><title>AnsibleでMacの開発環境を構築する</title><link>https://techteco.github.io/2018/01/22/ansible-mac/</link><pubDate>Mon, 22 Jan 2018 20:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/22/ansible-mac/</guid><description>※2018年12月12日更新
+定期的にmacのお掃除をしたくなるんですが、クリーンインストールして０から環境構築したいものです。
+それ以外にも、PCの新規購入や買い替え、職場のPCが変わったりと、０から開発環境を構築する場面は多々あります。
+しかしながら、この環境構築、やることが盛り沢山で大変です。
+しかも頻繁にやる作業でもないので結構忘れてしまって、毎回調べながらやってる気がします。
+いざ環境構築が終わって開発していると、あれインストールしてないや、あの設定どうだったっけ？
+みたいなことは、あるあるですよね。
+そこで、今後のことも考えて、macの環境構築をAnsibleを使って自動化（60〜70%くらい）したいと思います。
+前提 Ansibleの基本的な知識があること
+※参考サイト
+Ansible Documentation(official)
+実行環境 $ sw_vers ProductName:	Mac OS X ProductVersion:	10.14.1 BuildVersion:	18B75 手順 Macのクリーンインストール（ここでは省略） ※参考サイト
+macOS を消去して再インストールする
+Homebrewのインストール Homebrew公式
+$ /usr/bin/ruby -e &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;#34; $ brew -v Homebrew 1.8.5 MacにAnsibleをインストール ここでは、brewコマンドを使ってAnsibleをインストール
+$ brew install ansible $ ansible --version ansible 2.7.4 ファイル構成 tree コマンドで表示するとこんな感じです。
+Ansible利用したことある方なら特に違和感ないと思います。
+$ tree . ├── README.md ├── localhost ├── roles │ ├── awscli │ │ ├── tasks │ │ │ └── main.</description></item><item><title>MacにAWS CLIインストール</title><link>https://techteco.github.io/2016/11/19/aws-cli-install/</link><pubDate>Sat, 19 Nov 2016 20:11:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/19/aws-cli-install/</guid><description>MacにAWS CLIインストール AWS 公式：Installing the AWS Command Line Interface AWS 公式：Configuring the AWS Command Line Interface インストールスクリプト pip のウェブサイトからインストールスクリプトをダウンロードし実行します。
+$ curl &amp;#34;https://bootstrap.pypa.io/get-pip.py&amp;#34; -o &amp;#34;get-pip.py&amp;#34; $ pip -V pip 8.1.2 from /usr/local/lib/python2.7/site-packages (python 2.7) $ sudo python get-pip.py AWS CLI インストール $ sudo pip install awscli $ aws --version aws-cli/1.11.13 Python/2.7.12 Darwin/15.6.0 botocore/1.4.70 AWS CLI 設定 $ aws configure AWS Access Key ID [None]: AK********************** AWS Secret Access Key [None]: wJa**************************** Default region name [None]: us-west-2 Default output format [None]: ENTER 設定ファイル</description></item><item><title>Macでgulpを動かそう #3 gulpをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp3/</link><pubDate>Thu, 27 Aug 2015 15:10:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp3/</guid><description>nodebrewをインストール node.jsをインストール gulpをインストール ← ここ 3. gulpをインストール gulpは、npmを使ってインストールする
+公式サイト gulp 公式サイト npm npm npmは、node.jsインストール時に、同時にインストールされている
+npmのバージョン確認 $ npm version { npm: &amp;#39;2.11.3&amp;#39;, http_parser: &amp;#39;2.3&amp;#39;, modules: &amp;#39;14&amp;#39;, node: &amp;#39;0.12.7&amp;#39;, openssl: &amp;#39;1.0.1p&amp;#39;, uv: &amp;#39;1.6.1&amp;#39;, v8: &amp;#39;3.28.71.19&amp;#39;, zlib: &amp;#39;1.2.8&amp;#39; } npmを最新に更新する $ npm upgrade -g npm $ npm version { npm: &amp;#39;2.14.0&amp;#39;, http_parser: &amp;#39;2.3&amp;#39;, modules: &amp;#39;14&amp;#39;, node: &amp;#39;0.12.7&amp;#39;, openssl: &amp;#39;1.0.1p&amp;#39;, uv: &amp;#39;1.6.1&amp;#39;, v8: &amp;#39;3.28.71.19&amp;#39;, zlib: &amp;#39;1.2.8&amp;#39; } $ gulp 公式サイト gulp(GitHub) npmでgulpをインストール $ npm install --global gulp $ npm install --save-dev gulp $ gulp -v [15:10:53] CLI version 3.</description></item><item><title>Macでgulpを動かそう #2 node.jsをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp2/</link><pubDate>Thu, 27 Aug 2015 14:55:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp2/</guid><description> nodebrewをインストール node.jsをインストール ← ここ gulpをインストール 2. node.jsをインストール 公式サイト node.js 最新バージョンをインストール バージョンは、latestを指定することで最新版をインストールする。 インストール後は、lsでバージョン確認
+$ nodebrew install latest $ nodebrew ls v0.12.7 current: none $ currentの指定 インストールしただけだと、current: noneとなっているように、使えません
+$ nodebrew use v0.12.7 use v0.12.7 $ node -v v0.12.7 $</description></item><item><title>Macでgulpを動かそう #1 nodebrewをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp1/</link><pubDate>Thu, 27 Aug 2015 14:11:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp1/</guid><description> nodebrewをインストール ← ここ node.jsをインストール gulpをインストール 1. nodebrewをインストール インストールの細かい手順は、公式サイトに詳しく書いてあるので、ざっくりと。
+公式サイト PATHを設定 .bashrcに下記のとおりPATHを設定する
+$ export PATH=$HOME/.nodebrew/current/bin:$PATH 設定の反映 $ source ~/.bashrc 使い方 $ nodebrew help</description></item></channel></rss>

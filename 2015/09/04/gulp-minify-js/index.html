@@ -1,0 +1,58 @@
+<!doctype html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=57x57 href=/images/favicon/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/images/favicon/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/images/favicon/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/images/favicon/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/images/favicon/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/images/favicon/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/images/favicon/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/images/favicon/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/images/favicon/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/images/favicon/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/images/favicon/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/images/favicon/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/images/favicon/favicon-16x16.png><link rel=manifest href=/images/favicon/manifest.json><meta name=msapplication-TileColor content="#ffffff"><meta name=msapplication-TileImage content="/images/favicon/ms-icon-144x144.png"><meta name=theme-color content="#ffffff"><title>gulpでtypescriptから出力されたjavascriptをminifyする &#183; TechTeco</title>
+<meta name=description content="gulpでtypescriptから出力されたjavascriptをminifyする"><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/techtecoking"><meta name=twitter:title content="gulpでtypescriptから出力されたjavascriptをminifyする &#183; TechTeco"><meta name=twitter:description content="gulpでtypescriptから出力されたjavascriptをminifyする"><meta property="og:locale" content="ja_JP"><meta property="og:site_name" content="TechTeco"><meta property="og:type" content="article"><meta property="og:title" content="gulpでtypescriptから出力されたjavascriptをminifyする &#183; TechTeco"><meta property="og:description" content="gulpでtypescriptから出力されたjavascriptをminifyする"><meta property="og:url" content="https://techteco.github.io/2015/09/04/gulp-minify-js/"><meta property="og:image" content="https://techteco.github.io//images/favicon/android-icon-192x192.png"><meta property="og:updated_time" content="2015-09-04 12:00:00 +0900 +0900"><link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel=stylesheet type=text/css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css><link rel=stylesheet href=https://techteco.github.io//css/all.min.css><link href=https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous><link rel=stylesheet href=https://techteco.github.io//css/prism.css><link rel=alternate type=application/rss+xml title=TechTeco href=https://techteco.github.io//index.xml><style type=text/css><!--body{font-family:-apple-system,BlinkMacSystemFont,helvetica neue,yu gothic,YuGothic,ヒラギノ角ゴ pron w3,Hiragino Kaku Gothic ProN,Arial,メイリオ,Meiryo,sans-serif}.post-description h1{line-height:1.3em}--></style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-RPWFV2ZJ5Y"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RPWFV2ZJ5Y")</script></head><body><div id=layout class=pure-g><div class="sidebar pure-u-1 pure-u-md-1-4"><div class=header><hgroup><h1 class=brand-title><a href=https://techteco.github.io/>TechTeco</a></h1><h2 class=brand-tagline>jot down for myself</h2></hgroup><nav class=nav><ul class=nav-list><li class=nav-item><a class=pure-button href=https://twitter.com/techtecoking><i class="fa fa-twitter"></i> Twitter</a></li><li class=nav-item><a class=pure-button href=https://techteco.github.io//index.xml><i class="fa fa-rss"></i> rss</a></li></ul></nav></div></div><div class="content pure-u-1 pure-u-md-3-4"><div><div class=posts><h1 class=content-subhead>2015年9月4日</h1><section class=post><header class=post-header><a href=https://techteco.github.io/2015/09/04/gulp-minify-js/ class=post-title>gulpでtypescriptから出力されたjavascriptをminifyする</a><p class=post-meta>By <strong class=post-author>TechTeco</strong>
+under
+<a class="post-category post-category-FRONT" href=https://techteco.github.io//categories/front>FRONT</a></p></header><div class=post-share><div class=post-share-links><h4>Share</h4><a href=# data-type=twitter data-url=https://techteco.github.io/2015/09/04/gulp-minify-js/ data-description=gulpでtypescriptから出力されたjavascriptをminifyする data-via=https://twitter.com/techtecoking class="prettySocial fa fa-twitter"></a></div></div><style>#TableOfContents{background:#f9f9f9;border:1px solid #ccc;display:table;font-size:90%;margin-top:1.25em;margin-bottom:1em;padding-right:30px;width:auto}</style><aside><nav id=TableOfContents><ul><li><a href=#packagejson>package.json</a></li><li><a href=#npm-installでモジュールをインストール>npm installでモジュールをインストール</a></li><li><a href=#gulp-uglify>gulp-uglify</a></li></ul></nav></aside><div class=post-description><h1 id=jsファイルをminifyするためのgulup設定>jsファイルをminifyするためのgulup設定</h1><p>前回作成した、typescript環境にjavascriptのminifyを追加してみる。ついでに、npm installも試してみる</p><ul><li><a href=/post/2015/09/gulp-typescript/>前回 gulpでtypescript環境を構築する</a></li></ul><h2 id=packagejson>package.json</h2><p>新しいプロジェクトディレクトリを作成して、そこに前回利用したpackage.jsonを置く</p><pre><code class="language-bash line-numbers">$ ls
+package.json
+</code></pre><h2 id=npm-installでモジュールをインストール>npm installでモジュールをインストール</h2><p>npm installを実行すると、package.jsonの内容から、必要なモジュールがインストールされる</p><pre><code class="language-bash line-numbers">$ npm install
+</code></pre><p>こんな感じでインストールされている</p><pre><code class="language-bash line-numbers">$ tree -L 2
+.
+├── node_modules
+│   ├── gulp
+│   ├── gulp-typescript
+│   ├── gulp-watch
+│   └── require-dir
+└── package.json
+
+5 directories, 1 file
+</code></pre><p>あとは、前回作成したモジュール以外のファイルを持ってくる</p><h2 id=gulp-uglify>gulp-uglify</h2><p>javascriptファイルをminifyするための、gulp-uglifyをインストールする</p><ul><li><a href=https://www.npmjs.com/package/gulp-uglify>npm gulp-uglify</a></li></ul><pre><code class="language-bash line-numbers">$ npm install --save-dev gulp-uglify
+</code></pre><p><strong>/gulp/tasks/tsc.js</strong>の内容
+前回作成した<strong>tsc.js</strong>を以下のように編集する</p><pre><code class="language-js line-numbers">var gulp = require(&#34;gulp&#34;);
+var ts = require(&#34;gulp-typescript&#34;);
+var uglify = require(&#39;gulp-uglify&#39;);
+var config = require(&#34;../config&#34;);
+
+gulp.task(&#34;tsc&#34;, function() {
+  gulp.src(config.ts.src)
+    .pipe(ts(config.ts.options))
+    .js
+    .pipe(gulp.dest(config.ts.dest))
+    .pipe(uglify(config.uglify.options))
+    .pipe(gulp.dest(config.uglify.dest));
+});
+</code></pre><p><strong>./gulp/config.js</strong></p><pre><code class="language-js line-numbers">module.exports = {
+  ts: {
+    src: &#34;./src/ts/**/*.ts&#34;,
+    dest: &#34;./src/js&#34;,
+    options: {
+      removeComments: true,
+      noImplicitAny: true,
+      noLib: false,
+      onoEmitOnErrorut: false,
+      target: &#34;ES5&#34;
+    }
+  },
+  // for gulp-uglify
+  uglify: {
+    dest: &#34;./src/js/min&#34;,
+    options: {
+      beautify:true,
+      preserveComments: &#39;some&#39;
+    }
+  }
+};
+</code></pre><p>これでgulpを実行すると、通常のjsファイルとminifyされたjsファイルができましたね。</p><pre><code class="language-bash line-numbers">$ ls -R ./src/js
+min       sample.js
+
+./src/js/min:
+sample.js
+</code></pre></div></section></div><div class=footer><div class="pure-menu pure-menu-horizontal pure-menu-open"><ul style=padding-left:0><li>@2015 <a class=hugo href=https://techte.co/ target=_blank>Cozy TechTeco</a></li></ul></div></div><script src=https://techteco.github.io//js/all.min.js></script><script src=https://techteco.github.io//js/prism.js></script></div></div></div></body></html>
