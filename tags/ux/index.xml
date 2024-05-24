@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UX on TechTeco</title><link>https://techteco.github.io/tags/ux/</link><description>Recent content in UX on TechTeco</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Wed, 31 Jan 2018 16:30:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/ux/index.xml" rel="self" type="application/rss+xml"/><item><title>LAWS OF UX というサイトの紹介</title><link>https://techteco.github.io/2018/01/31/laws-of-ux/</link><pubDate>Wed, 31 Jan 2018 16:30:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/31/laws-of-ux/</guid><description>Laws Of UX Laws Of UX
-UXを考えるときに考慮するといいであろう法則がまとめられています。
-サイトのデザインもきれいです。
-Fitts’s Law Fitts’s Law
-The time to acquire a target is a function of the distance to and size of the target.
-翻訳すると
-ターゲットを取得する時間はターゲットの距離とターゲットのサイズの関数です。
-ターゲットまでの距離が長くなって、ターゲットの距離が小さくなればなるほで、時間がかかりますよ。ってことのようです。
-Hick’s Law Hick’s Law
-The time it takes to make a decision increases with the number and complexity of choices.
-翻訳すると
-決定を下すのに要する時間は、選択肢の数と複雑さとともに増加します。
-選択肢はシンプルにしたほうがいいってことですね。
-Jakob’s Law Jakob’s Law
-Users spend most of their time on other sites. This means that users prefer your site to work the same way as all the other sites they already know.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UX on Jot down for myself</title><link>https://techteco.github.io/tags/ux/</link><description>Recent content in UX on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Fri, 24 May 2024 16:04:29 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/ux/index.xml" rel="self" type="application/rss+xml"/><item><title>LAWS OF UX というサイトの紹介</title><link>https://techteco.github.io/2018/01/31/laws-of-ux/</link><pubDate>Wed, 31 Jan 2018 16:30:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/31/laws-of-ux/</guid><description>Laws Of UX Laws Of UX UXを考えるときに考慮するといいであろう法則がまとめられています。 サイトのデザインもきれいです。 Fitts’s Law Fitts’s Law</description></item></channel></rss>
