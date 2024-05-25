@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SAM on TechTeco</title><link>https://techteco.github.io/categories/sam/</link><description>Recent content in SAM on TechTeco</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Fri, 31 Aug 2018 19:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/categories/sam/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS SAM CLIを使ってlambdaのローカル開発</title><link>https://techteco.github.io/2018/08/31/aws-sam-cli/</link><pubDate>Fri, 31 Aug 2018 19:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/08/31/aws-sam-cli/</guid><description>AWS SAM CLIとは AWS SAM自体は以前の投稿でも書いているので割愛。
-AWS SAM CLIは、もともとsam localと呼ばれていたものの進化版？のようですね。
-sam localは何度かつかってましたが、sam cliになったのを機に再度整理する。
-イントール 参考:SAM CLI のインストール
-dockerとイントールに使われるpip(Pythonのパッケージ管理)が必要になるが、詳細は割愛。
-$ pip install aws-sam-cli $ sam --version SAM CLI, version 0.6.0 参考サイトは0.3.0なので、少しずつ改善されているようですね。
-sam initでサンプルを動かす Simple App (sam init) の作成
-ここではgolangを使って試してみる。
-$ sam init --runtime go [&amp;#43;] Initializing project structure... [SUCCESS] - Read sam-app/README.md for further instructions on how to proceed [*] Project initialization is now complete # こんなファイルが自動生成されます。 $ tree sam-app/ sam-app/ ├── Makefile ├── README.</description></item></channel></rss>

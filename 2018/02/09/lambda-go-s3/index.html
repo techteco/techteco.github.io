@@ -1,146 +1,283 @@
 <!doctype html><html lang=ja dir=ltr><head><title>LambdaのGolangでS3を操作する :: Jot down for myself - Technical notes on AWS, Go, React, etc.</title>
-<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="やること S3に保存されたファイルを取得して、データを追記して保存する S3上のファイル存在確認(ListObjectsV2) ファイルが存在すれ"><meta name=keywords content="aws,golang,react,typescript,mysql"><meta name=robots content="noodp"><meta property="og:url" content="https://techteco.github.io/2018/02/09/lambda-go-s3/"><meta property="og:site_name" content="Jot down for myself"><meta property="og:title" content="LambdaのGolangでS3を操作する"><meta property="og:description" content="LambdaがGolang対応したのでS3のファイルを更新してみる"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2018-02-09T22:00:00+09:00"><meta property="article:modified_time" content="2024-05-24T16:04:29+09:00"><meta property="article:tag" content="Lambda"><meta property="article:tag" content="S3"><meta name=twitter:card content="summary"><meta name=twitter:title content="LambdaのGolangでS3を操作する"><meta name=twitter:description content="LambdaがGolang対応したのでS3のファイルを更新してみる"><link rel=canonical href=https://techteco.github.io/2018/02/09/lambda-go-s3/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.5d96433bd17079764d5a8866addd6d7848ea8295977a06688f43c5be97af544e.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"TechTeco"},"dateModified":"2024-05-24T16:04:29+09:00","datePublished":"2018-02-09T22:00:00+09:00","description":"やること S3に保存されたファイルを取得して、データを追記して保存する S3上のファイル存在確認(ListObjectsV2) ファイルが存在すれ","name":"LambdaのGolangでS3を操作する","url":"https://techteco.github.io/2018/02/09/lambda-go-s3/"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ML7QTSL8BR"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ML7QTSL8BR")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full" src=/images/button-305726_1280.png alt=logo></a></div><div class=flex-1></div><div class=flex-none></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only></span>
-<i class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="やること S3に保存されたファイルを取得して、データを追記して保存する S3上のファイル存在確認(ListObjectsV2) ファイルが存在すれ"><meta name=keywords content="aws,golang,react,typescript,mysql"><meta name=robots content="noodp"><meta property="og:url" content="https://techteco.github.io/2018/02/09/lambda-go-s3/"><meta property="og:site_name" content="Jot down for myself"><meta property="og:title" content="LambdaのGolangでS3を操作する"><meta property="og:description" content="LambdaがGolang対応したのでS3のファイルを更新してみる"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2018-02-09T22:00:00+09:00"><meta property="article:modified_time" content="2024-05-25T12:10:51+09:00"><meta property="article:tag" content="Lambda"><meta property="article:tag" content="S3"><meta name=twitter:card content="summary"><meta name=twitter:title content="LambdaのGolangでS3を操作する"><meta name=twitter:description content="LambdaがGolang対応したのでS3のファイルを更新してみる"><link rel=canonical href=https://techteco.github.io/2018/02/09/lambda-go-s3/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.5d96433bd17079764d5a8866addd6d7848ea8295977a06688f43c5be97af544e.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"TechTeco"},"dateModified":"2024-05-25T12:10:51+09:00","datePublished":"2018-02-09T22:00:00+09:00","description":"やること S3に保存されたファイルを取得して、データを追記して保存する S3上のファイル存在確認(ListObjectsV2) ファイルが存在すれ","name":"LambdaのGolangでS3を操作する","url":"https://techteco.github.io/2018/02/09/lambda-go-s3/"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ML7QTSL8BR"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ML7QTSL8BR")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full" src=/images/button-305726_1280.png alt=logo></a></div><div class=flex-1></div><div class=flex-none></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only>検索</span>
+<i class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title=ダークモードを切り替える><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label=ダークモードを切り替える><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
 </i><i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg></i></div></label></div></div></header><main class="flex flex-auto justify-center"><div class="w-full max-w-4xl lg:max-w-5xl"><div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700"><div><a href=/2018/02/09/lambda-go-s3/></a></div><div class="flex flex-col gap-y-3 p-6"><h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100"><a href=/2018/02/09/lambda-go-s3/>LambdaのGolangでS3を操作する</a></h1><h2 class="my-4 text-large text-slate-600 dark:text-slate-300">LambdaがGolang対応したのでS3のファイルを更新してみる</h2><ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300"><li><a href=/categories/aws/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">AWS</a></li><li><a href=/categories/go/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">GO</a></li><li><a href=/tags/lambda/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
 </i><span class=ml-0>Lambda</span></a></li><li><a href=/tags/s3/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
 </i><span class=ml-0>S3</span></a></li></ul><div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300"><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
-</i><time datetime=2018-02-09T22:00:00+09:00>2018-02-09</time></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2></h2><aside><nav id=TableOfContents><ul><li><a href=#golang>golang</a></li><li><a href=#コンパイル--圧縮>コンパイル & 圧縮</a></li><li><a href=#sam>SAM</a></li><li><a href=#デプロイ>デプロイ</a></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h1 id=やること>やること</h1><p>S3に保存されたファイルを取得して、データを追記して保存する</p><ul><li><p>S3上のファイル存在確認<a href=https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.ListObjectsV2 target=_blank rel=noopener>(ListObjectsV2)</a></p></li><li><p>ファイルが存在すれば、ファイル取得<a href=https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.GetObject target=_blank rel=noopener>(GetObject)</a></p></li><li><p>追記してS3に保存<a href=https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.PutObject target=_blank rel=noopener>(PutObject)</a></p></li></ul><h1 id=lambdaの作成>Lambdaの作成</h1><p>さっそく</p><h2 id=golang>golang</h2><ul><li>main.go</li></ul><pre><code class="language-go line-numbers">package main
-
-import (
-	&#34;bytes&#34;
-	&#34;context&#34;
-	&#34;fmt&#34;
-	&#34;log&#34;
-	&#34;os&#34;
-
-	&#34;github.com/aws/aws-lambda-go/lambda&#34;
-	&#34;github.com/aws/aws-sdk-go/aws&#34;
-	&#34;github.com/aws/aws-sdk-go/aws/awserr&#34;
-	&#34;github.com/aws/aws-sdk-go/aws/endpoints&#34;
-	&#34;github.com/aws/aws-sdk-go/aws/session&#34;
-	&#34;github.com/aws/aws-sdk-go/service/s3&#34;
-)
-
-func HandleRequest(ctx context.Context) (string, error) {
-
-	var BUCKET = os.Getenv(&#34;BUCKET&#34;)
-	var KEY = os.Getenv(&#34;KEY&#34;)
-
-	svc := s3.New(session.New(), &amp;aws.Config{
-		Region: aws.String(endpoints.ApNortheast1RegionID),
-	})
-
-	// ファイルの存在確認
-	loo, errlo := svc.ListObjectsV2(&amp;s3.ListObjectsV2Input{
-		Bucket: aws.String(BUCKET),
-		Prefix: aws.String(KEY),
-	})
-
-	if errlo != nil {
-		if aerr, ok := errlo.(awserr.Error); ok {
-
-			switch aerr.Code() {
-			case s3.ErrCodeNoSuchBucket:
-				log.Print(&#34;bucket does not exist at ListObjectsV2&#34;)
-				return &#34;bucket does not exis at tListObjectsV2&#34;, aerr
-			default:
-				log.Printf(&#34;aws error %v at ListObjectsV2&#34;, aerr.Error())
-				return &#34;aws error at ListObjectsV2&#34;, aerr
-			}
-		}
-		log.Printf(&#34;error %v at ListObjectsV2&#34;, errlo.Error())
-		return &#34;error at ListObjectsV2&#34;, errlo
-	}
-
-	wb := new(bytes.Buffer) // write buffer
-
-	if *loo.KeyCount == 0 {
-		// 新規作成
-		fmt.Fprint(wb, &#34;header1,header2,header3\n&#34;) // ヘッダー
-	} else {
-		// Object取得
-		goo, errgo := svc.GetObject(&amp;s3.GetObjectInput{
-			Bucket: aws.String(BUCKET),
-			Key:    aws.String(KEY),
-		})
-		defer goo.Body.Close()
-		if errgo != nil {
-			if aerr, ok := errgo.(awserr.Error); ok {
-
-				switch aerr.Code() {
-				case s3.ErrCodeNoSuchBucket:
-					log.Print(&#34;bucket does not exist at GetObject&#34;)
-					return &#34;bucket does not exist at GetObject&#34;, aerr
-
-				case s3.ErrCodeNoSuchKey:
-					// 新規作成
-					log.Print(&#34;object with key does not exist in bucket at GetObject&#34;)
-					return &#34;object with key does not exist in bucket at GetObject&#34;, aerr
-				default:
-					log.Printf(&#34;aws error %v at GetObject&#34;, aerr.Error())
-					return &#34;aws error at GetObject&#34;, aerr
-				}
-			}
-			log.Printf(&#34;error %v at GetObject&#34;, errgo.Error())
-			return &#34;error at GetObject&#34;, errgo
-		}
-
-		brb := new(bytes.Buffer) // buffer Response Body
-		brb.ReadFrom(goo.Body)
-		srb := brb.String() // string Response Body
-
-		fmt.Fprint(wb, srb) // 読み取りデータ
-	}
-
-	fmt.Fprint(wb, &#34;col1,col2,col3\n&#34;) // 追記データ
-
-	_, errpo := svc.PutObject(&amp;s3.PutObjectInput{
-		Body:                 bytes.NewReader(wb.Bytes()),
-		Bucket:               aws.String(BUCKET),
-		Key:                  aws.String(KEY),
-		ACL:                  aws.String(&#34;private&#34;),
-		ServerSideEncryption: aws.String(&#34;AES256&#34;),
-	})
-
-	if errpo != nil {
-		if aerr, ok := errpo.(awserr.Error); ok {
-			log.Printf(&#34;aws error %v at PutObject&#34;, aerr.Error())
-			return &#34;aws error at PutObject&#34;, aerr
-		}
-		log.Printf(&#34;error %v at PutObject&#34;, errpo.Error())
-		return &#34;error at PutObject&#34;, errpo
-	}
-	defer log.Print(&#34;normal end&#34;)
-	return &#34;normal end&#34;, nil
-}
-
-func main() {
-	lambda.Start(HandleRequest)
-}
-</code></pre><h2 id=コンパイル--圧縮>コンパイル & 圧縮</h2><pre><code class="language-bash line-numbers">$source ~/.gvm/scripts/gvm; GOOS=linux go build -o main; zip main.zip main;</code></pre><h2 id=sam>SAM</h2><p>BUCKET,KEYは適当に変更してください。</p><ul><li>sam-template.yaml</li></ul><pre><code class="language-yaml line-numbers">AWSTemplateFormatVersion : &#39;2010-09-09&#39;
-Transform: AWS::Serverless-2016-10-31
-Description: lambda go S3 sample
-Resources:
-  S3Crud:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: main
-      Runtime: go1.x
-      CodeUri: main.zip
-      Policies:
-        - S3CrudPolicy:
-            BucketName: techte.co.shared
-      Environment:
-        Variables:
-            BUCKET: your_bucket
-            KEY: your_file_name
-</code></pre><h2 id=デプロイ>デプロイ</h2><pre><code class="language-bash line-numbers">$ aws cloudformation package \
---template-file ./sam-template.yaml \
---s3-bucket techte.co.shared \
---s3-prefix aws/lambda/source/s3crud \
---output-template-file packaged-sam-template.yaml
-</code></pre><pre><code class="language-bash line-numbers">$ aws cloudformation deploy \
---template-file packaged-sam-template.yaml \
---stack-name sample-lambda-s3 \
---capabilities CAPABILITY_IAM
-</code></pre><h1 id=結果>結果</h1><p>Lambdaを実行される度にファイルに行が追加されていればOK</p></article></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"></div><div class=grow></div><div class="flex flex-row"></div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>
+</i><time datetime=2018-02-09T22:00:00+09:00>2018-02-09</time></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2>目次</h2><aside><nav id=TableOfContents><ul><li><a href=#やること>やること</a></li><li><a href=#lambdaの作成>Lambdaの作成</a><ul><li><a href=#golang>golang</a></li><li><a href=#コンパイル--圧縮>コンパイル & 圧縮</a></li><li><a href=#sam>SAM</a></li><li><a href=#デプロイ>デプロイ</a></li><li><a href=#結果>結果</a></li></ul></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h1 id=やること>やること</h1><p>S3に保存されたファイルを取得して、データを追記して保存する</p><ul><li><p>S3上のファイル存在確認<a href=https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.ListObjectsV2 target=_blank rel=noopener>(ListObjectsV2)</a></p></li><li><p>ファイルが存在すれば、ファイル取得<a href=https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.GetObject target=_blank rel=noopener>(GetObject)</a></p></li><li><p>追記してS3に保存<a href=https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.PutObject target=_blank rel=noopener>(PutObject)</a></p></li></ul><h1 id=lambdaの作成>Lambdaの作成</h1><p>さっそく</p><h2 id=golang>golang</h2><ul><li>main.go</li></ul><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>  1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>  2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>  3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>  4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>  5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6>  6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7>  7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8>  8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9>  9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10> 10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11> 11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-12><a style=outline:none;text-decoration:none;color:inherit href=#ano-12> 12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-13><a style=outline:none;text-decoration:none;color:inherit href=#ano-13> 13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-14><a style=outline:none;text-decoration:none;color:inherit href=#ano-14> 14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-15><a style=outline:none;text-decoration:none;color:inherit href=#ano-15> 15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-16><a style=outline:none;text-decoration:none;color:inherit href=#ano-16> 16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-17><a style=outline:none;text-decoration:none;color:inherit href=#ano-17> 17</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-18><a style=outline:none;text-decoration:none;color:inherit href=#ano-18> 18</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-19><a style=outline:none;text-decoration:none;color:inherit href=#ano-19> 19</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-20><a style=outline:none;text-decoration:none;color:inherit href=#ano-20> 20</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-21><a style=outline:none;text-decoration:none;color:inherit href=#ano-21> 21</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-22><a style=outline:none;text-decoration:none;color:inherit href=#ano-22> 22</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-23><a style=outline:none;text-decoration:none;color:inherit href=#ano-23> 23</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-24><a style=outline:none;text-decoration:none;color:inherit href=#ano-24> 24</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-25><a style=outline:none;text-decoration:none;color:inherit href=#ano-25> 25</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-26><a style=outline:none;text-decoration:none;color:inherit href=#ano-26> 26</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-27><a style=outline:none;text-decoration:none;color:inherit href=#ano-27> 27</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-28><a style=outline:none;text-decoration:none;color:inherit href=#ano-28> 28</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-29><a style=outline:none;text-decoration:none;color:inherit href=#ano-29> 29</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-30><a style=outline:none;text-decoration:none;color:inherit href=#ano-30> 30</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-31><a style=outline:none;text-decoration:none;color:inherit href=#ano-31> 31</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-32><a style=outline:none;text-decoration:none;color:inherit href=#ano-32> 32</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-33><a style=outline:none;text-decoration:none;color:inherit href=#ano-33> 33</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-34><a style=outline:none;text-decoration:none;color:inherit href=#ano-34> 34</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-35><a style=outline:none;text-decoration:none;color:inherit href=#ano-35> 35</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-36><a style=outline:none;text-decoration:none;color:inherit href=#ano-36> 36</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-37><a style=outline:none;text-decoration:none;color:inherit href=#ano-37> 37</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-38><a style=outline:none;text-decoration:none;color:inherit href=#ano-38> 38</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-39><a style=outline:none;text-decoration:none;color:inherit href=#ano-39> 39</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-40><a style=outline:none;text-decoration:none;color:inherit href=#ano-40> 40</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-41><a style=outline:none;text-decoration:none;color:inherit href=#ano-41> 41</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-42><a style=outline:none;text-decoration:none;color:inherit href=#ano-42> 42</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-43><a style=outline:none;text-decoration:none;color:inherit href=#ano-43> 43</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-44><a style=outline:none;text-decoration:none;color:inherit href=#ano-44> 44</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-45><a style=outline:none;text-decoration:none;color:inherit href=#ano-45> 45</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-46><a style=outline:none;text-decoration:none;color:inherit href=#ano-46> 46</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-47><a style=outline:none;text-decoration:none;color:inherit href=#ano-47> 47</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-48><a style=outline:none;text-decoration:none;color:inherit href=#ano-48> 48</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-49><a style=outline:none;text-decoration:none;color:inherit href=#ano-49> 49</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-50><a style=outline:none;text-decoration:none;color:inherit href=#ano-50> 50</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-51><a style=outline:none;text-decoration:none;color:inherit href=#ano-51> 51</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-52><a style=outline:none;text-decoration:none;color:inherit href=#ano-52> 52</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-53><a style=outline:none;text-decoration:none;color:inherit href=#ano-53> 53</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-54><a style=outline:none;text-decoration:none;color:inherit href=#ano-54> 54</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-55><a style=outline:none;text-decoration:none;color:inherit href=#ano-55> 55</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-56><a style=outline:none;text-decoration:none;color:inherit href=#ano-56> 56</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-57><a style=outline:none;text-decoration:none;color:inherit href=#ano-57> 57</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-58><a style=outline:none;text-decoration:none;color:inherit href=#ano-58> 58</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-59><a style=outline:none;text-decoration:none;color:inherit href=#ano-59> 59</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-60><a style=outline:none;text-decoration:none;color:inherit href=#ano-60> 60</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-61><a style=outline:none;text-decoration:none;color:inherit href=#ano-61> 61</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-62><a style=outline:none;text-decoration:none;color:inherit href=#ano-62> 62</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-63><a style=outline:none;text-decoration:none;color:inherit href=#ano-63> 63</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-64><a style=outline:none;text-decoration:none;color:inherit href=#ano-64> 64</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-65><a style=outline:none;text-decoration:none;color:inherit href=#ano-65> 65</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-66><a style=outline:none;text-decoration:none;color:inherit href=#ano-66> 66</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-67><a style=outline:none;text-decoration:none;color:inherit href=#ano-67> 67</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-68><a style=outline:none;text-decoration:none;color:inherit href=#ano-68> 68</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-69><a style=outline:none;text-decoration:none;color:inherit href=#ano-69> 69</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-70><a style=outline:none;text-decoration:none;color:inherit href=#ano-70> 70</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-71><a style=outline:none;text-decoration:none;color:inherit href=#ano-71> 71</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-72><a style=outline:none;text-decoration:none;color:inherit href=#ano-72> 72</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-73><a style=outline:none;text-decoration:none;color:inherit href=#ano-73> 73</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-74><a style=outline:none;text-decoration:none;color:inherit href=#ano-74> 74</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-75><a style=outline:none;text-decoration:none;color:inherit href=#ano-75> 75</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-76><a style=outline:none;text-decoration:none;color:inherit href=#ano-76> 76</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-77><a style=outline:none;text-decoration:none;color:inherit href=#ano-77> 77</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-78><a style=outline:none;text-decoration:none;color:inherit href=#ano-78> 78</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-79><a style=outline:none;text-decoration:none;color:inherit href=#ano-79> 79</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-80><a style=outline:none;text-decoration:none;color:inherit href=#ano-80> 80</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-81><a style=outline:none;text-decoration:none;color:inherit href=#ano-81> 81</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-82><a style=outline:none;text-decoration:none;color:inherit href=#ano-82> 82</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-83><a style=outline:none;text-decoration:none;color:inherit href=#ano-83> 83</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-84><a style=outline:none;text-decoration:none;color:inherit href=#ano-84> 84</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-85><a style=outline:none;text-decoration:none;color:inherit href=#ano-85> 85</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-86><a style=outline:none;text-decoration:none;color:inherit href=#ano-86> 86</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-87><a style=outline:none;text-decoration:none;color:inherit href=#ano-87> 87</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-88><a style=outline:none;text-decoration:none;color:inherit href=#ano-88> 88</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-89><a style=outline:none;text-decoration:none;color:inherit href=#ano-89> 89</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-90><a style=outline:none;text-decoration:none;color:inherit href=#ano-90> 90</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-91><a style=outline:none;text-decoration:none;color:inherit href=#ano-91> 91</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-92><a style=outline:none;text-decoration:none;color:inherit href=#ano-92> 92</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-93><a style=outline:none;text-decoration:none;color:inherit href=#ano-93> 93</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-94><a style=outline:none;text-decoration:none;color:inherit href=#ano-94> 94</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-95><a style=outline:none;text-decoration:none;color:inherit href=#ano-95> 95</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-96><a style=outline:none;text-decoration:none;color:inherit href=#ano-96> 96</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-97><a style=outline:none;text-decoration:none;color:inherit href=#ano-97> 97</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-98><a style=outline:none;text-decoration:none;color:inherit href=#ano-98> 98</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-99><a style=outline:none;text-decoration:none;color:inherit href=#ano-99> 99</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-100><a style=outline:none;text-decoration:none;color:inherit href=#ano-100>100</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-101><a style=outline:none;text-decoration:none;color:inherit href=#ano-101>101</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-102><a style=outline:none;text-decoration:none;color:inherit href=#ano-102>102</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-103><a style=outline:none;text-decoration:none;color:inherit href=#ano-103>103</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-104><a style=outline:none;text-decoration:none;color:inherit href=#ano-104>104</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-105><a style=outline:none;text-decoration:none;color:inherit href=#ano-105>105</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-106><a style=outline:none;text-decoration:none;color:inherit href=#ano-106>106</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-107><a style=outline:none;text-decoration:none;color:inherit href=#ano-107>107</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-108><a style=outline:none;text-decoration:none;color:inherit href=#ano-108>108</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-109><a style=outline:none;text-decoration:none;color:inherit href=#ano-109>109</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-110><a style=outline:none;text-decoration:none;color:inherit href=#ano-110>110</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-111><a style=outline:none;text-decoration:none;color:inherit href=#ano-111>111</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-112><a style=outline:none;text-decoration:none;color:inherit href=#ano-112>112</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-113><a style=outline:none;text-decoration:none;color:inherit href=#ano-113>113</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#c678dd>package</span> <span style=color:#e06c75>main</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>import</span> (
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;bytes&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;context&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;fmt&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;log&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;os&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;github.com/aws/aws-lambda-go/lambda&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;github.com/aws/aws-sdk-go/aws&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;github.com/aws/aws-sdk-go/aws/awserr&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;github.com/aws/aws-sdk-go/aws/endpoints&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;github.com/aws/aws-sdk-go/aws/session&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#98c379>&#34;github.com/aws/aws-sdk-go/service/s3&#34;</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>func</span> <span style=color:#61afef;font-weight:700>HandleRequest</span>(<span style=color:#e06c75>ctx</span> <span style=color:#e06c75>context</span>.<span style=color:#e06c75>Context</span>) (<span style=color:#e5c07b>string</span>, <span style=color:#e5c07b>error</span>) {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#c678dd>var</span> <span style=color:#e06c75>BUCKET</span> = <span style=color:#e06c75>os</span>.<span style=color:#61afef;font-weight:700>Getenv</span>(<span style=color:#98c379>&#34;BUCKET&#34;</span>)
+</span></span><span style=display:flex><span>	<span style=color:#c678dd>var</span> <span style=color:#e06c75>KEY</span> = <span style=color:#e06c75>os</span>.<span style=color:#61afef;font-weight:700>Getenv</span>(<span style=color:#98c379>&#34;KEY&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#e06c75>svc</span> <span style=color:#56b6c2>:=</span> <span style=color:#e06c75>s3</span>.<span style=color:#61afef;font-weight:700>New</span>(<span style=color:#e06c75>session</span>.<span style=color:#61afef;font-weight:700>New</span>(), <span style=color:#56b6c2>&amp;</span><span style=color:#e06c75>aws</span>.<span style=color:#e06c75>Config</span>{
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>Region</span>: <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#e06c75>endpoints</span>.<span style=color:#e06c75>ApNortheast1RegionID</span>),
+</span></span><span style=display:flex><span>	})
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#7f848e>// ファイルの存在確認
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>	<span style=color:#e06c75>loo</span>, <span style=color:#e06c75>errlo</span> <span style=color:#56b6c2>:=</span> <span style=color:#e06c75>svc</span>.<span style=color:#61afef;font-weight:700>ListObjectsV2</span>(<span style=color:#56b6c2>&amp;</span><span style=color:#e06c75>s3</span>.<span style=color:#e06c75>ListObjectsV2Input</span>{
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>Bucket</span>: <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#e06c75>BUCKET</span>),
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>Prefix</span>: <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#e06c75>KEY</span>),
+</span></span><span style=display:flex><span>	})
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#c678dd>if</span> <span style=color:#e06c75>errlo</span> <span style=color:#56b6c2>!=</span> <span style=color:#e5c07b>nil</span> {
+</span></span><span style=display:flex><span>		<span style=color:#c678dd>if</span> <span style=color:#e06c75>aerr</span>, <span style=color:#e06c75>ok</span> <span style=color:#56b6c2>:=</span> <span style=color:#e06c75>errlo</span>.(<span style=color:#e06c75>awserr</span>.<span style=color:#e06c75>Error</span>); <span style=color:#e06c75>ok</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>			<span style=color:#c678dd>switch</span> <span style=color:#e06c75>aerr</span>.<span style=color:#61afef;font-weight:700>Code</span>() {
+</span></span><span style=display:flex><span>			<span style=color:#c678dd>case</span> <span style=color:#e06c75>s3</span>.<span style=color:#e06c75>ErrCodeNoSuchBucket</span>:
+</span></span><span style=display:flex><span>				<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Print</span>(<span style=color:#98c379>&#34;bucket does not exist at ListObjectsV2&#34;</span>)
+</span></span><span style=display:flex><span>				<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;bucket does not exis at tListObjectsV2&#34;</span>, <span style=color:#e06c75>aerr</span>
+</span></span><span style=display:flex><span>			<span style=color:#c678dd>default</span>:
+</span></span><span style=display:flex><span>				<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Printf</span>(<span style=color:#98c379>&#34;aws error %v at ListObjectsV2&#34;</span>, <span style=color:#e06c75>aerr</span>.<span style=color:#61afef;font-weight:700>Error</span>())
+</span></span><span style=display:flex><span>				<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;aws error at ListObjectsV2&#34;</span>, <span style=color:#e06c75>aerr</span>
+</span></span><span style=display:flex><span>			}
+</span></span><span style=display:flex><span>		}
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Printf</span>(<span style=color:#98c379>&#34;error %v at ListObjectsV2&#34;</span>, <span style=color:#e06c75>errlo</span>.<span style=color:#61afef;font-weight:700>Error</span>())
+</span></span><span style=display:flex><span>		<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;error at ListObjectsV2&#34;</span>, <span style=color:#e06c75>errlo</span>
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#e06c75>wb</span> <span style=color:#56b6c2>:=</span> <span style=color:#e5c07b>new</span>(<span style=color:#e06c75>bytes</span>.<span style=color:#e06c75>Buffer</span>) <span style=color:#7f848e>// write buffer
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>
+</span></span><span style=display:flex><span>	<span style=color:#c678dd>if</span> <span style=color:#56b6c2>*</span><span style=color:#e06c75>loo</span>.<span style=color:#e06c75>KeyCount</span> <span style=color:#56b6c2>==</span> <span style=color:#d19a66>0</span> {
+</span></span><span style=display:flex><span>		<span style=color:#7f848e>// 新規作成
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>		<span style=color:#e06c75>fmt</span>.<span style=color:#61afef;font-weight:700>Fprint</span>(<span style=color:#e06c75>wb</span>, <span style=color:#98c379>&#34;header1,header2,header3\n&#34;</span>) <span style=color:#7f848e>// ヘッダー
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>	} <span style=color:#c678dd>else</span> {
+</span></span><span style=display:flex><span>		<span style=color:#7f848e>// Object取得
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>		<span style=color:#e06c75>goo</span>, <span style=color:#e06c75>errgo</span> <span style=color:#56b6c2>:=</span> <span style=color:#e06c75>svc</span>.<span style=color:#61afef;font-weight:700>GetObject</span>(<span style=color:#56b6c2>&amp;</span><span style=color:#e06c75>s3</span>.<span style=color:#e06c75>GetObjectInput</span>{
+</span></span><span style=display:flex><span>			<span style=color:#e06c75>Bucket</span>: <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#e06c75>BUCKET</span>),
+</span></span><span style=display:flex><span>			<span style=color:#e06c75>Key</span>:    <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#e06c75>KEY</span>),
+</span></span><span style=display:flex><span>		})
+</span></span><span style=display:flex><span>		<span style=color:#c678dd>defer</span> <span style=color:#e06c75>goo</span>.<span style=color:#e06c75>Body</span>.<span style=color:#61afef;font-weight:700>Close</span>()
+</span></span><span style=display:flex><span>		<span style=color:#c678dd>if</span> <span style=color:#e06c75>errgo</span> <span style=color:#56b6c2>!=</span> <span style=color:#e5c07b>nil</span> {
+</span></span><span style=display:flex><span>			<span style=color:#c678dd>if</span> <span style=color:#e06c75>aerr</span>, <span style=color:#e06c75>ok</span> <span style=color:#56b6c2>:=</span> <span style=color:#e06c75>errgo</span>.(<span style=color:#e06c75>awserr</span>.<span style=color:#e06c75>Error</span>); <span style=color:#e06c75>ok</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>				<span style=color:#c678dd>switch</span> <span style=color:#e06c75>aerr</span>.<span style=color:#61afef;font-weight:700>Code</span>() {
+</span></span><span style=display:flex><span>				<span style=color:#c678dd>case</span> <span style=color:#e06c75>s3</span>.<span style=color:#e06c75>ErrCodeNoSuchBucket</span>:
+</span></span><span style=display:flex><span>					<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Print</span>(<span style=color:#98c379>&#34;bucket does not exist at GetObject&#34;</span>)
+</span></span><span style=display:flex><span>					<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;bucket does not exist at GetObject&#34;</span>, <span style=color:#e06c75>aerr</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>				<span style=color:#c678dd>case</span> <span style=color:#e06c75>s3</span>.<span style=color:#e06c75>ErrCodeNoSuchKey</span>:
+</span></span><span style=display:flex><span>					<span style=color:#7f848e>// 新規作成
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>					<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Print</span>(<span style=color:#98c379>&#34;object with key does not exist in bucket at GetObject&#34;</span>)
+</span></span><span style=display:flex><span>					<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;object with key does not exist in bucket at GetObject&#34;</span>, <span style=color:#e06c75>aerr</span>
+</span></span><span style=display:flex><span>				<span style=color:#c678dd>default</span>:
+</span></span><span style=display:flex><span>					<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Printf</span>(<span style=color:#98c379>&#34;aws error %v at GetObject&#34;</span>, <span style=color:#e06c75>aerr</span>.<span style=color:#61afef;font-weight:700>Error</span>())
+</span></span><span style=display:flex><span>					<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;aws error at GetObject&#34;</span>, <span style=color:#e06c75>aerr</span>
+</span></span><span style=display:flex><span>				}
+</span></span><span style=display:flex><span>			}
+</span></span><span style=display:flex><span>			<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Printf</span>(<span style=color:#98c379>&#34;error %v at GetObject&#34;</span>, <span style=color:#e06c75>errgo</span>.<span style=color:#61afef;font-weight:700>Error</span>())
+</span></span><span style=display:flex><span>			<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;error at GetObject&#34;</span>, <span style=color:#e06c75>errgo</span>
+</span></span><span style=display:flex><span>		}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>brb</span> <span style=color:#56b6c2>:=</span> <span style=color:#e5c07b>new</span>(<span style=color:#e06c75>bytes</span>.<span style=color:#e06c75>Buffer</span>) <span style=color:#7f848e>// buffer Response Body
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>		<span style=color:#e06c75>brb</span>.<span style=color:#61afef;font-weight:700>ReadFrom</span>(<span style=color:#e06c75>goo</span>.<span style=color:#e06c75>Body</span>)
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>srb</span> <span style=color:#56b6c2>:=</span> <span style=color:#e06c75>brb</span>.<span style=color:#61afef;font-weight:700>String</span>() <span style=color:#7f848e>// string Response Body
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>fmt</span>.<span style=color:#61afef;font-weight:700>Fprint</span>(<span style=color:#e06c75>wb</span>, <span style=color:#e06c75>srb</span>) <span style=color:#7f848e>// 読み取りデータ
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#e06c75>fmt</span>.<span style=color:#61afef;font-weight:700>Fprint</span>(<span style=color:#e06c75>wb</span>, <span style=color:#98c379>&#34;col1,col2,col3\n&#34;</span>) <span style=color:#7f848e>// 追記データ
+</span></span></span><span style=display:flex><span><span style=color:#7f848e></span>
+</span></span><span style=display:flex><span>	<span style=color:#e06c75>_</span>, <span style=color:#e06c75>errpo</span> <span style=color:#56b6c2>:=</span> <span style=color:#e06c75>svc</span>.<span style=color:#61afef;font-weight:700>PutObject</span>(<span style=color:#56b6c2>&amp;</span><span style=color:#e06c75>s3</span>.<span style=color:#e06c75>PutObjectInput</span>{
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>Body</span>:                 <span style=color:#e06c75>bytes</span>.<span style=color:#61afef;font-weight:700>NewReader</span>(<span style=color:#e06c75>wb</span>.<span style=color:#61afef;font-weight:700>Bytes</span>()),
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>Bucket</span>:               <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#e06c75>BUCKET</span>),
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>Key</span>:                  <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#e06c75>KEY</span>),
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>ACL</span>:                  <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#98c379>&#34;private&#34;</span>),
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>ServerSideEncryption</span>: <span style=color:#e06c75>aws</span>.<span style=color:#61afef;font-weight:700>String</span>(<span style=color:#98c379>&#34;AES256&#34;</span>),
+</span></span><span style=display:flex><span>	})
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#c678dd>if</span> <span style=color:#e06c75>errpo</span> <span style=color:#56b6c2>!=</span> <span style=color:#e5c07b>nil</span> {
+</span></span><span style=display:flex><span>		<span style=color:#c678dd>if</span> <span style=color:#e06c75>aerr</span>, <span style=color:#e06c75>ok</span> <span style=color:#56b6c2>:=</span> <span style=color:#e06c75>errpo</span>.(<span style=color:#e06c75>awserr</span>.<span style=color:#e06c75>Error</span>); <span style=color:#e06c75>ok</span> {
+</span></span><span style=display:flex><span>			<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Printf</span>(<span style=color:#98c379>&#34;aws error %v at PutObject&#34;</span>, <span style=color:#e06c75>aerr</span>.<span style=color:#61afef;font-weight:700>Error</span>())
+</span></span><span style=display:flex><span>			<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;aws error at PutObject&#34;</span>, <span style=color:#e06c75>aerr</span>
+</span></span><span style=display:flex><span>		}
+</span></span><span style=display:flex><span>		<span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Printf</span>(<span style=color:#98c379>&#34;error %v at PutObject&#34;</span>, <span style=color:#e06c75>errpo</span>.<span style=color:#61afef;font-weight:700>Error</span>())
+</span></span><span style=display:flex><span>		<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;error at PutObject&#34;</span>, <span style=color:#e06c75>errpo</span>
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>	<span style=color:#c678dd>defer</span> <span style=color:#e06c75>log</span>.<span style=color:#61afef;font-weight:700>Print</span>(<span style=color:#98c379>&#34;normal end&#34;</span>)
+</span></span><span style=display:flex><span>	<span style=color:#c678dd>return</span> <span style=color:#98c379>&#34;normal end&#34;</span>, <span style=color:#e5c07b>nil</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#c678dd>func</span> <span style=color:#61afef;font-weight:700>main</span>() {
+</span></span><span style=display:flex><span>	<span style=color:#e06c75>lambda</span>.<span style=color:#61afef;font-weight:700>Start</span>(<span style=color:#e06c75>HandleRequest</span>)
+</span></span><span style=display:flex><span>}</span></span></code></pre></td></tr></table></div></div><h2 id=コンパイル--圧縮>コンパイル & 圧縮</h2><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#e06c75>$source</span> ~/.gvm/scripts/gvm; <span style=color:#e06c75>GOOS</span><span style=color:#56b6c2>=</span>linux go build -o main; zip main.zip main;</span></span></code></pre></td></tr></table></div></div><h2 id=sam>SAM</h2><p>BUCKET,KEYは適当に変更してください。</p><ul><li>sam-template.yaml</li></ul><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-12><a style=outline:none;text-decoration:none;color:inherit href=#ano-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-13><a style=outline:none;text-decoration:none;color:inherit href=#ano-13>13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-14><a style=outline:none;text-decoration:none;color:inherit href=#ano-14>14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-15><a style=outline:none;text-decoration:none;color:inherit href=#ano-15>15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-16><a style=outline:none;text-decoration:none;color:inherit href=#ano-16>16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-17><a style=outline:none;text-decoration:none;color:inherit href=#ano-17>17</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>AWSTemplateFormatVersion </span>: <span style=color:#98c379>&#39;2010-09-09&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Transform</span>: AWS::Serverless-2016-10-31
+</span></span><span style=display:flex><span><span style=color:#e06c75>Description</span>: lambda go S3 sample
+</span></span><span style=display:flex><span><span style=color:#e06c75>Resources</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>S3Crud</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: AWS::Serverless::Function
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Handler</span>: main
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Runtime</span>: go1.x
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CodeUri</span>: main.zip
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Policies</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>S3CrudPolicy</span>:
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>BucketName</span>: techte.co.shared
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Environment</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>Variables</span>:
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>BUCKET</span>: your_bucket
+</span></span><span style=display:flex><span>            <span style=color:#e06c75>KEY</span>: your_file_name</span></span></code></pre></td></tr></table></div></div><h2 id=デプロイ>デプロイ</h2><h3 id=package>package</h3><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>5</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ aws cloudformation package <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--template-file ./sam-template.yaml <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--s3-bucket techte.co.shared <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--s3-prefix aws/lambda/source/s3crud <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--output-template-file packaged-sam-template.yaml</span></span></code></pre></td></tr></table></div></div><h3 id=deploy>deploy</h3><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ aws cloudformation deploy <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--template-file packaged-sam-template.yaml <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--stack-name sample-lambda-s3 <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--capabilities CAPABILITY_IAM</span></span></code></pre></td></tr></table></div></div><h2 id=結果>結果</h2><p>Lambdaを実行される度にファイルに行が追加されていればOK</p></article></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"></div><div class=grow></div><div class="flex flex-row"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1018 0A9 9 0 103 12"/><path d="M14 9.75a3.016 3.016.0 00-4.163.173 2.993 2.993.0 000 4.154A3.016 3.016.0 0014 14.25"/></svg>
+</i>2015 - 2024 TechTeco</div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>

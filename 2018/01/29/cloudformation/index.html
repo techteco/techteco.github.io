@@ -1,328 +1,642 @@
 <!doctype html><html lang=ja dir=ltr><head><title>AWS Cloudformationでネットワークの基本設定 :: Jot down for myself - Technical notes on AWS, Go, React, etc.</title>
-<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="基本的な使い方 設定内容 ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いで"><meta name=keywords content="aws,golang,react,typescript,mysql"><meta name=robots content="noodp"><meta property="og:url" content="https://techteco.github.io/2018/01/29/cloudformation/"><meta property="og:site_name" content="Jot down for myself"><meta property="og:title" content="AWS Cloudformationでネットワークの基本設定"><meta property="og:description" content="AWS Cloudformationでネットワークの基本設定をしてみる"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2018-01-29T22:00:00+09:00"><meta property="article:modified_time" content="2024-05-24T16:04:29+09:00"><meta property="article:tag" content="Aws Cli"><meta property="article:tag" content="Cloudformation"><meta property="article:tag" content="Vpc"><meta name=twitter:card content="summary"><meta name=twitter:title content="AWS Cloudformationでネットワークの基本設定"><meta name=twitter:description content="AWS Cloudformationでネットワークの基本設定をしてみる"><link rel=canonical href=https://techteco.github.io/2018/01/29/cloudformation/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.5d96433bd17079764d5a8866addd6d7848ea8295977a06688f43c5be97af544e.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"TechTeco"},"dateModified":"2024-05-24T16:04:29+09:00","datePublished":"2018-01-29T22:00:00+09:00","description":"基本的な使い方 設定内容 ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いで","name":"AWS Cloudformationでネットワークの基本設定","url":"https://techteco.github.io/2018/01/29/cloudformation/"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ML7QTSL8BR"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ML7QTSL8BR")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full" src=/images/button-305726_1280.png alt=logo></a></div><div class=flex-1></div><div class=flex-none></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only></span>
-<i class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="基本的な使い方 設定内容 ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いで"><meta name=keywords content="aws,golang,react,typescript,mysql"><meta name=robots content="noodp"><meta property="og:url" content="https://techteco.github.io/2018/01/29/cloudformation/"><meta property="og:site_name" content="Jot down for myself"><meta property="og:title" content="AWS Cloudformationでネットワークの基本設定"><meta property="og:description" content="AWS Cloudformationでネットワークの基本設定をしてみる"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2018-01-29T22:00:00+09:00"><meta property="article:modified_time" content="2024-05-25T12:10:51+09:00"><meta property="article:tag" content="AWS CLI"><meta property="article:tag" content="CloudFormation"><meta property="article:tag" content="VPC"><meta name=twitter:card content="summary"><meta name=twitter:title content="AWS Cloudformationでネットワークの基本設定"><meta name=twitter:description content="AWS Cloudformationでネットワークの基本設定をしてみる"><link rel=canonical href=https://techteco.github.io/2018/01/29/cloudformation/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.5d96433bd17079764d5a8866addd6d7848ea8295977a06688f43c5be97af544e.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"TechTeco"},"dateModified":"2024-05-25T12:10:51+09:00","datePublished":"2018-01-29T22:00:00+09:00","description":"基本的な使い方 設定内容 ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いで","name":"AWS Cloudformationでネットワークの基本設定","url":"https://techteco.github.io/2018/01/29/cloudformation/"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ML7QTSL8BR"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ML7QTSL8BR")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full" src=/images/button-305726_1280.png alt=logo></a></div><div class=flex-1></div><div class=flex-none></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only>検索</span>
+<i class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title=ダークモードを切り替える><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label=ダークモードを切り替える><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
 </i><i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg></i></div></label></div></div></header><main class="flex flex-auto justify-center"><div class="w-full max-w-4xl lg:max-w-5xl"><div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700"><div><a href=/2018/01/29/cloudformation/></a></div><div class="flex flex-col gap-y-3 p-6"><h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100"><a href=/2018/01/29/cloudformation/>AWS Cloudformationでネットワークの基本設定</a></h1><h2 class="my-4 text-large text-slate-600 dark:text-slate-300">AWS Cloudformationでネットワークの基本設定をしてみる</h2><ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300"><li><a href=/categories/aws/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">AWS</a></li><li><a href=/tags/aws-cli/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>aws cli</span></a></li><li><a href=/tags/cloudformation/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>cloudformation</span></a></li><li><a href=/tags/vpc/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>vpc</span></a></li></ul><div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300"><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
-</i><time datetime=2018-01-29T22:00:00+09:00>2018-01-29</time></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2></h2><aside><nav id=TableOfContents><ul><li><a href=#設定内容>設定内容</a></li><li><a href=#テンプレート>テンプレート</a></li><li><a href=#実行>実行</a></li><li><a href=#aclのデフォルト削除>ACLのデフォルト削除</a></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h1 id=基本的な使い方>基本的な使い方</h1><h2 id=設定内容>設定内容</h2><p>ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いです。</p><ul><li>VPC設定</li><li>Internet Gateway設定</li><li>Subnetの設定</li><li>DHCP Optionの設定</li><li>Route Tableの設定</li><li>ACLの設定</li></ul><p>※設定値は参考までに。</p><h2 id=テンプレート>テンプレート</h2><pre><code class="language-yaml line-numbers">AWSTemplateFormatVersion: &#34;2010-09-09&#34;
-Description: &#34;Basic Network Setting&#34;
-Parameters:
-  pramStackNamePrefic:
-    Description: &#34;Common stack name prefix&#34;
-    Type: String
-    Default: &#34;&#34;
-Resources:
-  VPC:
-    Type: &#34;AWS::EC2::VPC&#34;
-    Properties:
-      CidrBlock: &#34;192.168.0.0/16&#34;
-      InstanceTenancy: default
-      EnableDnsSupport: true
-      EnableDnsHostnames: true
-      Tags:
-        - Key: Name
-          Value: !Join
-              - &#34;&#34;
-              - - !Ref pramStackNamePrefic
-                - vpc
-  igw:
-    Type: &#34;AWS::EC2::InternetGateway&#34;
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Join
-              - &#34;&#34;
-              - - !Ref pramStackNamePrefic
-                - igw
-  vpcgwattc:
-    Type: &#34;AWS::EC2::VPCGatewayAttachment&#34;
-    Properties:
-      VpcId: !Ref VPC
-      InternetGatewayId: !Ref igw
-  subnetA:
-    Type: &#34;AWS::EC2::Subnet&#34;
-    Properties:
-      CidrBlock: &#34;192.168.0.0/20&#34;
-      AvailabilityZone: &#34;ap-northeast-1a&#34;
-      VpcId: !Ref VPC
-      Tags:
-        - Key: Name
-          Value: !Join
-              - &#34;&#34;
-              - - !Ref pramStackNamePrefic
-                - subnet
-  subnetC:
-    Type: &#34;AWS::EC2::Subnet&#34;
-    Properties:
-      CidrBlock: &#34;192.168.16.0/20&#34;
-      AvailabilityZone: &#34;ap-northeast-1c&#34;
-      VpcId: !Ref VPC
-      Tags:
-        - Key: Name
-          Value: !Join
-              - &#34;&#34;
-              - - !Ref pramStackNamePrefic
-                - subnet
-  DHCPOpt:
-    Type: &#34;AWS::EC2::DHCPOptions&#34;
-    Properties:
-      DomainName: &#34;ap-northeast-1.compute.internal&#34;
-      DomainNameServers:
-        - AmazonProvidedDNS
-      Tags:
-        - Key: Name
-          Value: !Join
-              - &#34;&#34;
-              - - !Ref pramStackNamePrefic
-                - dhcp-ops
-  rtb:
-    Type: &#34;AWS::EC2::RouteTable&#34;
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - Key: Name
-          Value: !Join
-              - &#34;&#34;
-              - - !Ref pramStackNamePrefic
-                - rtb
-  SubnetRouteTableAssociationA:
-    Type: &#34;AWS::EC2::SubnetRouteTableAssociation&#34;
-    Properties:
-      SubnetId: !Ref subnetA
-      RouteTableId: !Ref rtb
-  SubnetRouteTableAssociationC:
-    Type: &#34;AWS::EC2::SubnetRouteTableAssociation&#34;
-    Properties:
-      SubnetId: !Ref subnetC
-      RouteTableId: !Ref rtb
-  # out-bound
-  aclOutAll:
-    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
-    Properties:
-      CidrBlock: &#34;0.0.0.0/0&#34;
-      Egress: true  # out-bound
-      Protocol: &#34;-1&#34;
-      RuleAction: allow
-      RuleNumber: 100
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-  aclOut2:
-    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
-    Properties:
-      Ipv6CidrBlock: &#34;::/0&#34;
-      Egress: true  # out-bound
-      Protocol: &#34;-1&#34;
-      RuleAction: allow
-      RuleNumber: 101
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-  # in-bound
-  aclInHttp:
-    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
-    Properties:
-      CidrBlock: &#34;0.0.0.0/0&#34;
-      Egress: false  # in-bound
-      Protocol: &#34;6&#34;
-      PortRange:
-        From: 80
-        To: 80
-      RuleAction: allow
-      RuleNumber: 200
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-  aclInHttp2:
-    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
-    Properties:
-      CidrBlock: &#34;0.0.0.0/0&#34;
-      Egress: false  # in-bound
-      Protocol: &#34;6&#34;
-      PortRange:
-        From: 8080
-        To: 8080
-      RuleAction: allow
-      RuleNumber: 300
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-  aclInHttps:
-    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
-    Properties:
-      CidrBlock: &#34;0.0.0.0/0&#34;
-      Egress: false  # in-bound
-      Protocol: &#34;6&#34;
-      PortRange:
-        From: 443
-        To: 443
-      RuleAction: allow
-      RuleNumber: 400
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-  aclInSSH:
-    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
-    Properties:
-      CidrBlock: &#34;0.0.0.0/0&#34;
-      Egress: false  # in-bound
-      Protocol: &#34;6&#34;
-      PortRange:
-        From: 22
-        To: 22
-      RuleAction: allow
-      RuleNumber: 500
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-  aclInEphemeral:
-    Type: &#34;AWS::EC2::NetworkAclEntry&#34;
-    Properties:
-      CidrBlock: &#34;0.0.0.0/0&#34;
-      Egress: false  # in-bound
-      Protocol: &#34;6&#34;
-      PortRange:
-        From: 1024
-        To: 65535
-      RuleAction: allow
-      RuleNumber: 600
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-  subnetacl1:
-    Type: &#34;AWS::EC2::SubnetNetworkAclAssociation&#34;
-    Properties:
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-      SubnetId: !Ref subnetA
-  subnetacl2:
-    Type: &#34;AWS::EC2::SubnetNetworkAclAssociation&#34;
-    Properties:
-      NetworkAclId: !GetAtt VPC.DefaultNetworkAcl
-      SubnetId: !Ref subnetC
-  route1:
-    Type: &#34;AWS::EC2::Route&#34;
-    Properties:
-      DestinationCidrBlock: &#34;0.0.0.0/0&#34;
-      RouteTableId: !Ref rtb
-      GatewayId: !Ref igw
-    DependsOn: vpcgwattc
-  dchpassoc1:
-    Type: &#34;AWS::EC2::VPCDHCPOptionsAssociation&#34;
-    Properties:
-      VpcId: !Ref VPC
-      DhcpOptionsId: !Ref DHCPOpt
-Outputs:
-  VPCId:
-    Value: !Ref VPC
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - VPC-ID
-  VPCCidrBlock:
-    Value: !GetAtt
-        - VPC
-        - CidrBlock
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - VPC-CidrBlockD
-  VPCDefaultNetworkAcl:
-    Value: !GetAtt
-        - VPC
-        - DefaultNetworkAcl
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - VPC-DefaultNetworkAcl
-  VPCDefaultSecurityGroup:
-    Value: !GetAtt
-        - VPC
-        - DefaultSecurityGroup
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - VPC-DefaultSecurityGroup
-  igwId:
-    Value: !Ref igw
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - IGW-ID
-  subnetAId:
-    Value: !Ref subnetA
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - Subnet-apne1a-ID
-  subnetCId:
-    Value: !Ref subnetC
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - Subnet-apne1c-ID
-  subnetAAZ:
-    Value: !GetAtt
-        - subnetA
-        - AvailabilityZone
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - Subnet-apne1a-AvailabilityZone
-  subnetCAZ:
-    Value: !GetAtt
-        - subnetC
-        - AvailabilityZone
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - Subnet-apne1c-AvailabilityZone
-  DHCPOptID:
-    Value: !Ref DHCPOpt
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - DHCPOptions-ID
-  aclId:
-    Value: !GetAtt
-        - VPC
-        - DefaultNetworkAcl
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - ACL-ID
-  rtbId:
-    Value: !Ref rtb
-    Export:
-      Name: !Join
-          - &#34;&#34;
-          - - !Ref pramStackNamePrefic
-            - RTB-ID
-</code></pre><h2 id=実行>実行</h2><p>パラメータ</p><pre><code class="language-bash line-numbers">$ CF_TAG_KEY=service
-$ CF_TAG_NAME=sample
-$ CF_STACK_NAME_PREFIX=sample-
-$ CF_STACK_NAME=${CF_STACK_NAME_PREFIX}network
-$ CF_FILE_NAME=cftemplate.yaml
-</code></pre><pre><code class="language-bash line-numbers">$ aws cloudformation \
-create-stack \
---tags Key=${CF_TAG_KEY},Value=${CF_TAG_NAME} \
---stack-name ${CF_STACK_NAME} \
---template-body file://./${CF_FILE_NAME} \
---parameters \
-ParameterKey=pramStackNamePrefic,ParameterValue=${CF_STACK_NAME_PREFIX} \
-| jq .
-</code></pre><p>ちなみに,ACLにはタグがつけられなかったので、強引に、VPC ID取得→ACL ID取得→タグ付けをしてみる。</p><pre><code class="language-bash line-numbers">$ VpcId=`aws ec2 describe-vpcs \
-&gt; --filters &#34;Name=tag:Name,Values=${CF_STACK_NAME_PREFIX}vpc&#34; \
-&gt; | jq -r &#39;.Vpcs[].VpcId&#39;`
-$ echo $VpcId
-vpc-XXXXXXXX
-</code></pre><pre><code class="language-bash line-numbers">$ AclId=`aws ec2 describe-network-acls \
-&gt; --filters &#34;Name=vpc-id,Values=${VpcId}&#34; \
-&gt; | jq -r &#39;.NetworkAcls[].NetworkAclId&#39;`
-$ echo $AclId
-acl-XXXXXXXXX
-</code></pre><pre><code class="language-bash line-numbers">$ aws ec2 create-tags --resources ${AclId} \
---tags Key=Name,Value=${CF_STACK_NAME_PREFIX}acl \
-Key=${CF_TAG_KEY},Value=${CF_TAG_NAME}
-</code></pre><h2 id=aclのデフォルト削除>ACLのデフォルト削除</h2><p>ACLのインバウンドはデフォルトですべて許可されているので、削除しておくことを推奨</p><pre><code class="language-bash line-numbers">$ aws ec2 delete-network-acl-entry \
---network-acl-id ${AclId} \
---ingress \
---rule-number 100
-</code></pre></article></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"></div><div class=grow></div><div class="flex flex-row"></div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>
+</i><span class=ml-0>AWS CLI</span></a></li><li><a href=/tags/cloudformation/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>CloudFormation</span></a></li><li><a href=/tags/vpc/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>VPC</span></a></li></ul><div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300"><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
+</i><time datetime=2018-01-29T22:00:00+09:00>2018-01-29</time></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2>目次</h2><aside><nav id=TableOfContents><ul><li><a href=#基本的な使い方>基本的な使い方</a><ul><li><a href=#設定内容>設定内容</a></li><li><a href=#テンプレート>テンプレート</a></li><li><a href=#実行>実行</a></li><li><a href=#aclのデフォルト削除>ACLのデフォルト削除</a></li></ul></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h1 id=基本的な使い方>基本的な使い方</h1><h2 id=設定内容>設定内容</h2><p>ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いです。</p><ul><li>VPC設定</li><li>Internet Gateway設定</li><li>Subnetの設定</li><li>DHCP Optionの設定</li><li>Route Tableの設定</li><li>ACLの設定</li></ul><p>※設定値は参考までに。</p><h2 id=テンプレート>テンプレート</h2><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>  1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>  2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>  3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>  4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>  5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6>  6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7>  7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8>  8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9>  9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10> 10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11> 11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-12><a style=outline:none;text-decoration:none;color:inherit href=#ano-12> 12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-13><a style=outline:none;text-decoration:none;color:inherit href=#ano-13> 13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-14><a style=outline:none;text-decoration:none;color:inherit href=#ano-14> 14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-15><a style=outline:none;text-decoration:none;color:inherit href=#ano-15> 15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-16><a style=outline:none;text-decoration:none;color:inherit href=#ano-16> 16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-17><a style=outline:none;text-decoration:none;color:inherit href=#ano-17> 17</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-18><a style=outline:none;text-decoration:none;color:inherit href=#ano-18> 18</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-19><a style=outline:none;text-decoration:none;color:inherit href=#ano-19> 19</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-20><a style=outline:none;text-decoration:none;color:inherit href=#ano-20> 20</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-21><a style=outline:none;text-decoration:none;color:inherit href=#ano-21> 21</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-22><a style=outline:none;text-decoration:none;color:inherit href=#ano-22> 22</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-23><a style=outline:none;text-decoration:none;color:inherit href=#ano-23> 23</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-24><a style=outline:none;text-decoration:none;color:inherit href=#ano-24> 24</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-25><a style=outline:none;text-decoration:none;color:inherit href=#ano-25> 25</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-26><a style=outline:none;text-decoration:none;color:inherit href=#ano-26> 26</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-27><a style=outline:none;text-decoration:none;color:inherit href=#ano-27> 27</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-28><a style=outline:none;text-decoration:none;color:inherit href=#ano-28> 28</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-29><a style=outline:none;text-decoration:none;color:inherit href=#ano-29> 29</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-30><a style=outline:none;text-decoration:none;color:inherit href=#ano-30> 30</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-31><a style=outline:none;text-decoration:none;color:inherit href=#ano-31> 31</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-32><a style=outline:none;text-decoration:none;color:inherit href=#ano-32> 32</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-33><a style=outline:none;text-decoration:none;color:inherit href=#ano-33> 33</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-34><a style=outline:none;text-decoration:none;color:inherit href=#ano-34> 34</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-35><a style=outline:none;text-decoration:none;color:inherit href=#ano-35> 35</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-36><a style=outline:none;text-decoration:none;color:inherit href=#ano-36> 36</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-37><a style=outline:none;text-decoration:none;color:inherit href=#ano-37> 37</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-38><a style=outline:none;text-decoration:none;color:inherit href=#ano-38> 38</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-39><a style=outline:none;text-decoration:none;color:inherit href=#ano-39> 39</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-40><a style=outline:none;text-decoration:none;color:inherit href=#ano-40> 40</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-41><a style=outline:none;text-decoration:none;color:inherit href=#ano-41> 41</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-42><a style=outline:none;text-decoration:none;color:inherit href=#ano-42> 42</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-43><a style=outline:none;text-decoration:none;color:inherit href=#ano-43> 43</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-44><a style=outline:none;text-decoration:none;color:inherit href=#ano-44> 44</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-45><a style=outline:none;text-decoration:none;color:inherit href=#ano-45> 45</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-46><a style=outline:none;text-decoration:none;color:inherit href=#ano-46> 46</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-47><a style=outline:none;text-decoration:none;color:inherit href=#ano-47> 47</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-48><a style=outline:none;text-decoration:none;color:inherit href=#ano-48> 48</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-49><a style=outline:none;text-decoration:none;color:inherit href=#ano-49> 49</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-50><a style=outline:none;text-decoration:none;color:inherit href=#ano-50> 50</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-51><a style=outline:none;text-decoration:none;color:inherit href=#ano-51> 51</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-52><a style=outline:none;text-decoration:none;color:inherit href=#ano-52> 52</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-53><a style=outline:none;text-decoration:none;color:inherit href=#ano-53> 53</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-54><a style=outline:none;text-decoration:none;color:inherit href=#ano-54> 54</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-55><a style=outline:none;text-decoration:none;color:inherit href=#ano-55> 55</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-56><a style=outline:none;text-decoration:none;color:inherit href=#ano-56> 56</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-57><a style=outline:none;text-decoration:none;color:inherit href=#ano-57> 57</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-58><a style=outline:none;text-decoration:none;color:inherit href=#ano-58> 58</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-59><a style=outline:none;text-decoration:none;color:inherit href=#ano-59> 59</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-60><a style=outline:none;text-decoration:none;color:inherit href=#ano-60> 60</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-61><a style=outline:none;text-decoration:none;color:inherit href=#ano-61> 61</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-62><a style=outline:none;text-decoration:none;color:inherit href=#ano-62> 62</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-63><a style=outline:none;text-decoration:none;color:inherit href=#ano-63> 63</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-64><a style=outline:none;text-decoration:none;color:inherit href=#ano-64> 64</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-65><a style=outline:none;text-decoration:none;color:inherit href=#ano-65> 65</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-66><a style=outline:none;text-decoration:none;color:inherit href=#ano-66> 66</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-67><a style=outline:none;text-decoration:none;color:inherit href=#ano-67> 67</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-68><a style=outline:none;text-decoration:none;color:inherit href=#ano-68> 68</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-69><a style=outline:none;text-decoration:none;color:inherit href=#ano-69> 69</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-70><a style=outline:none;text-decoration:none;color:inherit href=#ano-70> 70</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-71><a style=outline:none;text-decoration:none;color:inherit href=#ano-71> 71</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-72><a style=outline:none;text-decoration:none;color:inherit href=#ano-72> 72</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-73><a style=outline:none;text-decoration:none;color:inherit href=#ano-73> 73</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-74><a style=outline:none;text-decoration:none;color:inherit href=#ano-74> 74</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-75><a style=outline:none;text-decoration:none;color:inherit href=#ano-75> 75</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-76><a style=outline:none;text-decoration:none;color:inherit href=#ano-76> 76</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-77><a style=outline:none;text-decoration:none;color:inherit href=#ano-77> 77</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-78><a style=outline:none;text-decoration:none;color:inherit href=#ano-78> 78</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-79><a style=outline:none;text-decoration:none;color:inherit href=#ano-79> 79</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-80><a style=outline:none;text-decoration:none;color:inherit href=#ano-80> 80</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-81><a style=outline:none;text-decoration:none;color:inherit href=#ano-81> 81</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-82><a style=outline:none;text-decoration:none;color:inherit href=#ano-82> 82</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-83><a style=outline:none;text-decoration:none;color:inherit href=#ano-83> 83</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-84><a style=outline:none;text-decoration:none;color:inherit href=#ano-84> 84</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-85><a style=outline:none;text-decoration:none;color:inherit href=#ano-85> 85</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-86><a style=outline:none;text-decoration:none;color:inherit href=#ano-86> 86</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-87><a style=outline:none;text-decoration:none;color:inherit href=#ano-87> 87</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-88><a style=outline:none;text-decoration:none;color:inherit href=#ano-88> 88</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-89><a style=outline:none;text-decoration:none;color:inherit href=#ano-89> 89</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-90><a style=outline:none;text-decoration:none;color:inherit href=#ano-90> 90</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-91><a style=outline:none;text-decoration:none;color:inherit href=#ano-91> 91</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-92><a style=outline:none;text-decoration:none;color:inherit href=#ano-92> 92</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-93><a style=outline:none;text-decoration:none;color:inherit href=#ano-93> 93</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-94><a style=outline:none;text-decoration:none;color:inherit href=#ano-94> 94</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-95><a style=outline:none;text-decoration:none;color:inherit href=#ano-95> 95</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-96><a style=outline:none;text-decoration:none;color:inherit href=#ano-96> 96</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-97><a style=outline:none;text-decoration:none;color:inherit href=#ano-97> 97</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-98><a style=outline:none;text-decoration:none;color:inherit href=#ano-98> 98</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-99><a style=outline:none;text-decoration:none;color:inherit href=#ano-99> 99</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-100><a style=outline:none;text-decoration:none;color:inherit href=#ano-100>100</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-101><a style=outline:none;text-decoration:none;color:inherit href=#ano-101>101</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-102><a style=outline:none;text-decoration:none;color:inherit href=#ano-102>102</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-103><a style=outline:none;text-decoration:none;color:inherit href=#ano-103>103</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-104><a style=outline:none;text-decoration:none;color:inherit href=#ano-104>104</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-105><a style=outline:none;text-decoration:none;color:inherit href=#ano-105>105</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-106><a style=outline:none;text-decoration:none;color:inherit href=#ano-106>106</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-107><a style=outline:none;text-decoration:none;color:inherit href=#ano-107>107</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-108><a style=outline:none;text-decoration:none;color:inherit href=#ano-108>108</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-109><a style=outline:none;text-decoration:none;color:inherit href=#ano-109>109</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-110><a style=outline:none;text-decoration:none;color:inherit href=#ano-110>110</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-111><a style=outline:none;text-decoration:none;color:inherit href=#ano-111>111</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-112><a style=outline:none;text-decoration:none;color:inherit href=#ano-112>112</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-113><a style=outline:none;text-decoration:none;color:inherit href=#ano-113>113</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-114><a style=outline:none;text-decoration:none;color:inherit href=#ano-114>114</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-115><a style=outline:none;text-decoration:none;color:inherit href=#ano-115>115</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-116><a style=outline:none;text-decoration:none;color:inherit href=#ano-116>116</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-117><a style=outline:none;text-decoration:none;color:inherit href=#ano-117>117</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-118><a style=outline:none;text-decoration:none;color:inherit href=#ano-118>118</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-119><a style=outline:none;text-decoration:none;color:inherit href=#ano-119>119</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-120><a style=outline:none;text-decoration:none;color:inherit href=#ano-120>120</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-121><a style=outline:none;text-decoration:none;color:inherit href=#ano-121>121</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-122><a style=outline:none;text-decoration:none;color:inherit href=#ano-122>122</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-123><a style=outline:none;text-decoration:none;color:inherit href=#ano-123>123</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-124><a style=outline:none;text-decoration:none;color:inherit href=#ano-124>124</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-125><a style=outline:none;text-decoration:none;color:inherit href=#ano-125>125</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-126><a style=outline:none;text-decoration:none;color:inherit href=#ano-126>126</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-127><a style=outline:none;text-decoration:none;color:inherit href=#ano-127>127</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-128><a style=outline:none;text-decoration:none;color:inherit href=#ano-128>128</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-129><a style=outline:none;text-decoration:none;color:inherit href=#ano-129>129</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-130><a style=outline:none;text-decoration:none;color:inherit href=#ano-130>130</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-131><a style=outline:none;text-decoration:none;color:inherit href=#ano-131>131</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-132><a style=outline:none;text-decoration:none;color:inherit href=#ano-132>132</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-133><a style=outline:none;text-decoration:none;color:inherit href=#ano-133>133</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-134><a style=outline:none;text-decoration:none;color:inherit href=#ano-134>134</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-135><a style=outline:none;text-decoration:none;color:inherit href=#ano-135>135</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-136><a style=outline:none;text-decoration:none;color:inherit href=#ano-136>136</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-137><a style=outline:none;text-decoration:none;color:inherit href=#ano-137>137</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-138><a style=outline:none;text-decoration:none;color:inherit href=#ano-138>138</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-139><a style=outline:none;text-decoration:none;color:inherit href=#ano-139>139</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-140><a style=outline:none;text-decoration:none;color:inherit href=#ano-140>140</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-141><a style=outline:none;text-decoration:none;color:inherit href=#ano-141>141</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-142><a style=outline:none;text-decoration:none;color:inherit href=#ano-142>142</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-143><a style=outline:none;text-decoration:none;color:inherit href=#ano-143>143</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-144><a style=outline:none;text-decoration:none;color:inherit href=#ano-144>144</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-145><a style=outline:none;text-decoration:none;color:inherit href=#ano-145>145</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-146><a style=outline:none;text-decoration:none;color:inherit href=#ano-146>146</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-147><a style=outline:none;text-decoration:none;color:inherit href=#ano-147>147</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-148><a style=outline:none;text-decoration:none;color:inherit href=#ano-148>148</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-149><a style=outline:none;text-decoration:none;color:inherit href=#ano-149>149</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-150><a style=outline:none;text-decoration:none;color:inherit href=#ano-150>150</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-151><a style=outline:none;text-decoration:none;color:inherit href=#ano-151>151</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-152><a style=outline:none;text-decoration:none;color:inherit href=#ano-152>152</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-153><a style=outline:none;text-decoration:none;color:inherit href=#ano-153>153</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-154><a style=outline:none;text-decoration:none;color:inherit href=#ano-154>154</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-155><a style=outline:none;text-decoration:none;color:inherit href=#ano-155>155</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-156><a style=outline:none;text-decoration:none;color:inherit href=#ano-156>156</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-157><a style=outline:none;text-decoration:none;color:inherit href=#ano-157>157</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-158><a style=outline:none;text-decoration:none;color:inherit href=#ano-158>158</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-159><a style=outline:none;text-decoration:none;color:inherit href=#ano-159>159</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-160><a style=outline:none;text-decoration:none;color:inherit href=#ano-160>160</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-161><a style=outline:none;text-decoration:none;color:inherit href=#ano-161>161</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-162><a style=outline:none;text-decoration:none;color:inherit href=#ano-162>162</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-163><a style=outline:none;text-decoration:none;color:inherit href=#ano-163>163</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-164><a style=outline:none;text-decoration:none;color:inherit href=#ano-164>164</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-165><a style=outline:none;text-decoration:none;color:inherit href=#ano-165>165</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-166><a style=outline:none;text-decoration:none;color:inherit href=#ano-166>166</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-167><a style=outline:none;text-decoration:none;color:inherit href=#ano-167>167</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-168><a style=outline:none;text-decoration:none;color:inherit href=#ano-168>168</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-169><a style=outline:none;text-decoration:none;color:inherit href=#ano-169>169</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-170><a style=outline:none;text-decoration:none;color:inherit href=#ano-170>170</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-171><a style=outline:none;text-decoration:none;color:inherit href=#ano-171>171</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-172><a style=outline:none;text-decoration:none;color:inherit href=#ano-172>172</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-173><a style=outline:none;text-decoration:none;color:inherit href=#ano-173>173</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-174><a style=outline:none;text-decoration:none;color:inherit href=#ano-174>174</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-175><a style=outline:none;text-decoration:none;color:inherit href=#ano-175>175</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-176><a style=outline:none;text-decoration:none;color:inherit href=#ano-176>176</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-177><a style=outline:none;text-decoration:none;color:inherit href=#ano-177>177</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-178><a style=outline:none;text-decoration:none;color:inherit href=#ano-178>178</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-179><a style=outline:none;text-decoration:none;color:inherit href=#ano-179>179</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-180><a style=outline:none;text-decoration:none;color:inherit href=#ano-180>180</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-181><a style=outline:none;text-decoration:none;color:inherit href=#ano-181>181</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-182><a style=outline:none;text-decoration:none;color:inherit href=#ano-182>182</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-183><a style=outline:none;text-decoration:none;color:inherit href=#ano-183>183</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-184><a style=outline:none;text-decoration:none;color:inherit href=#ano-184>184</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-185><a style=outline:none;text-decoration:none;color:inherit href=#ano-185>185</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-186><a style=outline:none;text-decoration:none;color:inherit href=#ano-186>186</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-187><a style=outline:none;text-decoration:none;color:inherit href=#ano-187>187</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-188><a style=outline:none;text-decoration:none;color:inherit href=#ano-188>188</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-189><a style=outline:none;text-decoration:none;color:inherit href=#ano-189>189</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-190><a style=outline:none;text-decoration:none;color:inherit href=#ano-190>190</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-191><a style=outline:none;text-decoration:none;color:inherit href=#ano-191>191</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-192><a style=outline:none;text-decoration:none;color:inherit href=#ano-192>192</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-193><a style=outline:none;text-decoration:none;color:inherit href=#ano-193>193</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-194><a style=outline:none;text-decoration:none;color:inherit href=#ano-194>194</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-195><a style=outline:none;text-decoration:none;color:inherit href=#ano-195>195</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-196><a style=outline:none;text-decoration:none;color:inherit href=#ano-196>196</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-197><a style=outline:none;text-decoration:none;color:inherit href=#ano-197>197</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-198><a style=outline:none;text-decoration:none;color:inherit href=#ano-198>198</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-199><a style=outline:none;text-decoration:none;color:inherit href=#ano-199>199</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-200><a style=outline:none;text-decoration:none;color:inherit href=#ano-200>200</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-201><a style=outline:none;text-decoration:none;color:inherit href=#ano-201>201</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-202><a style=outline:none;text-decoration:none;color:inherit href=#ano-202>202</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-203><a style=outline:none;text-decoration:none;color:inherit href=#ano-203>203</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-204><a style=outline:none;text-decoration:none;color:inherit href=#ano-204>204</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-205><a style=outline:none;text-decoration:none;color:inherit href=#ano-205>205</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-206><a style=outline:none;text-decoration:none;color:inherit href=#ano-206>206</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-207><a style=outline:none;text-decoration:none;color:inherit href=#ano-207>207</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-208><a style=outline:none;text-decoration:none;color:inherit href=#ano-208>208</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-209><a style=outline:none;text-decoration:none;color:inherit href=#ano-209>209</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-210><a style=outline:none;text-decoration:none;color:inherit href=#ano-210>210</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-211><a style=outline:none;text-decoration:none;color:inherit href=#ano-211>211</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-212><a style=outline:none;text-decoration:none;color:inherit href=#ano-212>212</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-213><a style=outline:none;text-decoration:none;color:inherit href=#ano-213>213</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-214><a style=outline:none;text-decoration:none;color:inherit href=#ano-214>214</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-215><a style=outline:none;text-decoration:none;color:inherit href=#ano-215>215</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-216><a style=outline:none;text-decoration:none;color:inherit href=#ano-216>216</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-217><a style=outline:none;text-decoration:none;color:inherit href=#ano-217>217</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-218><a style=outline:none;text-decoration:none;color:inherit href=#ano-218>218</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-219><a style=outline:none;text-decoration:none;color:inherit href=#ano-219>219</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-220><a style=outline:none;text-decoration:none;color:inherit href=#ano-220>220</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-221><a style=outline:none;text-decoration:none;color:inherit href=#ano-221>221</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-222><a style=outline:none;text-decoration:none;color:inherit href=#ano-222>222</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-223><a style=outline:none;text-decoration:none;color:inherit href=#ano-223>223</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-224><a style=outline:none;text-decoration:none;color:inherit href=#ano-224>224</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-225><a style=outline:none;text-decoration:none;color:inherit href=#ano-225>225</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-226><a style=outline:none;text-decoration:none;color:inherit href=#ano-226>226</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-227><a style=outline:none;text-decoration:none;color:inherit href=#ano-227>227</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-228><a style=outline:none;text-decoration:none;color:inherit href=#ano-228>228</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-229><a style=outline:none;text-decoration:none;color:inherit href=#ano-229>229</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-230><a style=outline:none;text-decoration:none;color:inherit href=#ano-230>230</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-231><a style=outline:none;text-decoration:none;color:inherit href=#ano-231>231</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-232><a style=outline:none;text-decoration:none;color:inherit href=#ano-232>232</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-233><a style=outline:none;text-decoration:none;color:inherit href=#ano-233>233</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-234><a style=outline:none;text-decoration:none;color:inherit href=#ano-234>234</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-235><a style=outline:none;text-decoration:none;color:inherit href=#ano-235>235</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-236><a style=outline:none;text-decoration:none;color:inherit href=#ano-236>236</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-237><a style=outline:none;text-decoration:none;color:inherit href=#ano-237>237</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-238><a style=outline:none;text-decoration:none;color:inherit href=#ano-238>238</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-239><a style=outline:none;text-decoration:none;color:inherit href=#ano-239>239</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-240><a style=outline:none;text-decoration:none;color:inherit href=#ano-240>240</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-241><a style=outline:none;text-decoration:none;color:inherit href=#ano-241>241</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-242><a style=outline:none;text-decoration:none;color:inherit href=#ano-242>242</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-243><a style=outline:none;text-decoration:none;color:inherit href=#ano-243>243</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-244><a style=outline:none;text-decoration:none;color:inherit href=#ano-244>244</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-245><a style=outline:none;text-decoration:none;color:inherit href=#ano-245>245</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-246><a style=outline:none;text-decoration:none;color:inherit href=#ano-246>246</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-247><a style=outline:none;text-decoration:none;color:inherit href=#ano-247>247</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-248><a style=outline:none;text-decoration:none;color:inherit href=#ano-248>248</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-249><a style=outline:none;text-decoration:none;color:inherit href=#ano-249>249</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-250><a style=outline:none;text-decoration:none;color:inherit href=#ano-250>250</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-251><a style=outline:none;text-decoration:none;color:inherit href=#ano-251>251</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-252><a style=outline:none;text-decoration:none;color:inherit href=#ano-252>252</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-253><a style=outline:none;text-decoration:none;color:inherit href=#ano-253>253</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-254><a style=outline:none;text-decoration:none;color:inherit href=#ano-254>254</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-255><a style=outline:none;text-decoration:none;color:inherit href=#ano-255>255</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-256><a style=outline:none;text-decoration:none;color:inherit href=#ano-256>256</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-257><a style=outline:none;text-decoration:none;color:inherit href=#ano-257>257</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-258><a style=outline:none;text-decoration:none;color:inherit href=#ano-258>258</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-259><a style=outline:none;text-decoration:none;color:inherit href=#ano-259>259</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-260><a style=outline:none;text-decoration:none;color:inherit href=#ano-260>260</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-261><a style=outline:none;text-decoration:none;color:inherit href=#ano-261>261</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-262><a style=outline:none;text-decoration:none;color:inherit href=#ano-262>262</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-263><a style=outline:none;text-decoration:none;color:inherit href=#ano-263>263</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-264><a style=outline:none;text-decoration:none;color:inherit href=#ano-264>264</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-265><a style=outline:none;text-decoration:none;color:inherit href=#ano-265>265</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-266><a style=outline:none;text-decoration:none;color:inherit href=#ano-266>266</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-267><a style=outline:none;text-decoration:none;color:inherit href=#ano-267>267</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-268><a style=outline:none;text-decoration:none;color:inherit href=#ano-268>268</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-269><a style=outline:none;text-decoration:none;color:inherit href=#ano-269>269</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-270><a style=outline:none;text-decoration:none;color:inherit href=#ano-270>270</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-271><a style=outline:none;text-decoration:none;color:inherit href=#ano-271>271</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-272><a style=outline:none;text-decoration:none;color:inherit href=#ano-272>272</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-273><a style=outline:none;text-decoration:none;color:inherit href=#ano-273>273</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-274><a style=outline:none;text-decoration:none;color:inherit href=#ano-274>274</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-275><a style=outline:none;text-decoration:none;color:inherit href=#ano-275>275</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-276><a style=outline:none;text-decoration:none;color:inherit href=#ano-276>276</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-277><a style=outline:none;text-decoration:none;color:inherit href=#ano-277>277</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-278><a style=outline:none;text-decoration:none;color:inherit href=#ano-278>278</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-279><a style=outline:none;text-decoration:none;color:inherit href=#ano-279>279</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-280><a style=outline:none;text-decoration:none;color:inherit href=#ano-280>280</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-281><a style=outline:none;text-decoration:none;color:inherit href=#ano-281>281</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-282><a style=outline:none;text-decoration:none;color:inherit href=#ano-282>282</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-283><a style=outline:none;text-decoration:none;color:inherit href=#ano-283>283</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-284><a style=outline:none;text-decoration:none;color:inherit href=#ano-284>284</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-285><a style=outline:none;text-decoration:none;color:inherit href=#ano-285>285</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-286><a style=outline:none;text-decoration:none;color:inherit href=#ano-286>286</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-287><a style=outline:none;text-decoration:none;color:inherit href=#ano-287>287</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-288><a style=outline:none;text-decoration:none;color:inherit href=#ano-288>288</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-289><a style=outline:none;text-decoration:none;color:inherit href=#ano-289>289</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-290><a style=outline:none;text-decoration:none;color:inherit href=#ano-290>290</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>AWSTemplateFormatVersion</span>: <span style=color:#98c379>&#34;2010-09-09&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Description</span>: <span style=color:#98c379>&#34;Basic Network Setting&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Parameters</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>pramStackNamePrefic</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Description</span>: <span style=color:#98c379>&#34;Common stack name prefix&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: String
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Default</span>: <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e06c75>Resources</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>VPC</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::VPC&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;192.168.0.0/16&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>InstanceTenancy</span>: default
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>EnableDnsSupport</span>: <span style=color:#e5c07b>true</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>EnableDnsHostnames</span>: <span style=color:#e5c07b>true</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Tags</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>Key</span>: Name
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>Value</span>: !Join
+</span></span><span style=display:flex><span>              - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>              - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>                - vpc
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>igw</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::InternetGateway&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Tags</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>Key</span>: Name
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>Value</span>: !Join
+</span></span><span style=display:flex><span>              - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>              - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>                - igw
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>vpcgwattc</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::VPCGatewayAttachment&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>VpcId</span>: !Ref VPC
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>InternetGatewayId</span>: !Ref igw
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>subnetA</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::Subnet&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;192.168.0.0/20&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>AvailabilityZone</span>: <span style=color:#98c379>&#34;ap-northeast-1a&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>VpcId</span>: !Ref VPC
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Tags</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>Key</span>: Name
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>Value</span>: !Join
+</span></span><span style=display:flex><span>              - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>              - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>                - subnet
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>subnetC</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::Subnet&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;192.168.16.0/20&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>AvailabilityZone</span>: <span style=color:#98c379>&#34;ap-northeast-1c&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>VpcId</span>: !Ref VPC
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Tags</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>Key</span>: Name
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>Value</span>: !Join
+</span></span><span style=display:flex><span>              - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>              - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>                - subnet
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>DHCPOpt</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::DHCPOptions&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>DomainName</span>: <span style=color:#98c379>&#34;ap-northeast-1.compute.internal&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>DomainNameServers</span>:
+</span></span><span style=display:flex><span>        - AmazonProvidedDNS
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Tags</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>Key</span>: Name
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>Value</span>: !Join
+</span></span><span style=display:flex><span>              - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>              - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>                - dhcp-ops
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>rtb</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::RouteTable&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>VpcId</span>: !Ref VPC
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Tags</span>:
+</span></span><span style=display:flex><span>        - <span style=color:#e06c75>Key</span>: Name
+</span></span><span style=display:flex><span>          <span style=color:#e06c75>Value</span>: !Join
+</span></span><span style=display:flex><span>              - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>              - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>                - rtb
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>SubnetRouteTableAssociationA</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::SubnetRouteTableAssociation&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>SubnetId</span>: !Ref subnetA
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RouteTableId</span>: !Ref rtb
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>SubnetRouteTableAssociationC</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::SubnetRouteTableAssociation&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>SubnetId</span>: !Ref subnetC
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RouteTableId</span>: !Ref rtb
+</span></span><span style=display:flex><span>  <span style=color:#7f848e># out-bound</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>aclOutAll</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::NetworkAclEntry&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;0.0.0.0/0&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Egress</span>: <span style=color:#e5c07b>true</span>  <span style=color:#7f848e># out-bound</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Protocol</span>: <span style=color:#98c379>&#34;-1&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleAction</span>: allow
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleNumber</span>: <span style=color:#d19a66>100</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>aclOut2</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::NetworkAclEntry&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Ipv6CidrBlock</span>: <span style=color:#98c379>&#34;::/0&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Egress</span>: <span style=color:#e5c07b>true</span>  <span style=color:#7f848e># out-bound</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Protocol</span>: <span style=color:#98c379>&#34;-1&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleAction</span>: allow
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleNumber</span>: <span style=color:#d19a66>101</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>  <span style=color:#7f848e># in-bound</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>aclInHttp</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::NetworkAclEntry&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;0.0.0.0/0&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Egress</span>: <span style=color:#e5c07b>false</span>  <span style=color:#7f848e># in-bound</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Protocol</span>: <span style=color:#98c379>&#34;6&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>PortRange</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>From</span>: <span style=color:#d19a66>80</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>To</span>: <span style=color:#d19a66>80</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleAction</span>: allow
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleNumber</span>: <span style=color:#d19a66>200</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>aclInHttp2</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::NetworkAclEntry&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;0.0.0.0/0&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Egress</span>: <span style=color:#e5c07b>false</span>  <span style=color:#7f848e># in-bound</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Protocol</span>: <span style=color:#98c379>&#34;6&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>PortRange</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>From</span>: <span style=color:#d19a66>8080</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>To</span>: <span style=color:#d19a66>8080</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleAction</span>: allow
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleNumber</span>: <span style=color:#d19a66>300</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>aclInHttps</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::NetworkAclEntry&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;0.0.0.0/0&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Egress</span>: <span style=color:#e5c07b>false</span>  <span style=color:#7f848e># in-bound</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Protocol</span>: <span style=color:#98c379>&#34;6&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>PortRange</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>From</span>: <span style=color:#d19a66>443</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>To</span>: <span style=color:#d19a66>443</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleAction</span>: allow
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleNumber</span>: <span style=color:#d19a66>400</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>aclInSSH</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::NetworkAclEntry&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;0.0.0.0/0&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Egress</span>: <span style=color:#e5c07b>false</span>  <span style=color:#7f848e># in-bound</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Protocol</span>: <span style=color:#98c379>&#34;6&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>PortRange</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>From</span>: <span style=color:#d19a66>22</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>To</span>: <span style=color:#d19a66>22</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleAction</span>: allow
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleNumber</span>: <span style=color:#d19a66>500</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>aclInEphemeral</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::NetworkAclEntry&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>CidrBlock</span>: <span style=color:#98c379>&#34;0.0.0.0/0&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Egress</span>: <span style=color:#e5c07b>false</span>  <span style=color:#7f848e># in-bound</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Protocol</span>: <span style=color:#98c379>&#34;6&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>PortRange</span>:
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>From</span>: <span style=color:#d19a66>1024</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>To</span>: <span style=color:#d19a66>65535</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleAction</span>: allow
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RuleNumber</span>: <span style=color:#d19a66>600</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>subnetacl1</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::SubnetNetworkAclAssociation&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>SubnetId</span>: !Ref subnetA
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>subnetacl2</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::SubnetNetworkAclAssociation&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>NetworkAclId</span>: !GetAtt VPC.DefaultNetworkAcl
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>SubnetId</span>: !Ref subnetC
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>route1</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::Route&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>DestinationCidrBlock</span>: <span style=color:#98c379>&#34;0.0.0.0/0&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>RouteTableId</span>: !Ref rtb
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>GatewayId</span>: !Ref igw
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>DependsOn</span>: vpcgwattc
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>dchpassoc1</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Type</span>: <span style=color:#98c379>&#34;AWS::EC2::VPCDHCPOptionsAssociation&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Properties</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>VpcId</span>: !Ref VPC
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>DhcpOptionsId</span>: !Ref DHCPOpt
+</span></span><span style=display:flex><span><span style=color:#e06c75>Outputs</span>:
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>VPCId</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !Ref VPC
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - VPC-ID
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>VPCCidrBlock</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !GetAtt
+</span></span><span style=display:flex><span>        - VPC
+</span></span><span style=display:flex><span>        - CidrBlock
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - VPC-CidrBlockD
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>VPCDefaultNetworkAcl</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !GetAtt
+</span></span><span style=display:flex><span>        - VPC
+</span></span><span style=display:flex><span>        - DefaultNetworkAcl
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - VPC-DefaultNetworkAcl
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>VPCDefaultSecurityGroup</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !GetAtt
+</span></span><span style=display:flex><span>        - VPC
+</span></span><span style=display:flex><span>        - DefaultSecurityGroup
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - VPC-DefaultSecurityGroup
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>igwId</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !Ref igw
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - IGW-ID
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>subnetAId</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !Ref subnetA
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - Subnet-apne1a-ID
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>subnetCId</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !Ref subnetC
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - Subnet-apne1c-ID
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>subnetAAZ</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !GetAtt
+</span></span><span style=display:flex><span>        - subnetA
+</span></span><span style=display:flex><span>        - AvailabilityZone
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - Subnet-apne1a-AvailabilityZone
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>subnetCAZ</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !GetAtt
+</span></span><span style=display:flex><span>        - subnetC
+</span></span><span style=display:flex><span>        - AvailabilityZone
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - Subnet-apne1c-AvailabilityZone
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>DHCPOptID</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !Ref DHCPOpt
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - DHCPOptions-ID
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>aclId</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !GetAtt
+</span></span><span style=display:flex><span>        - VPC
+</span></span><span style=display:flex><span>        - DefaultNetworkAcl
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - ACL-ID
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>rtbId</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Value</span>: !Ref rtb
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>Export</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>Name</span>: !Join
+</span></span><span style=display:flex><span>          - <span style=color:#98c379>&#34;&#34;</span>
+</span></span><span style=display:flex><span>          - - !Ref pramStackNamePrefic
+</span></span><span style=display:flex><span>            - RTB-ID</span></span></code></pre></td></tr></table></div></div><h2 id=実行>実行</h2><p>パラメータ</p><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>5</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ <span style=color:#e06c75>CF_TAG_KEY</span><span style=color:#56b6c2>=</span>service
+</span></span><span style=display:flex><span>$ <span style=color:#e06c75>CF_TAG_NAME</span><span style=color:#56b6c2>=</span>sample
+</span></span><span style=display:flex><span>$ <span style=color:#e06c75>CF_STACK_NAME_PREFIX</span><span style=color:#56b6c2>=</span>sample-
+</span></span><span style=display:flex><span>$ <span style=color:#e06c75>CF_STACK_NAME</span><span style=color:#56b6c2>=</span><span style=color:#98c379>${</span><span style=color:#e06c75>CF_STACK_NAME_PREFIX</span><span style=color:#98c379>}</span>network
+</span></span><span style=display:flex><span>$ <span style=color:#e06c75>CF_FILE_NAME</span><span style=color:#56b6c2>=</span>cftemplate.yaml</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6>6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7>7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8>8</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ aws cloudformation <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>create-stack <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--tags <span style=color:#e06c75>Key</span><span style=color:#56b6c2>=</span><span style=color:#98c379>${</span><span style=color:#e06c75>CF_TAG_KEY</span><span style=color:#98c379>}</span>,Value<span style=color:#56b6c2>=</span><span style=color:#98c379>${</span><span style=color:#e06c75>CF_TAG_NAME</span><span style=color:#98c379>}</span> <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--stack-name <span style=color:#98c379>${</span><span style=color:#e06c75>CF_STACK_NAME</span><span style=color:#98c379>}</span> <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--template-body file://./<span style=color:#98c379>${</span><span style=color:#e06c75>CF_FILE_NAME</span><span style=color:#98c379>}</span> <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--parameters <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span><span style=color:#e06c75>ParameterKey</span><span style=color:#56b6c2>=</span>pramStackNamePrefic,ParameterValue<span style=color:#56b6c2>=</span><span style=color:#98c379>${</span><span style=color:#e06c75>CF_STACK_NAME_PREFIX</span><span style=color:#98c379>}</span> <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>| jq .</span></span></code></pre></td></tr></table></div></div><p>ちなみに,ACLにはタグがつけられなかったので、強引に、VPC ID取得→ACL ID取得→タグ付けをしてみる。</p><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>5</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ <span style=color:#e06c75>VpcId</span><span style=color:#56b6c2>=</span><span style=color:#98c379>`</span>aws ec2 describe-vpcs <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>&gt; --filters <span style=color:#98c379>&#34;Name=tag:Name,Values=</span><span style=color:#98c379>${</span><span style=color:#e06c75>CF_STACK_NAME_PREFIX</span><span style=color:#98c379>}</span><span style=color:#98c379>vpc&#34;</span> <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>&gt; | jq -r <span style=color:#98c379>&#39;.Vpcs[].VpcId&#39;</span><span style=color:#98c379>`</span>
+</span></span><span style=display:flex><span>$ <span style=color:#e5c07b>echo</span> <span style=color:#e06c75>$VpcId</span>
+</span></span><span style=display:flex><span>vpc-XXXXXXXX</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>5</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ <span style=color:#e06c75>AclId</span><span style=color:#56b6c2>=</span><span style=color:#98c379>`</span>aws ec2 describe-network-acls <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>&gt; --filters <span style=color:#98c379>&#34;Name=vpc-id,Values=</span><span style=color:#98c379>${</span><span style=color:#e06c75>VpcId</span><span style=color:#98c379>}</span><span style=color:#98c379>&#34;</span> <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>&gt; | jq -r <span style=color:#98c379>&#39;.NetworkAcls[].NetworkAclId&#39;</span><span style=color:#98c379>`</span>
+</span></span><span style=display:flex><span>$ <span style=color:#e5c07b>echo</span> <span style=color:#e06c75>$AclId</span>
+</span></span><span style=display:flex><span>acl-XXXXXXXXX</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ aws ec2 create-tags --resources <span style=color:#98c379>${</span><span style=color:#e06c75>AclId</span><span style=color:#98c379>}</span> <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--tags <span style=color:#e06c75>Key</span><span style=color:#56b6c2>=</span>Name,Value<span style=color:#56b6c2>=</span><span style=color:#98c379>${</span><span style=color:#e06c75>CF_STACK_NAME_PREFIX</span><span style=color:#98c379>}</span>acl <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span><span style=color:#e06c75>Key</span><span style=color:#56b6c2>=</span><span style=color:#98c379>${</span><span style=color:#e06c75>CF_TAG_KEY</span><span style=color:#98c379>}</span>,Value<span style=color:#56b6c2>=</span><span style=color:#98c379>${</span><span style=color:#e06c75>CF_TAG_NAME</span><span style=color:#98c379>}</span></span></span></code></pre></td></tr></table></div></div><h2 id=aclのデフォルト削除>ACLのデフォルト削除</h2><p>ACLのインバウンドはデフォルトですべて許可されているので、削除しておくことを推奨</p><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ aws ec2 delete-network-acl-entry <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--network-acl-id <span style=color:#98c379>${</span><span style=color:#e06c75>AclId</span><span style=color:#98c379>}</span> <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--ingress <span style=color:#98c379>\
+</span></span></span><span style=display:flex><span><span style=color:#98c379></span>--rule-number <span style=color:#d19a66>100</span></span></span></code></pre></td></tr></table></div></div></article></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"></div><div class=grow></div><div class="flex flex-row"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1018 0A9 9 0 103 12"/><path d="M14 9.75a3.016 3.016.0 00-4.163.173 2.993 2.993.0 000 4.154A3.016 3.016.0 0014 14.25"/></svg>
+</i>2015 - 2024 TechTeco</div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>

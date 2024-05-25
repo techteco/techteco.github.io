@@ -1,159 +1,299 @@
 <!doctype html><html lang=ja dir=ltr><head><title>Golangのバージョン管理GVM(Go Version Manager)の使い方 :: Jot down for myself - Technical notes on AWS, Go, React, etc.</title>
-<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="GVMとは GVM(Github) Go Version Managerの頭文字をとってGVM 一言で言うと GVM provides an interface to manage Go versions. 日本語に直訳すると GVMは、Goバージョンを管理するためのイ"><meta name=keywords content="aws,golang,react,typescript,mysql"><meta name=robots content="noodp"><meta property="og:url" content="https://techteco.github.io/2018/01/23/golang-gvm/"><meta property="og:site_name" content="Jot down for myself"><meta property="og:title" content="Golangのバージョン管理GVM(Go Version Manager)の使い方"><meta property="og:description" content="Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2018-01-23T20:00:00+09:00"><meta property="article:modified_time" content="2024-05-24T16:04:29+09:00"><meta property="article:tag" content="Gvm"><meta name=twitter:card content="summary"><meta name=twitter:title content="Golangのバージョン管理GVM(Go Version Manager)の使い方"><meta name=twitter:description content="Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ"><link rel=canonical href=https://techteco.github.io/2018/01/23/golang-gvm/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.5d96433bd17079764d5a8866addd6d7848ea8295977a06688f43c5be97af544e.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"TechTeco"},"dateModified":"2024-05-24T16:04:29+09:00","datePublished":"2018-01-23T20:00:00+09:00","description":"GVMとは GVM(Github) Go Version Managerの頭文字をとってGVM 一言で言うと GVM provides an interface to manage Go versions. 日本語に直訳すると GVMは、Goバージョンを管理するためのイ","name":"Golangのバージョン管理GVM(Go Version Manager)の使い方","url":"https://techteco.github.io/2018/01/23/golang-gvm/"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ML7QTSL8BR"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ML7QTSL8BR")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full" src=/images/button-305726_1280.png alt=logo></a></div><div class=flex-1></div><div class=flex-none></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only></span>
-<i class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="GVMとは GVM(Github) Go Version Managerの頭文字をとってGVM 一言で言うと GVM provides an interface to manage Go versions. 日本語に直訳すると GVMは、Goバージョンを管理するためのイ"><meta name=keywords content="aws,golang,react,typescript,mysql"><meta name=robots content="noodp"><meta property="og:url" content="https://techteco.github.io/2018/01/23/golang-gvm/"><meta property="og:site_name" content="Jot down for myself"><meta property="og:title" content="Golangのバージョン管理GVM(Go Version Manager)の使い方"><meta property="og:description" content="Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2018-01-23T20:00:00+09:00"><meta property="article:modified_time" content="2024-05-25T12:10:51+09:00"><meta property="article:tag" content="Gvm"><meta name=twitter:card content="summary"><meta name=twitter:title content="Golangのバージョン管理GVM(Go Version Manager)の使い方"><meta name=twitter:description content="Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ"><link rel=canonical href=https://techteco.github.io/2018/01/23/golang-gvm/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.5d96433bd17079764d5a8866addd6d7848ea8295977a06688f43c5be97af544e.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"TechTeco"},"dateModified":"2024-05-25T12:10:51+09:00","datePublished":"2018-01-23T20:00:00+09:00","description":"GVMとは GVM(Github) Go Version Managerの頭文字をとってGVM 一言で言うと GVM provides an interface to manage Go versions. 日本語に直訳すると GVMは、Goバージョンを管理するためのイ","name":"Golangのバージョン管理GVM(Go Version Manager)の使い方","url":"https://techteco.github.io/2018/01/23/golang-gvm/"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ML7QTSL8BR"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ML7QTSL8BR")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full" src=/images/button-305726_1280.png alt=logo></a></div><div class=flex-1></div><div class=flex-none></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only>検索</span>
+<i class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title=ダークモードを切り替える><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label=ダークモードを切り替える><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
 </i><i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg></i></div></label></div></div></header><main class="flex flex-auto justify-center"><div class="w-full max-w-4xl lg:max-w-5xl"><div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700"><div><a href=/2018/01/23/golang-gvm/></a></div><div class="flex flex-col gap-y-3 p-6"><h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100"><a href=/2018/01/23/golang-gvm/>Golangのバージョン管理GVM(Go Version Manager)の使い方</a></h1><h2 class="my-4 text-large text-slate-600 dark:text-slate-300">Golangのバージョン管理ツールGVM(Go Version Manager)を使ってみたときのメモ</h2><ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300"><li><a href=/categories/go/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">GO</a></li><li><a href=/tags/gvm/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
 </i><span class=ml-0>gvm</span></a></li></ul><div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300"><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
-</i><time datetime=2018-01-23T20:00:00+09:00>2018-01-23</time></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2></h2><aside><nav id=TableOfContents><ul><li><a href=#gvm-list>gvm list</a></li><li><a href=#gvm-listall>gvm listall</a></li><li><a href=#gvm-install>gvm install</a></li><li><a href=#gvm-use>gvm use</a></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h1 id=gvmとは>GVMとは</h1><p><a href=https://github.com/moovweb/gvm target=_blank rel=noopener>GVM(Github)</a></p><p><em><strong>Go Version Manager</strong></em>の頭文字をとって<em><strong>GVM</strong></em></p><p>一言で言うと</p><blockquote><p>GVM provides an interface to manage Go versions.</p></blockquote><p>日本語に直訳すると</p><blockquote><p>GVMは、Goバージョンを管理するためのインタフェースを提供します。</p></blockquote><h1 id=インストール>インストール</h1><p><a href=/2018/01/22/ansible_mac/#roles-golang>AnsibleでMacの開発環境を構築する</a>
-でも、gvmのインストールはされていますが、コマンドでも一発でインストール可能です。</p><pre><code class="language-bash line-numbers">bash &lt; &lt;(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-</code></pre><pre><code class="language-bash line-numbers">$ gvm version
--bash: gvm: command not found
-</code></pre><p>おっと、パスが通ってませんでした。。。</p><pre><code class="language-bash line-numbers">$ source ~/.gvm/scripts/gvm
-$ gvm version
-Go Version Manager v1.0.22 installed at /Users/XXXXX/.gvm
-</code></pre><h1 id=使い方>使い方</h1><h2 id=gvm-list>gvm list</h2><p>インストール済のGoのバージョン一覧を表示<pre><code class="language-bash line-numbers">$ gvm list
-
-gvm gos (installed)
-
-   go1.4
-   go1.7.6
-   go1.8.3
-=&gt; go1.9.3
-   system
-</code></pre></p><p>バージョンを表示してみると<pre><code class="language-bash line-numbers">$ go version
-go version go1.9.3 darwin/amd64
-</code></pre></p><h2 id=gvm-listall>gvm listall</h2><p>GVMでインストール可能なGoのバージョン一覧を表示<pre><code class="language-bash line-numbers">$ gvm listall
-
-gvm gos (available)
-
-   go1
-   go1.0.1
-   go1.0.2
-   go1.0.3
-   go1.1
-   go1.1.1
-   go1.1.2
-   go1.10beta1
-   go1.10beta2
-   go1.10rc1
-   go1.1rc2
-   go1.1rc3
-   go1.2
-   go1.2.1
-   go1.2.2
-   go1.2rc2
-   go1.2rc3
-   go1.2rc4
-   go1.2rc5
-   go1.3
-   go1.3.1
-   go1.3.2
-   go1.3.3
-   go1.3beta1
-   go1.3beta2
-   go1.3rc1
-   go1.3rc2
-   go1.4
-   go1.4.1
-   go1.4.2
-   go1.4.3
-   go1.4beta1
-   go1.4rc1
-   go1.4rc2
-   go1.5
-   go1.5.1
-   go1.5.2
-   go1.5.3
-   go1.5.4
-   go1.5beta1
-   go1.5beta2
-   go1.5beta3
-   go1.5rc1
-   go1.6
-   go1.6.1
-   go1.6.2
-   go1.6.3
-   go1.6.4
-   go1.6beta1
-   go1.6beta2
-   go1.6rc1
-   go1.6rc2
-   go1.7
-   go1.7.1
-   go1.7.2
-   go1.7.3
-   go1.7.4
-   go1.7.5
-   go1.7.6
-   go1.7beta1
-   go1.7beta2
-   go1.7rc1
-   go1.7rc2
-   go1.7rc3
-   go1.7rc4
-   go1.7rc5
-   go1.7rc6
-   go1.8
-   go1.8.1
-   go1.8.2
-   go1.8.3
-   go1.8.4
-   go1.8.5
-   go1.8.5rc4
-   go1.8.5rc5
-   go1.8.6
-   go1.8beta1
-   go1.8beta2
-   go1.8rc1
-   go1.8rc2
-   go1.8rc3
-   go1.9
-   go1.9.1
-   go1.9.2
-   go1.9.3
-   go1.9beta1
-   go1.9beta2
-   go1.9rc1
-   go1.9rc2
-   release.r56
-   release.r57
-   release.r57.1
-   release.r57.2
-   release.r58
-   release.r58.1
-   release.r58.2
-   release.r59
-   release.r60
-   release.r60.1
-   release.r60.2
-   release.r60.3
-
-</code></pre></p><h2 id=gvm-install>gvm install</h2><p>gvmでバージョン指定してGoをイントールする</p><p>試しに、go1.9.2をインストールしてみる</p><pre><code class="language-bash line-numbers">$ gvm install go1.9.2
-Installing go1.9.2...
- * Compiling...
-go1.9.2 successfully installed!
-</code></pre><pre><code class="language-bash line-numbers">$ gvm list
-
-gvm gos (installed)
-
-   go1.4
-   go1.7.6
-   go1.8.3
-   go1.9.2  # 追加されている
-=&gt; go1.9.3
-   system
-</code></pre><h2 id=gvm-use>gvm use</h2><p>gvmで利用するGoのバージョンを変更する</p><pre><code class="language-bash line-numbers">$ gvm use go1.8.3
-Now using version go1.8.3
-$ go version
-go version go1.8.3 darwin/amd64
-$ gvm list
-
-gvm gos (installed)
-
-   go1.4
-   go1.7.6
-=&gt; go1.8.3
-   go1.9.2
-   go1.9.3
-   system
-
-</code></pre><h1 id=最後に>最後に</h1><p>使い方はとても簡単ですね。</p><p>そこまでバージョン切り替えて使うシーンがどこまであるかわかりませんが、Golangで開発するなら導入しておいて損はないと思います。</p></article></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"></div><div class=grow></div><div class="flex flex-row"></div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>
+</i><time datetime=2018-01-23T20:00:00+09:00>2018-01-23</time></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2>目次</h2><aside><nav id=TableOfContents><ul><li><a href=#gvmとは>GVMとは</a></li><li><a href=#インストール>インストール</a></li><li><a href=#使い方>使い方</a><ul><li><a href=#gvm-list>gvm list</a></li><li><a href=#gvm-listall>gvm listall</a></li><li><a href=#gvm-install>gvm install</a></li><li><a href=#gvm-use>gvm use</a></li></ul></li><li><a href=#最後に>最後に</a></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h1 id=gvmとは>GVMとは</h1><p><a href=https://github.com/moovweb/gvm target=_blank rel=noopener>GVM(Github)</a></p><p><em><strong>Go Version Manager</strong></em>の頭文字をとって<em><strong>GVM</strong></em></p><p>一言で言うと</p><blockquote><p>GVM provides an interface to manage Go versions.</p></blockquote><p>日本語に直訳すると</p><blockquote><p>GVMは、Goバージョンを管理するためのインタフェースを提供します。</p></blockquote><h1 id=インストール>インストール</h1><p><a href=/2018/01/22/ansible_mac/#roles-golang>AnsibleでMacの開発環境を構築する</a>
+でも、gvmのインストールはされていますが、コマンドでも一発でインストール可能です。</p><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>bash &lt; &lt;<span style=color:#56b6c2>(</span>curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer<span style=color:#56b6c2>)</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gvm version
+</span></span><span style=display:flex><span>-bash: gvm: <span style=color:#e5c07b>command</span> not found</span></span></code></pre></td></tr></table></div></div><p>おっと、パスが通ってませんでした。。。</p><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ <span style=color:#e5c07b>source</span> ~/.gvm/scripts/gvm
+</span></span><span style=display:flex><span>$ gvm version
+</span></span><span style=display:flex><span>Go Version Manager v1.0.22 installed at /Users/XXXXX/.gvm</span></span></code></pre></td></tr></table></div></div><h1 id=使い方>使い方</h1><h2 id=gvm-list>gvm list</h2><p>インストール済のGoのバージョン一覧を表示<div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6>6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7>7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8>8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9>9</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gvm list
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>gvm gos <span style=color:#56b6c2>(</span>installed<span style=color:#56b6c2>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   go1.4
+</span></span><span style=display:flex><span>   go1.7.6
+</span></span><span style=display:flex><span>   go1.8.3
+</span></span><span style=display:flex><span><span style=color:#56b6c2>=</span>&gt; go1.9.3
+</span></span><span style=display:flex><span>   system</span></span></code></pre></td></tr></table></div></div></p><p>バージョンを表示してみると<div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ go version
+</span></span><span style=display:flex><span>go version go1.9.3 darwin/amd64</span></span></code></pre></td></tr></table></div></div></p><h2 id=gvm-listall>gvm listall</h2><p>GVMでインストール可能なGoのバージョン一覧を表示<div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>  1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>  2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>  3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>  4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>  5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6>  6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7>  7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8>  8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9>  9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10> 10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11> 11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-12><a style=outline:none;text-decoration:none;color:inherit href=#ano-12> 12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-13><a style=outline:none;text-decoration:none;color:inherit href=#ano-13> 13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-14><a style=outline:none;text-decoration:none;color:inherit href=#ano-14> 14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-15><a style=outline:none;text-decoration:none;color:inherit href=#ano-15> 15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-16><a style=outline:none;text-decoration:none;color:inherit href=#ano-16> 16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-17><a style=outline:none;text-decoration:none;color:inherit href=#ano-17> 17</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-18><a style=outline:none;text-decoration:none;color:inherit href=#ano-18> 18</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-19><a style=outline:none;text-decoration:none;color:inherit href=#ano-19> 19</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-20><a style=outline:none;text-decoration:none;color:inherit href=#ano-20> 20</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-21><a style=outline:none;text-decoration:none;color:inherit href=#ano-21> 21</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-22><a style=outline:none;text-decoration:none;color:inherit href=#ano-22> 22</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-23><a style=outline:none;text-decoration:none;color:inherit href=#ano-23> 23</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-24><a style=outline:none;text-decoration:none;color:inherit href=#ano-24> 24</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-25><a style=outline:none;text-decoration:none;color:inherit href=#ano-25> 25</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-26><a style=outline:none;text-decoration:none;color:inherit href=#ano-26> 26</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-27><a style=outline:none;text-decoration:none;color:inherit href=#ano-27> 27</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-28><a style=outline:none;text-decoration:none;color:inherit href=#ano-28> 28</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-29><a style=outline:none;text-decoration:none;color:inherit href=#ano-29> 29</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-30><a style=outline:none;text-decoration:none;color:inherit href=#ano-30> 30</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-31><a style=outline:none;text-decoration:none;color:inherit href=#ano-31> 31</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-32><a style=outline:none;text-decoration:none;color:inherit href=#ano-32> 32</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-33><a style=outline:none;text-decoration:none;color:inherit href=#ano-33> 33</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-34><a style=outline:none;text-decoration:none;color:inherit href=#ano-34> 34</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-35><a style=outline:none;text-decoration:none;color:inherit href=#ano-35> 35</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-36><a style=outline:none;text-decoration:none;color:inherit href=#ano-36> 36</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-37><a style=outline:none;text-decoration:none;color:inherit href=#ano-37> 37</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-38><a style=outline:none;text-decoration:none;color:inherit href=#ano-38> 38</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-39><a style=outline:none;text-decoration:none;color:inherit href=#ano-39> 39</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-40><a style=outline:none;text-decoration:none;color:inherit href=#ano-40> 40</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-41><a style=outline:none;text-decoration:none;color:inherit href=#ano-41> 41</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-42><a style=outline:none;text-decoration:none;color:inherit href=#ano-42> 42</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-43><a style=outline:none;text-decoration:none;color:inherit href=#ano-43> 43</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-44><a style=outline:none;text-decoration:none;color:inherit href=#ano-44> 44</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-45><a style=outline:none;text-decoration:none;color:inherit href=#ano-45> 45</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-46><a style=outline:none;text-decoration:none;color:inherit href=#ano-46> 46</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-47><a style=outline:none;text-decoration:none;color:inherit href=#ano-47> 47</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-48><a style=outline:none;text-decoration:none;color:inherit href=#ano-48> 48</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-49><a style=outline:none;text-decoration:none;color:inherit href=#ano-49> 49</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-50><a style=outline:none;text-decoration:none;color:inherit href=#ano-50> 50</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-51><a style=outline:none;text-decoration:none;color:inherit href=#ano-51> 51</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-52><a style=outline:none;text-decoration:none;color:inherit href=#ano-52> 52</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-53><a style=outline:none;text-decoration:none;color:inherit href=#ano-53> 53</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-54><a style=outline:none;text-decoration:none;color:inherit href=#ano-54> 54</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-55><a style=outline:none;text-decoration:none;color:inherit href=#ano-55> 55</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-56><a style=outline:none;text-decoration:none;color:inherit href=#ano-56> 56</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-57><a style=outline:none;text-decoration:none;color:inherit href=#ano-57> 57</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-58><a style=outline:none;text-decoration:none;color:inherit href=#ano-58> 58</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-59><a style=outline:none;text-decoration:none;color:inherit href=#ano-59> 59</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-60><a style=outline:none;text-decoration:none;color:inherit href=#ano-60> 60</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-61><a style=outline:none;text-decoration:none;color:inherit href=#ano-61> 61</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-62><a style=outline:none;text-decoration:none;color:inherit href=#ano-62> 62</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-63><a style=outline:none;text-decoration:none;color:inherit href=#ano-63> 63</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-64><a style=outline:none;text-decoration:none;color:inherit href=#ano-64> 64</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-65><a style=outline:none;text-decoration:none;color:inherit href=#ano-65> 65</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-66><a style=outline:none;text-decoration:none;color:inherit href=#ano-66> 66</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-67><a style=outline:none;text-decoration:none;color:inherit href=#ano-67> 67</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-68><a style=outline:none;text-decoration:none;color:inherit href=#ano-68> 68</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-69><a style=outline:none;text-decoration:none;color:inherit href=#ano-69> 69</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-70><a style=outline:none;text-decoration:none;color:inherit href=#ano-70> 70</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-71><a style=outline:none;text-decoration:none;color:inherit href=#ano-71> 71</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-72><a style=outline:none;text-decoration:none;color:inherit href=#ano-72> 72</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-73><a style=outline:none;text-decoration:none;color:inherit href=#ano-73> 73</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-74><a style=outline:none;text-decoration:none;color:inherit href=#ano-74> 74</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-75><a style=outline:none;text-decoration:none;color:inherit href=#ano-75> 75</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-76><a style=outline:none;text-decoration:none;color:inherit href=#ano-76> 76</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-77><a style=outline:none;text-decoration:none;color:inherit href=#ano-77> 77</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-78><a style=outline:none;text-decoration:none;color:inherit href=#ano-78> 78</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-79><a style=outline:none;text-decoration:none;color:inherit href=#ano-79> 79</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-80><a style=outline:none;text-decoration:none;color:inherit href=#ano-80> 80</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-81><a style=outline:none;text-decoration:none;color:inherit href=#ano-81> 81</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-82><a style=outline:none;text-decoration:none;color:inherit href=#ano-82> 82</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-83><a style=outline:none;text-decoration:none;color:inherit href=#ano-83> 83</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-84><a style=outline:none;text-decoration:none;color:inherit href=#ano-84> 84</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-85><a style=outline:none;text-decoration:none;color:inherit href=#ano-85> 85</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-86><a style=outline:none;text-decoration:none;color:inherit href=#ano-86> 86</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-87><a style=outline:none;text-decoration:none;color:inherit href=#ano-87> 87</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-88><a style=outline:none;text-decoration:none;color:inherit href=#ano-88> 88</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-89><a style=outline:none;text-decoration:none;color:inherit href=#ano-89> 89</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-90><a style=outline:none;text-decoration:none;color:inherit href=#ano-90> 90</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-91><a style=outline:none;text-decoration:none;color:inherit href=#ano-91> 91</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-92><a style=outline:none;text-decoration:none;color:inherit href=#ano-92> 92</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-93><a style=outline:none;text-decoration:none;color:inherit href=#ano-93> 93</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-94><a style=outline:none;text-decoration:none;color:inherit href=#ano-94> 94</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-95><a style=outline:none;text-decoration:none;color:inherit href=#ano-95> 95</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-96><a style=outline:none;text-decoration:none;color:inherit href=#ano-96> 96</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-97><a style=outline:none;text-decoration:none;color:inherit href=#ano-97> 97</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-98><a style=outline:none;text-decoration:none;color:inherit href=#ano-98> 98</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-99><a style=outline:none;text-decoration:none;color:inherit href=#ano-99> 99</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-100><a style=outline:none;text-decoration:none;color:inherit href=#ano-100>100</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-101><a style=outline:none;text-decoration:none;color:inherit href=#ano-101>101</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-102><a style=outline:none;text-decoration:none;color:inherit href=#ano-102>102</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-103><a style=outline:none;text-decoration:none;color:inherit href=#ano-103>103</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-104><a style=outline:none;text-decoration:none;color:inherit href=#ano-104>104</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-105><a style=outline:none;text-decoration:none;color:inherit href=#ano-105>105</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gvm listall
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>gvm gos <span style=color:#56b6c2>(</span>available<span style=color:#56b6c2>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   go1
+</span></span><span style=display:flex><span>   go1.0.1
+</span></span><span style=display:flex><span>   go1.0.2
+</span></span><span style=display:flex><span>   go1.0.3
+</span></span><span style=display:flex><span>   go1.1
+</span></span><span style=display:flex><span>   go1.1.1
+</span></span><span style=display:flex><span>   go1.1.2
+</span></span><span style=display:flex><span>   go1.10beta1
+</span></span><span style=display:flex><span>   go1.10beta2
+</span></span><span style=display:flex><span>   go1.10rc1
+</span></span><span style=display:flex><span>   go1.1rc2
+</span></span><span style=display:flex><span>   go1.1rc3
+</span></span><span style=display:flex><span>   go1.2
+</span></span><span style=display:flex><span>   go1.2.1
+</span></span><span style=display:flex><span>   go1.2.2
+</span></span><span style=display:flex><span>   go1.2rc2
+</span></span><span style=display:flex><span>   go1.2rc3
+</span></span><span style=display:flex><span>   go1.2rc4
+</span></span><span style=display:flex><span>   go1.2rc5
+</span></span><span style=display:flex><span>   go1.3
+</span></span><span style=display:flex><span>   go1.3.1
+</span></span><span style=display:flex><span>   go1.3.2
+</span></span><span style=display:flex><span>   go1.3.3
+</span></span><span style=display:flex><span>   go1.3beta1
+</span></span><span style=display:flex><span>   go1.3beta2
+</span></span><span style=display:flex><span>   go1.3rc1
+</span></span><span style=display:flex><span>   go1.3rc2
+</span></span><span style=display:flex><span>   go1.4
+</span></span><span style=display:flex><span>   go1.4.1
+</span></span><span style=display:flex><span>   go1.4.2
+</span></span><span style=display:flex><span>   go1.4.3
+</span></span><span style=display:flex><span>   go1.4beta1
+</span></span><span style=display:flex><span>   go1.4rc1
+</span></span><span style=display:flex><span>   go1.4rc2
+</span></span><span style=display:flex><span>   go1.5
+</span></span><span style=display:flex><span>   go1.5.1
+</span></span><span style=display:flex><span>   go1.5.2
+</span></span><span style=display:flex><span>   go1.5.3
+</span></span><span style=display:flex><span>   go1.5.4
+</span></span><span style=display:flex><span>   go1.5beta1
+</span></span><span style=display:flex><span>   go1.5beta2
+</span></span><span style=display:flex><span>   go1.5beta3
+</span></span><span style=display:flex><span>   go1.5rc1
+</span></span><span style=display:flex><span>   go1.6
+</span></span><span style=display:flex><span>   go1.6.1
+</span></span><span style=display:flex><span>   go1.6.2
+</span></span><span style=display:flex><span>   go1.6.3
+</span></span><span style=display:flex><span>   go1.6.4
+</span></span><span style=display:flex><span>   go1.6beta1
+</span></span><span style=display:flex><span>   go1.6beta2
+</span></span><span style=display:flex><span>   go1.6rc1
+</span></span><span style=display:flex><span>   go1.6rc2
+</span></span><span style=display:flex><span>   go1.7
+</span></span><span style=display:flex><span>   go1.7.1
+</span></span><span style=display:flex><span>   go1.7.2
+</span></span><span style=display:flex><span>   go1.7.3
+</span></span><span style=display:flex><span>   go1.7.4
+</span></span><span style=display:flex><span>   go1.7.5
+</span></span><span style=display:flex><span>   go1.7.6
+</span></span><span style=display:flex><span>   go1.7beta1
+</span></span><span style=display:flex><span>   go1.7beta2
+</span></span><span style=display:flex><span>   go1.7rc1
+</span></span><span style=display:flex><span>   go1.7rc2
+</span></span><span style=display:flex><span>   go1.7rc3
+</span></span><span style=display:flex><span>   go1.7rc4
+</span></span><span style=display:flex><span>   go1.7rc5
+</span></span><span style=display:flex><span>   go1.7rc6
+</span></span><span style=display:flex><span>   go1.8
+</span></span><span style=display:flex><span>   go1.8.1
+</span></span><span style=display:flex><span>   go1.8.2
+</span></span><span style=display:flex><span>   go1.8.3
+</span></span><span style=display:flex><span>   go1.8.4
+</span></span><span style=display:flex><span>   go1.8.5
+</span></span><span style=display:flex><span>   go1.8.5rc4
+</span></span><span style=display:flex><span>   go1.8.5rc5
+</span></span><span style=display:flex><span>   go1.8.6
+</span></span><span style=display:flex><span>   go1.8beta1
+</span></span><span style=display:flex><span>   go1.8beta2
+</span></span><span style=display:flex><span>   go1.8rc1
+</span></span><span style=display:flex><span>   go1.8rc2
+</span></span><span style=display:flex><span>   go1.8rc3
+</span></span><span style=display:flex><span>   go1.9
+</span></span><span style=display:flex><span>   go1.9.1
+</span></span><span style=display:flex><span>   go1.9.2
+</span></span><span style=display:flex><span>   go1.9.3
+</span></span><span style=display:flex><span>   go1.9beta1
+</span></span><span style=display:flex><span>   go1.9beta2
+</span></span><span style=display:flex><span>   go1.9rc1
+</span></span><span style=display:flex><span>   go1.9rc2
+</span></span><span style=display:flex><span>   release.r56
+</span></span><span style=display:flex><span>   release.r57
+</span></span><span style=display:flex><span>   release.r57.1
+</span></span><span style=display:flex><span>   release.r57.2
+</span></span><span style=display:flex><span>   release.r58
+</span></span><span style=display:flex><span>   release.r58.1
+</span></span><span style=display:flex><span>   release.r58.2
+</span></span><span style=display:flex><span>   release.r59
+</span></span><span style=display:flex><span>   release.r60
+</span></span><span style=display:flex><span>   release.r60.1
+</span></span><span style=display:flex><span>   release.r60.2
+</span></span><span style=display:flex><span>   release.r60.3</span></span></code></pre></td></tr></table></div></div></p><h2 id=gvm-install>gvm install</h2><p>gvmでバージョン指定してGoをイントールする</p><p>試しに、go1.9.2をインストールしてみる</p><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gvm install go1.9.2
+</span></span><span style=display:flex><span>Installing go1.9.2...
+</span></span><span style=display:flex><span> * Compiling...
+</span></span><span style=display:flex><span>go1.9.2 successfully installed!</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10>10</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gvm list
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>gvm gos <span style=color:#56b6c2>(</span>installed<span style=color:#56b6c2>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   go1.4
+</span></span><span style=display:flex><span>   go1.7.6
+</span></span><span style=display:flex><span>   go1.8.3
+</span></span><span style=display:flex><span>   go1.9.2  <span style=color:#7f848e># 追加されている</span>
+</span></span><span style=display:flex><span><span style=color:#56b6c2>=</span>&gt; go1.9.3
+</span></span><span style=display:flex><span>   system</span></span></code></pre></td></tr></table></div></div><h2 id=gvm-use>gvm use</h2><p>gvmで利用するGoのバージョンを変更する</p><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-12><a style=outline:none;text-decoration:none;color:inherit href=#ano-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-13><a style=outline:none;text-decoration:none;color:inherit href=#ano-13>13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-14><a style=outline:none;text-decoration:none;color:inherit href=#ano-14>14</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ gvm use go1.8.3
+</span></span><span style=display:flex><span>Now using version go1.8.3
+</span></span><span style=display:flex><span>$ go version
+</span></span><span style=display:flex><span>go version go1.8.3 darwin/amd64
+</span></span><span style=display:flex><span>$ gvm list
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>gvm gos <span style=color:#56b6c2>(</span>installed<span style=color:#56b6c2>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   go1.4
+</span></span><span style=display:flex><span>   go1.7.6
+</span></span><span style=display:flex><span><span style=color:#56b6c2>=</span>&gt; go1.8.3
+</span></span><span style=display:flex><span>   go1.9.2
+</span></span><span style=display:flex><span>   go1.9.3
+</span></span><span style=display:flex><span>   system</span></span></code></pre></td></tr></table></div></div><h1 id=最後に>最後に</h1><p>使い方はとても簡単ですね。</p><p>そこまでバージョン切り替えて使うシーンがどこまであるかわかりませんが、Golangで開発するなら導入しておいて損はないと思います。</p></article></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"></div><div class=grow></div><div class="flex flex-row"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1018 0A9 9 0 103 12"/><path d="M14 9.75a3.016 3.016.0 00-4.163.173 2.993 2.993.0 000 4.154A3.016 3.016.0 0014 14.25"/></svg>
+</i>2015 - 2024 TechTeco</div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>

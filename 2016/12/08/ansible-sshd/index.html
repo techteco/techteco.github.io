@@ -1,210 +1,412 @@
 <!doctype html><html lang=ja dir=ltr><head><title>ansibleでsshdの設定 :: Jot down for myself - Technical notes on AWS, Go, React, etc.</title>
-<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="前提 ここまで終わってること ansible実行用のhostをvagrantのansible_localで設定 hostからansibleでcen"><meta name=keywords content="aws,golang,react,typescript,mysql"><meta name=robots content="noodp"><meta property="og:url" content="https://techteco.github.io/2016/12/08/ansible-sshd/"><meta property="og:site_name" content="Jot down for myself"><meta property="og:title" content="ansibleでsshdの設定"><meta property="og:description" content="ansibleでsshdの設定をする"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2016-12-08T17:00:00+09:00"><meta property="article:modified_time" content="2024-05-24T16:04:29+09:00"><meta property="article:tag" content="Sshd"><meta name=twitter:card content="summary"><meta name=twitter:title content="ansibleでsshdの設定"><meta name=twitter:description content="ansibleでsshdの設定をする"><link rel=canonical href=https://techteco.github.io/2016/12/08/ansible-sshd/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.5d96433bd17079764d5a8866addd6d7848ea8295977a06688f43c5be97af544e.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"TechTeco"},"dateModified":"2024-05-24T16:04:29+09:00","datePublished":"2016-12-08T17:00:00+09:00","description":"前提 ここまで終わってること ansible実行用のhostをvagrantのansible_localで設定 hostからansibleでcen","name":"ansibleでsshdの設定","url":"https://techteco.github.io/2016/12/08/ansible-sshd/"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ML7QTSL8BR"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ML7QTSL8BR")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full" src=/images/button-305726_1280.png alt=logo></a></div><div class=flex-1></div><div class=flex-none></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only></span>
-<i class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
-</i><i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg></i></div></label></div></div></header><main class="flex flex-auto justify-center"><div class="w-full max-w-4xl lg:max-w-5xl"><div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700"><div><a href=/2016/12/08/ansible-sshd/></a></div><div class="flex flex-col gap-y-3 p-6"><h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100"><a href=/2016/12/08/ansible-sshd/>ansibleでsshdの設定</a></h1><h2 class="my-4 text-large text-slate-600 dark:text-slate-300">ansibleでsshdの設定をする</h2><ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300"><li><a href=/categories/server/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">Server</a></li><li><a href=/categories/server/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">Server</a></li><li><a href=/tags/sshd/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="前提 ここまで終わってること ansible実行用のhostをvagrantのansible_localで設定 hostからansibleでcen"><meta name=keywords content="aws,golang,react,typescript,mysql"><meta name=robots content="noodp"><meta property="og:url" content="https://techteco.github.io/2016/12/08/ansible-sshd/"><meta property="og:site_name" content="Jot down for myself"><meta property="og:title" content="ansibleでsshdの設定"><meta property="og:description" content="ansibleでsshdの設定をする"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta property="article:published_time" content="2016-12-08T17:00:00+09:00"><meta property="article:modified_time" content="2024-05-25T12:10:51+09:00"><meta property="article:tag" content="Ansible"><meta property="article:tag" content="Sshd"><meta name=twitter:card content="summary"><meta name=twitter:title content="ansibleでsshdの設定"><meta name=twitter:description content="ansibleでsshdの設定をする"><link rel=canonical href=https://techteco.github.io/2016/12/08/ansible-sshd/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.5d96433bd17079764d5a8866addd6d7848ea8295977a06688f43c5be97af544e.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"TechTeco"},"dateModified":"2024-05-25T12:10:51+09:00","datePublished":"2016-12-08T17:00:00+09:00","description":"前提 ここまで終わってること ansible実行用のhostをvagrantのansible_localで設定 hostからansibleでcen","name":"ansibleでsshdの設定","url":"https://techteco.github.io/2016/12/08/ansible-sshd/"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-ML7QTSL8BR"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ML7QTSL8BR")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2458671576041251" crossorigin=anonymous></script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full" src=/images/button-305726_1280.png alt=logo></a></div><div class=flex-1></div><div class=flex-none></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only>検索</span>
+<i class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title=ダークモードを切り替える><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label=ダークモードを切り替える><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
+</i><i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg></i></div></label></div></div></header><main class="flex flex-auto justify-center"><div class="w-full max-w-4xl lg:max-w-5xl"><div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700"><div><a href=/2016/12/08/ansible-sshd/></a></div><div class="flex flex-col gap-y-3 p-6"><h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100"><a href=/2016/12/08/ansible-sshd/>ansibleでsshdの設定</a></h1><h2 class="my-4 text-large text-slate-600 dark:text-slate-300">ansibleでsshdの設定をする</h2><ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300"><li><a href=/categories/server/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">Server</a></li><li><a href=/tags/ansible/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>Ansible</span></a></li><li><a href=/tags/sshd/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
 </i><span class=ml-0>sshd</span></a></li></ul><div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300"><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
-</i><time datetime=2016-12-08T17:00:00+09:00>2016-12-08</time></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2></h2><aside><nav id=TableOfContents><ul><li><a href=#ファイル構成>ファイル構成</a></li><li><a href=#各ファイル>各ファイル</a><ul><li><a href=#provisionrolescentos72tasksmainyml>provision/roles/CentOS7.2/tasks/main.yml</a></li><li><a href=#provisionrolescentos72taskssshyml>provision/roles/CentOS7.2/tasks/ssh.yml</a></li><li><a href=#provisionrolescentos72handlersmainyml>provision/roles/CentOS7.2/handlers/main.yml</a></li></ul></li><li><a href=#ansible実行で設定反映>ansible実行で設定反映</a></li><li><a href=#sshdの起動確認>sshdの起動確認</a></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h1 id=前提>前提</h1><p>ここまで終わってること</p><ol><li><a href=https://techteco.github.io/2016/11/28/vagrant-ansible-local-1/>ansible実行用のhostをvagrantのansible_localで設定</a></li><li><a href=https://techteco.github.io/2016/11/29/vagrant-ansible-local-2/>hostからansibleでcentOS 7.2の基本設定</a></li></ol><h1 id=やること>やること</h1><ol><li>ansibleでsshdの設定</li><li>ansible実行で設定反映</li><li>sshdの起動確認</li></ol><h1 id=1ansibleでsshdの設定>1.ansibleでsshdの設定</h1><h2 id=ファイル構成>ファイル構成</h2><pre><code class="language-bash line-numbers">$ tree
-.
-├── Vagrantfile
-├── ansible.cfg
-└── provision
-    ├── development
-    ├── group_vars
-    │   └── web.yml
-    ├── host
-    ├── roles
-    │   ├── CentOS7.2
-    │   │   ├── handlers
-    │   │   │   └── main.yml        &lt;&lt;&lt;&lt; 変更
-    │   │   ├── tasks
-    │   │   │   ├── chrony.yml
-    │   │   │   ├── env.yml
-    │   │   │   ├── locale.yml
-    │   │   │   ├── main.yml        &lt;&lt;&lt;&lt; 変更
-    │   │   │   ├── selinux.yml
-    │   │   │   ├── sshd.yml        &lt;&lt;&lt;&lt; 追加
-    │   │   │   └── yumallupdate.yml
-    │   │   ├── templates
-    │   │   │   ├── alias.sh.j2
-    │   │   │   └── chrony.conf.j2
-    │   │   └── vars
-    │   │       └── main.yml
-    │   └── ansible
-    │       ├── tasks
-    │       │   ├── main.yml
-    │       │   └── ssh.yml
-    │       └── templates
-    │           └── ssh
-    │               └── config.j2
-    └── site.yml
-
-12 directories, 20 files
-</code></pre><h2 id=各ファイル>各ファイル</h2><h3 id=provisionrolescentos72tasksmainyml>provision/roles/CentOS7.2/tasks/main.yml</h3><pre><code class="language-diff line-numbers">@@ -6,3 &#43;6,4 @@
- - include: chrony.yml
- - include: env.yml
- - include: selinux.yml
-&#43;- include: sshd.yml
-</code></pre><h3 id=provisionrolescentos72taskssshyml>provision/roles/CentOS7.2/tasks/ssh.yml</h3><pre><code class="language-yaml line-numbers">---
-# file: ./CentOS7.2/tasks/sshd.yml
-
-- block:
-
-  - name: check existing sshd_config backup file
-    stat:
-      path: /etc/ssh/sshd_config.bk
-    register: sshd_config_bkup
-
-  - debug: var=sshd_config_bkup
-
-  - name: copy sshd_config to bk
-    command: cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
-    when: sshd_config_bkup.stat.exists == False
-
-  - name: modify sshd_config
-    lineinfile:
-      dest: /etc/ssh/sshd_config
-      state: present
-      backrefs: yes
-      regexp: &#39;{{ item.regexp }}&#39;
-      line: &#39;{{ item.line }}&#39;
-    with_items:
-      - regexp: &#39;^#?\s*Port&#39;
-        line: &#39;Port {{ ansible_port }}&#39;
-      - regexp: &#39;^#?\s*PermitRootLogin&#39;
-        line: &#39;PermitRootLogin no&#39;
-      - regexp: &#39;^PasswordAuthentication yes&#39;
-        line: &#39;PasswordAuthentication no&#39;
-      - regexp: &#39;^#?\s*PubkeyAuthentication&#39;
-        line: &#39;PubkeyAuthentication yes&#39;
-    notify:
-      - restart sshd
-    tags:
-      - construct
-      - ssh
-
-  - name: check sshd_config changed
-    command: diff /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
-    register: sshd_config_diff
-    ignore_errors: yes
-
-  - debug: var=sshd_config_diff.stdout_lines
-
-  become: yes
-  tags:
-    - construct
-    - sshd
-</code></pre><h3 id=provisionrolescentos72handlersmainyml>provision/roles/CentOS7.2/handlers/main.yml</h3><pre><code class="language-diff line-numbers">@@ -8,3 &#43;8,10 @@
-       name: chronyd
-       state: restarted
-       enabled: yes
-&#43;
-&#43;  - name: restart sshd
-&#43;    become: yes
-&#43;    service:
-&#43;      name: sshd
-&#43;      state: restarted
-&#43;      enabled: yes
-</code></pre><h2 id=ansible実行で設定反映>ansible実行で設定反映</h2><pre><code class="language-bash line-numbers">$ ansible-playbook -i /vagrant/development /vagrant/site.yml
-
-PLAY [web] *********************************************************************
-
-TASK [setup] *******************************************************************
-ok: [192.168.52.52]
-
-TASK [CentOS7.2 : yum update all] **********************************************
-ok: [192.168.52.52]
-
-TASK [CentOS7.2 : check CentOS version] ****************************************
-changed: [192.168.52.52]
-
-TASK [CentOS7.2 : set LANG] ****************************************************
-changed: [192.168.52.52]
-
-TASK [CentOS7.2 : set keymap] **************************************************
-changed: [192.168.52.52]
-
-TASK [CentOS7.2 : set timezone] ************************************************
-changed: [192.168.52.52]
-
-TASK [CentOS7.2 : install chrony] **********************************************
-ok: [192.168.52.52]
-
-TASK [CentOS7.2 : start chrony] ************************************************
-ok: [192.168.52.52]
-
-TASK [CentOS7.2 : copy chrony.conf template] ***********************************
-ok: [192.168.52.52]
-
-TASK [CentOS7.2 : copy /etc/profile.d/alias.sh template] ***********************
-ok: [192.168.52.52]
-
-TASK [CentOS7.2 : install selinux util] ****************************************
-ok: [192.168.52.52] =&gt; (item=[u&#39;libselinux-python&#39;, u&#39;libselinux-utils&#39;, u&#39;selinux-policy&#39;, u&#39;selinux-policy-targeted&#39;])
-
-TASK [CentOS7.2 : disable selinux] *********************************************
-ok: [192.168.52.52]
-
-TASK [CentOS7.2 : check existing sshd_config backup file] **********************
-ok: [192.168.52.52]
-
-TASK [CentOS7.2 : debug] *******************************************************
-ok: [192.168.52.52] =&gt; {
-    &#34;sshd_config_bkup&#34;: {
-        &#34;changed&#34;: false,
-        &#34;stat&#34;: {
-            &#34;exists&#34;: false
-        }
-    }
-}
-
-TASK [CentOS7.2 : copy sshd_config to bk] **************************************
-changed: [192.168.52.52]
-
-TASK [CentOS7.2 : modify sshd_config] ******************************************
-changed: [192.168.52.52] =&gt; (item={u&#39;regexp&#39;: u&#39;^#?\\s*Port&#39;, u&#39;line&#39;: u&#39;Port 22&#39;})
-changed: [192.168.52.52] =&gt; (item={u&#39;regexp&#39;: u&#39;^#?\\s*PermitRootLogin&#39;, u&#39;line&#39;: u&#39;PermitRootLogin no&#39;})
-changed: [192.168.52.52] =&gt; (item={u&#39;regexp&#39;: u&#39;^PasswordAuthentication yes&#39;, u&#39;line&#39;: u&#39;PasswordAuthentication no&#39;})
-changed: [192.168.52.52] =&gt; (item={u&#39;regexp&#39;: u&#39;^#?\\s*PubkeyAuthentication&#39;, u&#39;line&#39;: u&#39;PubkeyAuthentication yes&#39;})
-
-TASK [CentOS7.2 : check sshd_config changed] ***********************************
-fatal: [192.168.52.52]: FAILED! =&gt; {&#34;changed&#34;: true, &#34;cmd&#34;: [&#34;diff&#34;, &#34;/etc/ssh/sshd_config&#34;, &#34;/etc/ssh/sshd_config.bk&#34;], &#34;delta&#34;: &#34;0:00:00.002562&#34;, &#34;end&#34;: &#34;2016-12-08 16:24:22.570969&#34;, &#34;failed&#34;: true, &#34;rc&#34;: 1, &#34;start&#34;: &#34;2016-12-08 16:24:22.568407&#34;, &#34;stderr&#34;: &#34;&#34;, &#34;stdout&#34;: &#34;17c17\n&lt; Port 22\n---\n&gt; #Port 22\n49c49\n&lt; PermitRootLogin no\n---\n&gt; #PermitRootLogin yes\n55c55\n&lt; PubkeyAuthentication yes\n---\n&gt; #PubkeyAuthentication yes\n79c79\n&lt; PasswordAuthentication no\n---\n&gt; PasswordAuthentication yes&#34;, &#34;stdout_lines&#34;: [&#34;17c17&#34;, &#34;&lt; Port 22&#34;, &#34;---&#34;, &#34;&gt; #Port 22&#34;, &#34;49c49&#34;, &#34;&lt; PermitRootLogin no&#34;, &#34;---&#34;, &#34;&gt; #PermitRootLogin yes&#34;, &#34;55c55&#34;, &#34;&lt; PubkeyAuthentication yes&#34;, &#34;---&#34;, &#34;&gt; #PubkeyAuthentication yes&#34;, &#34;79c79&#34;, &#34;&lt; PasswordAuthentication no&#34;, &#34;---&#34;, &#34;&gt; PasswordAuthentication yes&#34;], &#34;warnings&#34;: []}
-...ignoring
-
-TASK [CentOS7.2 : debug] *******************************************************
-ok: [192.168.52.52] =&gt; {
-    &#34;sshd_config_diff.stdout_lines&#34;: [
-        &#34;17c17&#34;,
-        &#34;&lt; Port 22&#34;,
-        &#34;---&#34;,
-        &#34;&gt; #Port 22&#34;,
-        &#34;49c49&#34;,
-        &#34;&lt; PermitRootLogin no&#34;,
-        &#34;---&#34;,
-        &#34;&gt; #PermitRootLogin yes&#34;,
-        &#34;55c55&#34;,
-        &#34;&lt; PubkeyAuthentication yes&#34;,
-        &#34;---&#34;,
-        &#34;&gt; #PubkeyAuthentication yes&#34;,
-        &#34;79c79&#34;,
-        &#34;&lt; PasswordAuthentication no&#34;,
-        &#34;---&#34;,
-        &#34;&gt; PasswordAuthentication yes&#34;
-    ]
-}
-
-RUNNING HANDLER [CentOS7.2 : restart sshd] *************************************
-changed: [192.168.52.52]
-
-PLAY RECAP *********************************************************************
-192.168.52.52              : ok=19   changed=7    unreachable=0    failed=0
-</code></pre><h2 id=sshdの起動確認>sshdの起動確認</h2><pre><code class="language-bash line-numbers">[vagrant@web ssh]$ systemctl status  sshd.service
-● sshd.service - OpenSSH server daemon
-   Loaded: loaded (/usr/lib/systemd/system/sshd.service; enabled; vendor preset: enabled)
-   Active: active (running) since 木 2016-12-08 16:24:22 JST; 48min ago
-     Docs: man:sshd(8)
-           man:sshd_config(5)
- Main PID: 15539 (sshd)
-   CGroup: /system.slice/sshd.service
-           └─15539 /usr/sbin/sshd -D
-[vagrant@web ssh]$
-</code></pre></article></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"></div><div class=grow></div><div class="flex flex-row"></div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>
+</i><time datetime=2016-12-08T17:00:00+09:00>2016-12-08</time></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2>目次</h2><aside><nav id=TableOfContents><ul><li><a href=#前提>前提</a></li><li><a href=#やること>やること</a></li><li><a href=#1ansibleでsshdの設定>1.ansibleでsshdの設定</a><ul><li><a href=#ファイル構成>ファイル構成</a></li><li><a href=#各ファイル>各ファイル</a></li><li><a href=#ansible実行で設定反映>ansible実行で設定反映</a></li><li><a href=#sshdの起動確認>sshdの起動確認</a></li></ul></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h1 id=前提>前提</h1><p>ここまで終わってること</p><ol><li><a href=https://techteco.github.io/2016/11/28/vagrant-ansible-local-1/>ansible実行用のhostをvagrantのansible_localで設定</a></li><li><a href=https://techteco.github.io/2016/11/29/vagrant-ansible-local-2/>hostからansibleでcentOS 7.2の基本設定</a></li></ol><h1 id=やること>やること</h1><ol><li>ansibleでsshdの設定</li><li>ansible実行で設定反映</li><li>sshdの起動確認</li></ol><h1 id=1ansibleでsshdの設定>1.ansibleでsshdの設定</h1><h2 id=ファイル構成>ファイル構成</h2><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-12><a style=outline:none;text-decoration:none;color:inherit href=#ano-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-13><a style=outline:none;text-decoration:none;color:inherit href=#ano-13>13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-14><a style=outline:none;text-decoration:none;color:inherit href=#ano-14>14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-15><a style=outline:none;text-decoration:none;color:inherit href=#ano-15>15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-16><a style=outline:none;text-decoration:none;color:inherit href=#ano-16>16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-17><a style=outline:none;text-decoration:none;color:inherit href=#ano-17>17</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-18><a style=outline:none;text-decoration:none;color:inherit href=#ano-18>18</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-19><a style=outline:none;text-decoration:none;color:inherit href=#ano-19>19</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-20><a style=outline:none;text-decoration:none;color:inherit href=#ano-20>20</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-21><a style=outline:none;text-decoration:none;color:inherit href=#ano-21>21</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-22><a style=outline:none;text-decoration:none;color:inherit href=#ano-22>22</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-23><a style=outline:none;text-decoration:none;color:inherit href=#ano-23>23</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-24><a style=outline:none;text-decoration:none;color:inherit href=#ano-24>24</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-25><a style=outline:none;text-decoration:none;color:inherit href=#ano-25>25</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-26><a style=outline:none;text-decoration:none;color:inherit href=#ano-26>26</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-27><a style=outline:none;text-decoration:none;color:inherit href=#ano-27>27</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-28><a style=outline:none;text-decoration:none;color:inherit href=#ano-28>28</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-29><a style=outline:none;text-decoration:none;color:inherit href=#ano-29>29</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-30><a style=outline:none;text-decoration:none;color:inherit href=#ano-30>30</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-31><a style=outline:none;text-decoration:none;color:inherit href=#ano-31>31</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-32><a style=outline:none;text-decoration:none;color:inherit href=#ano-32>32</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-33><a style=outline:none;text-decoration:none;color:inherit href=#ano-33>33</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-34><a style=outline:none;text-decoration:none;color:inherit href=#ano-34>34</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-35><a style=outline:none;text-decoration:none;color:inherit href=#ano-35>35</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-36><a style=outline:none;text-decoration:none;color:inherit href=#ano-36>36</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tree
+</span></span><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── Vagrantfile
+</span></span><span style=display:flex><span>├── ansible.cfg
+</span></span><span style=display:flex><span>└── provision
+</span></span><span style=display:flex><span>    ├── development
+</span></span><span style=display:flex><span>    ├── group_vars
+</span></span><span style=display:flex><span>    │   └── web.yml
+</span></span><span style=display:flex><span>    ├── host
+</span></span><span style=display:flex><span>    ├── roles
+</span></span><span style=display:flex><span>    │   ├── CentOS7.2
+</span></span><span style=display:flex><span>    │   │   ├── handlers
+</span></span><span style=display:flex><span>    │   │   │   └── main.yml        <span style=color:#56b6c2>&lt;&lt;&lt;</span>&lt; 変更
+</span></span><span style=display:flex><span>    │   │   ├── tasks
+</span></span><span style=display:flex><span>    │   │   │   ├── chrony.yml
+</span></span><span style=display:flex><span>    │   │   │   ├── env.yml
+</span></span><span style=display:flex><span>    │   │   │   ├── locale.yml
+</span></span><span style=display:flex><span>    │   │   │   ├── main.yml        <span style=color:#56b6c2>&lt;&lt;&lt;</span>&lt; 変更
+</span></span><span style=display:flex><span>    │   │   │   ├── selinux.yml
+</span></span><span style=display:flex><span>    │   │   │   ├── sshd.yml        <span style=color:#56b6c2>&lt;&lt;&lt;</span>&lt; 追加
+</span></span><span style=display:flex><span>    │   │   │   └── yumallupdate.yml
+</span></span><span style=display:flex><span>    │   │   ├── templates
+</span></span><span style=display:flex><span>    │   │   │   ├── alias.sh.j2
+</span></span><span style=display:flex><span>    │   │   │   └── chrony.conf.j2
+</span></span><span style=display:flex><span>    │   │   └── vars
+</span></span><span style=display:flex><span>    │   │       └── main.yml
+</span></span><span style=display:flex><span>    │   └── ansible
+</span></span><span style=display:flex><span>    │       ├── tasks
+</span></span><span style=display:flex><span>    │       │   ├── main.yml
+</span></span><span style=display:flex><span>    │       │   └── ssh.yml
+</span></span><span style=display:flex><span>    │       └── templates
+</span></span><span style=display:flex><span>    │           └── ssh
+</span></span><span style=display:flex><span>    │               └── config.j2
+</span></span><span style=display:flex><span>    └── site.yml
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#d19a66>12</span> directories, <span style=color:#d19a66>20</span> files</span></span></code></pre></td></tr></table></div></div><h2 id=各ファイル>各ファイル</h2><h3 id=provisionrolescentos72tasksmainyml>provision/roles/CentOS7.2/tasks/main.yml</h3><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1>1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2>2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3>3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4>4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5>5</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span>@@ -6,3 +6,4 @@
+</span></span><span style=display:flex><span> - include: chrony.yml
+</span></span><span style=display:flex><span> - include: env.yml
+</span></span><span style=display:flex><span> - include: selinux.yml
+</span></span><span style=display:flex><span><span style=color:#98c379;font-weight:700>+- include: sshd.yml
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=provisionrolescentos72taskssshyml>provision/roles/CentOS7.2/tasks/ssh.yml</h3><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-12><a style=outline:none;text-decoration:none;color:inherit href=#ano-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-13><a style=outline:none;text-decoration:none;color:inherit href=#ano-13>13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-14><a style=outline:none;text-decoration:none;color:inherit href=#ano-14>14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-15><a style=outline:none;text-decoration:none;color:inherit href=#ano-15>15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-16><a style=outline:none;text-decoration:none;color:inherit href=#ano-16>16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-17><a style=outline:none;text-decoration:none;color:inherit href=#ano-17>17</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-18><a style=outline:none;text-decoration:none;color:inherit href=#ano-18>18</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-19><a style=outline:none;text-decoration:none;color:inherit href=#ano-19>19</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-20><a style=outline:none;text-decoration:none;color:inherit href=#ano-20>20</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-21><a style=outline:none;text-decoration:none;color:inherit href=#ano-21>21</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-22><a style=outline:none;text-decoration:none;color:inherit href=#ano-22>22</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-23><a style=outline:none;text-decoration:none;color:inherit href=#ano-23>23</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-24><a style=outline:none;text-decoration:none;color:inherit href=#ano-24>24</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-25><a style=outline:none;text-decoration:none;color:inherit href=#ano-25>25</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-26><a style=outline:none;text-decoration:none;color:inherit href=#ano-26>26</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-27><a style=outline:none;text-decoration:none;color:inherit href=#ano-27>27</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-28><a style=outline:none;text-decoration:none;color:inherit href=#ano-28>28</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-29><a style=outline:none;text-decoration:none;color:inherit href=#ano-29>29</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-30><a style=outline:none;text-decoration:none;color:inherit href=#ano-30>30</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-31><a style=outline:none;text-decoration:none;color:inherit href=#ano-31>31</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-32><a style=outline:none;text-decoration:none;color:inherit href=#ano-32>32</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-33><a style=outline:none;text-decoration:none;color:inherit href=#ano-33>33</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-34><a style=outline:none;text-decoration:none;color:inherit href=#ano-34>34</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-35><a style=outline:none;text-decoration:none;color:inherit href=#ano-35>35</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-36><a style=outline:none;text-decoration:none;color:inherit href=#ano-36>36</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-37><a style=outline:none;text-decoration:none;color:inherit href=#ano-37>37</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-38><a style=outline:none;text-decoration:none;color:inherit href=#ano-38>38</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-39><a style=outline:none;text-decoration:none;color:inherit href=#ano-39>39</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-40><a style=outline:none;text-decoration:none;color:inherit href=#ano-40>40</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-41><a style=outline:none;text-decoration:none;color:inherit href=#ano-41>41</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-42><a style=outline:none;text-decoration:none;color:inherit href=#ano-42>42</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-43><a style=outline:none;text-decoration:none;color:inherit href=#ano-43>43</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-44><a style=outline:none;text-decoration:none;color:inherit href=#ano-44>44</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-45><a style=outline:none;text-decoration:none;color:inherit href=#ano-45>45</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-46><a style=outline:none;text-decoration:none;color:inherit href=#ano-46>46</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-47><a style=outline:none;text-decoration:none;color:inherit href=#ano-47>47</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-48><a style=outline:none;text-decoration:none;color:inherit href=#ano-48>48</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-49><a style=outline:none;text-decoration:none;color:inherit href=#ano-49>49</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#e06c75>---</span>
+</span></span><span style=display:flex><span><span style=color:#7f848e># file: ./CentOS7.2/tasks/sshd.yml</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>- <span style=color:#e06c75>block</span>:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>name</span>: check existing sshd_config backup file
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>stat</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>path</span>: /etc/ssh/sshd_config.bk
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>register</span>: sshd_config_bkup
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>debug</span>: var=sshd_config_bkup
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>name</span>: copy sshd_config to bk
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>command</span>: cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>when</span>: sshd_config_bkup.stat.exists == False
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>name</span>: modify sshd_config
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>lineinfile</span>:
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>dest</span>: /etc/ssh/sshd_config
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>state</span>: present
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>backrefs</span>: <span style=color:#e5c07b>yes</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>regexp</span>: <span style=color:#98c379>&#39;{{ item.regexp }}&#39;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e06c75>line</span>: <span style=color:#98c379>&#39;{{ item.line }}&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>with_items</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#e06c75>regexp</span>: <span style=color:#98c379>&#39;^#?\s*Port&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>line</span>: <span style=color:#98c379>&#39;Port {{ ansible_port }}&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e06c75>regexp</span>: <span style=color:#98c379>&#39;^#?\s*PermitRootLogin&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>line</span>: <span style=color:#98c379>&#39;PermitRootLogin no&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e06c75>regexp</span>: <span style=color:#98c379>&#39;^PasswordAuthentication yes&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>line</span>: <span style=color:#98c379>&#39;PasswordAuthentication no&#39;</span>
+</span></span><span style=display:flex><span>      - <span style=color:#e06c75>regexp</span>: <span style=color:#98c379>&#39;^#?\s*PubkeyAuthentication&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e06c75>line</span>: <span style=color:#98c379>&#39;PubkeyAuthentication yes&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>notify</span>:
+</span></span><span style=display:flex><span>      - restart sshd
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>tags</span>:
+</span></span><span style=display:flex><span>      - construct
+</span></span><span style=display:flex><span>      - ssh
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>name</span>: check sshd_config changed
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>command</span>: diff /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>register</span>: sshd_config_diff
+</span></span><span style=display:flex><span>    <span style=color:#e06c75>ignore_errors</span>: <span style=color:#e5c07b>yes</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  - <span style=color:#e06c75>debug</span>: var=sshd_config_diff.stdout_lines
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>become</span>: <span style=color:#e5c07b>yes</span>
+</span></span><span style=display:flex><span>  <span style=color:#e06c75>tags</span>:
+</span></span><span style=display:flex><span>    - construct
+</span></span><span style=display:flex><span>    - sshd</span></span></code></pre></td></tr></table></div></div><h3 id=provisionrolescentos72handlersmainyml>provision/roles/CentOS7.2/handlers/main.yml</h3><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11>11</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span>@@ -8,3 +8,10 @@
+</span></span><span style=display:flex><span>       name: chronyd
+</span></span><span style=display:flex><span>       state: restarted
+</span></span><span style=display:flex><span>       enabled: yes
+</span></span><span style=display:flex><span><span style=color:#98c379;font-weight:700>+
+</span></span></span><span style=display:flex><span><span style=color:#98c379;font-weight:700>+  - name: restart sshd
+</span></span></span><span style=display:flex><span><span style=color:#98c379;font-weight:700>+    become: yes
+</span></span></span><span style=display:flex><span><span style=color:#98c379;font-weight:700>+    service:
+</span></span></span><span style=display:flex><span><span style=color:#98c379;font-weight:700>+      name: sshd
+</span></span></span><span style=display:flex><span><span style=color:#98c379;font-weight:700>+      state: restarted
+</span></span></span><span style=display:flex><span><span style=color:#98c379;font-weight:700>+      enabled: yes
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=ansible実行で設定反映>ansible実行で設定反映</h2><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-11><a style=outline:none;text-decoration:none;color:inherit href=#ano-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-12><a style=outline:none;text-decoration:none;color:inherit href=#ano-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-13><a style=outline:none;text-decoration:none;color:inherit href=#ano-13>13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-14><a style=outline:none;text-decoration:none;color:inherit href=#ano-14>14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-15><a style=outline:none;text-decoration:none;color:inherit href=#ano-15>15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-16><a style=outline:none;text-decoration:none;color:inherit href=#ano-16>16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-17><a style=outline:none;text-decoration:none;color:inherit href=#ano-17>17</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-18><a style=outline:none;text-decoration:none;color:inherit href=#ano-18>18</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-19><a style=outline:none;text-decoration:none;color:inherit href=#ano-19>19</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-20><a style=outline:none;text-decoration:none;color:inherit href=#ano-20>20</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-21><a style=outline:none;text-decoration:none;color:inherit href=#ano-21>21</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-22><a style=outline:none;text-decoration:none;color:inherit href=#ano-22>22</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-23><a style=outline:none;text-decoration:none;color:inherit href=#ano-23>23</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-24><a style=outline:none;text-decoration:none;color:inherit href=#ano-24>24</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-25><a style=outline:none;text-decoration:none;color:inherit href=#ano-25>25</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-26><a style=outline:none;text-decoration:none;color:inherit href=#ano-26>26</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-27><a style=outline:none;text-decoration:none;color:inherit href=#ano-27>27</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-28><a style=outline:none;text-decoration:none;color:inherit href=#ano-28>28</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-29><a style=outline:none;text-decoration:none;color:inherit href=#ano-29>29</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-30><a style=outline:none;text-decoration:none;color:inherit href=#ano-30>30</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-31><a style=outline:none;text-decoration:none;color:inherit href=#ano-31>31</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-32><a style=outline:none;text-decoration:none;color:inherit href=#ano-32>32</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-33><a style=outline:none;text-decoration:none;color:inherit href=#ano-33>33</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-34><a style=outline:none;text-decoration:none;color:inherit href=#ano-34>34</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-35><a style=outline:none;text-decoration:none;color:inherit href=#ano-35>35</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-36><a style=outline:none;text-decoration:none;color:inherit href=#ano-36>36</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-37><a style=outline:none;text-decoration:none;color:inherit href=#ano-37>37</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-38><a style=outline:none;text-decoration:none;color:inherit href=#ano-38>38</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-39><a style=outline:none;text-decoration:none;color:inherit href=#ano-39>39</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-40><a style=outline:none;text-decoration:none;color:inherit href=#ano-40>40</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-41><a style=outline:none;text-decoration:none;color:inherit href=#ano-41>41</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-42><a style=outline:none;text-decoration:none;color:inherit href=#ano-42>42</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-43><a style=outline:none;text-decoration:none;color:inherit href=#ano-43>43</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-44><a style=outline:none;text-decoration:none;color:inherit href=#ano-44>44</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-45><a style=outline:none;text-decoration:none;color:inherit href=#ano-45>45</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-46><a style=outline:none;text-decoration:none;color:inherit href=#ano-46>46</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-47><a style=outline:none;text-decoration:none;color:inherit href=#ano-47>47</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-48><a style=outline:none;text-decoration:none;color:inherit href=#ano-48>48</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-49><a style=outline:none;text-decoration:none;color:inherit href=#ano-49>49</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-50><a style=outline:none;text-decoration:none;color:inherit href=#ano-50>50</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-51><a style=outline:none;text-decoration:none;color:inherit href=#ano-51>51</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-52><a style=outline:none;text-decoration:none;color:inherit href=#ano-52>52</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-53><a style=outline:none;text-decoration:none;color:inherit href=#ano-53>53</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-54><a style=outline:none;text-decoration:none;color:inherit href=#ano-54>54</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-55><a style=outline:none;text-decoration:none;color:inherit href=#ano-55>55</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-56><a style=outline:none;text-decoration:none;color:inherit href=#ano-56>56</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-57><a style=outline:none;text-decoration:none;color:inherit href=#ano-57>57</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-58><a style=outline:none;text-decoration:none;color:inherit href=#ano-58>58</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-59><a style=outline:none;text-decoration:none;color:inherit href=#ano-59>59</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-60><a style=outline:none;text-decoration:none;color:inherit href=#ano-60>60</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-61><a style=outline:none;text-decoration:none;color:inherit href=#ano-61>61</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-62><a style=outline:none;text-decoration:none;color:inherit href=#ano-62>62</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-63><a style=outline:none;text-decoration:none;color:inherit href=#ano-63>63</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-64><a style=outline:none;text-decoration:none;color:inherit href=#ano-64>64</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-65><a style=outline:none;text-decoration:none;color:inherit href=#ano-65>65</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-66><a style=outline:none;text-decoration:none;color:inherit href=#ano-66>66</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-67><a style=outline:none;text-decoration:none;color:inherit href=#ano-67>67</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-68><a style=outline:none;text-decoration:none;color:inherit href=#ano-68>68</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-69><a style=outline:none;text-decoration:none;color:inherit href=#ano-69>69</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-70><a style=outline:none;text-decoration:none;color:inherit href=#ano-70>70</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-71><a style=outline:none;text-decoration:none;color:inherit href=#ano-71>71</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-72><a style=outline:none;text-decoration:none;color:inherit href=#ano-72>72</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-73><a style=outline:none;text-decoration:none;color:inherit href=#ano-73>73</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-74><a style=outline:none;text-decoration:none;color:inherit href=#ano-74>74</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-75><a style=outline:none;text-decoration:none;color:inherit href=#ano-75>75</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-76><a style=outline:none;text-decoration:none;color:inherit href=#ano-76>76</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-77><a style=outline:none;text-decoration:none;color:inherit href=#ano-77>77</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-78><a style=outline:none;text-decoration:none;color:inherit href=#ano-78>78</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-79><a style=outline:none;text-decoration:none;color:inherit href=#ano-79>79</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-80><a style=outline:none;text-decoration:none;color:inherit href=#ano-80>80</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-81><a style=outline:none;text-decoration:none;color:inherit href=#ano-81>81</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-82><a style=outline:none;text-decoration:none;color:inherit href=#ano-82>82</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-83><a style=outline:none;text-decoration:none;color:inherit href=#ano-83>83</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-84><a style=outline:none;text-decoration:none;color:inherit href=#ano-84>84</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-85><a style=outline:none;text-decoration:none;color:inherit href=#ano-85>85</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-86><a style=outline:none;text-decoration:none;color:inherit href=#ano-86>86</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-87><a style=outline:none;text-decoration:none;color:inherit href=#ano-87>87</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-88><a style=outline:none;text-decoration:none;color:inherit href=#ano-88>88</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-89><a style=outline:none;text-decoration:none;color:inherit href=#ano-89>89</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-90><a style=outline:none;text-decoration:none;color:inherit href=#ano-90>90</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-91><a style=outline:none;text-decoration:none;color:inherit href=#ano-91>91</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-92><a style=outline:none;text-decoration:none;color:inherit href=#ano-92>92</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-93><a style=outline:none;text-decoration:none;color:inherit href=#ano-93>93</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ ansible-playbook -i /vagrant/development /vagrant/site.yml
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>PLAY <span style=color:#56b6c2>[</span>web<span style=color:#56b6c2>]</span> *********************************************************************
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>setup<span style=color:#56b6c2>]</span> *******************************************************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : yum update all<span style=color:#56b6c2>]</span> **********************************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : check CentOS version<span style=color:#56b6c2>]</span> ****************************************
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : <span style=color:#e5c07b>set</span> LANG<span style=color:#56b6c2>]</span> ****************************************************
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : <span style=color:#e5c07b>set</span> keymap<span style=color:#56b6c2>]</span> **************************************************
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : <span style=color:#e5c07b>set</span> timezone<span style=color:#56b6c2>]</span> ************************************************
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : install chrony<span style=color:#56b6c2>]</span> **********************************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : start chrony<span style=color:#56b6c2>]</span> ************************************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : copy chrony.conf template<span style=color:#56b6c2>]</span> ***********************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : copy /etc/profile.d/alias.sh template<span style=color:#56b6c2>]</span> ***********************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : install selinux util<span style=color:#56b6c2>]</span> ****************************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span> <span style=color:#56b6c2>=</span>&gt; <span style=color:#56b6c2>(</span><span style=color:#e06c75>item</span><span style=color:#56b6c2>=[</span>u<span style=color:#98c379>&#39;libselinux-python&#39;</span>, u<span style=color:#98c379>&#39;libselinux-utils&#39;</span>, u<span style=color:#98c379>&#39;selinux-policy&#39;</span>, u<span style=color:#98c379>&#39;selinux-policy-targeted&#39;</span><span style=color:#56b6c2>])</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : disable selinux<span style=color:#56b6c2>]</span> *********************************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : check existing sshd_config backup file<span style=color:#56b6c2>]</span> **********************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : debug<span style=color:#56b6c2>]</span> *******************************************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span> <span style=color:#56b6c2>=</span>&gt; <span style=color:#56b6c2>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#98c379>&#34;sshd_config_bkup&#34;</span>: <span style=color:#56b6c2>{</span>
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;changed&#34;</span>: false,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;stat&#34;</span>: <span style=color:#56b6c2>{</span>
+</span></span><span style=display:flex><span>            <span style=color:#98c379>&#34;exists&#34;</span>: <span style=color:#e5c07b>false</span>
+</span></span><span style=display:flex><span>        <span style=color:#56b6c2>}</span>
+</span></span><span style=display:flex><span>    <span style=color:#56b6c2>}</span>
+</span></span><span style=display:flex><span><span style=color:#56b6c2>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : copy sshd_config to bk<span style=color:#56b6c2>]</span> **************************************
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : modify sshd_config<span style=color:#56b6c2>]</span> ******************************************
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span> <span style=color:#56b6c2>=</span>&gt; <span style=color:#56b6c2>(</span><span style=color:#e06c75>item</span><span style=color:#56b6c2>={</span>u<span style=color:#98c379>&#39;regexp&#39;</span>: u<span style=color:#98c379>&#39;^#?\\s*Port&#39;</span>, u<span style=color:#98c379>&#39;line&#39;</span>: u<span style=color:#98c379>&#39;Port 22&#39;</span><span style=color:#56b6c2>})</span>
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span> <span style=color:#56b6c2>=</span>&gt; <span style=color:#56b6c2>(</span><span style=color:#e06c75>item</span><span style=color:#56b6c2>={</span>u<span style=color:#98c379>&#39;regexp&#39;</span>: u<span style=color:#98c379>&#39;^#?\\s*PermitRootLogin&#39;</span>, u<span style=color:#98c379>&#39;line&#39;</span>: u<span style=color:#98c379>&#39;PermitRootLogin no&#39;</span><span style=color:#56b6c2>})</span>
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span> <span style=color:#56b6c2>=</span>&gt; <span style=color:#56b6c2>(</span><span style=color:#e06c75>item</span><span style=color:#56b6c2>={</span>u<span style=color:#98c379>&#39;regexp&#39;</span>: u<span style=color:#98c379>&#39;^PasswordAuthentication yes&#39;</span>, u<span style=color:#98c379>&#39;line&#39;</span>: u<span style=color:#98c379>&#39;PasswordAuthentication no&#39;</span><span style=color:#56b6c2>})</span>
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span> <span style=color:#56b6c2>=</span>&gt; <span style=color:#56b6c2>(</span><span style=color:#e06c75>item</span><span style=color:#56b6c2>={</span>u<span style=color:#98c379>&#39;regexp&#39;</span>: u<span style=color:#98c379>&#39;^#?\\s*PubkeyAuthentication&#39;</span>, u<span style=color:#98c379>&#39;line&#39;</span>: u<span style=color:#98c379>&#39;PubkeyAuthentication yes&#39;</span><span style=color:#56b6c2>})</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : check sshd_config changed<span style=color:#56b6c2>]</span> ***********************************
+</span></span><span style=display:flex><span>fatal: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>: FAILED! <span style=color:#56b6c2>=</span>&gt; <span style=color:#56b6c2>{</span><span style=color:#98c379>&#34;changed&#34;</span>: true, <span style=color:#98c379>&#34;cmd&#34;</span>: <span style=color:#56b6c2>[</span><span style=color:#98c379>&#34;diff&#34;</span>, <span style=color:#98c379>&#34;/etc/ssh/sshd_config&#34;</span>, <span style=color:#98c379>&#34;/etc/ssh/sshd_config.bk&#34;</span><span style=color:#56b6c2>]</span>, <span style=color:#98c379>&#34;delta&#34;</span>: <span style=color:#98c379>&#34;0:00:00.002562&#34;</span>, <span style=color:#98c379>&#34;end&#34;</span>: <span style=color:#98c379>&#34;2016-12-08 16:24:22.570969&#34;</span>, <span style=color:#98c379>&#34;failed&#34;</span>: true, <span style=color:#98c379>&#34;rc&#34;</span>: 1, <span style=color:#98c379>&#34;start&#34;</span>: <span style=color:#98c379>&#34;2016-12-08 16:24:22.568407&#34;</span>, <span style=color:#98c379>&#34;stderr&#34;</span>: <span style=color:#98c379>&#34;&#34;</span>, <span style=color:#98c379>&#34;stdout&#34;</span>: <span style=color:#98c379>&#34;17c17\n&lt; Port 22\n---\n&gt; #Port 22\n49c49\n&lt; PermitRootLogin no\n---\n&gt; #PermitRootLogin yes\n55c55\n&lt; PubkeyAuthentication yes\n---\n&gt; #PubkeyAuthentication yes\n79c79\n&lt; PasswordAuthentication no\n---\n&gt; PasswordAuthentication yes&#34;</span>, <span style=color:#98c379>&#34;stdout_lines&#34;</span>: <span style=color:#56b6c2>[</span><span style=color:#98c379>&#34;17c17&#34;</span>, <span style=color:#98c379>&#34;&lt; Port 22&#34;</span>, <span style=color:#98c379>&#34;---&#34;</span>, <span style=color:#98c379>&#34;&gt; #Port 22&#34;</span>, <span style=color:#98c379>&#34;49c49&#34;</span>, <span style=color:#98c379>&#34;&lt; PermitRootLogin no&#34;</span>, <span style=color:#98c379>&#34;---&#34;</span>, <span style=color:#98c379>&#34;&gt; #PermitRootLogin yes&#34;</span>, <span style=color:#98c379>&#34;55c55&#34;</span>, <span style=color:#98c379>&#34;&lt; PubkeyAuthentication yes&#34;</span>, <span style=color:#98c379>&#34;---&#34;</span>, <span style=color:#98c379>&#34;&gt; #PubkeyAuthentication yes&#34;</span>, <span style=color:#98c379>&#34;79c79&#34;</span>, <span style=color:#98c379>&#34;&lt; PasswordAuthentication no&#34;</span>, <span style=color:#98c379>&#34;---&#34;</span>, <span style=color:#98c379>&#34;&gt; PasswordAuthentication yes&#34;</span><span style=color:#56b6c2>]</span>, <span style=color:#98c379>&#34;warnings&#34;</span>: <span style=color:#56b6c2>[]}</span>
+</span></span><span style=display:flex><span>...ignoring
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>TASK <span style=color:#56b6c2>[</span>CentOS7.2 : debug<span style=color:#56b6c2>]</span> *******************************************************
+</span></span><span style=display:flex><span>ok: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span> <span style=color:#56b6c2>=</span>&gt; <span style=color:#56b6c2>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#98c379>&#34;sshd_config_diff.stdout_lines&#34;</span>: <span style=color:#56b6c2>[</span>
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;17c17&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;&lt; Port 22&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;---&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;&gt; #Port 22&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;49c49&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;&lt; PermitRootLogin no&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;---&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;&gt; #PermitRootLogin yes&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;55c55&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;&lt; PubkeyAuthentication yes&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;---&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;&gt; #PubkeyAuthentication yes&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;79c79&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;&lt; PasswordAuthentication no&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;---&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#98c379>&#34;&gt; PasswordAuthentication yes&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span><span style=color:#56b6c2>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>RUNNING HANDLER <span style=color:#56b6c2>[</span>CentOS7.2 : restart sshd<span style=color:#56b6c2>]</span> *************************************
+</span></span><span style=display:flex><span>changed: <span style=color:#56b6c2>[</span>192.168.52.52<span style=color:#56b6c2>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>PLAY RECAP *********************************************************************
+</span></span><span style=display:flex><span>192.168.52.52              : <span style=color:#e06c75>ok</span><span style=color:#56b6c2>=</span><span style=color:#d19a66>19</span>   <span style=color:#e06c75>changed</span><span style=color:#56b6c2>=</span><span style=color:#d19a66>7</span>    <span style=color:#e06c75>unreachable</span><span style=color:#56b6c2>=</span><span style=color:#d19a66>0</span>    <span style=color:#e06c75>failed</span><span style=color:#56b6c2>=</span><span style=color:#d19a66>0</span></span></span></code></pre></td></tr></table></div></div><h2 id=sshdの起動確認>sshdの起動確認</h2><div class=highlight><div style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-1><a style=outline:none;text-decoration:none;color:inherit href=#ano-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-2><a style=outline:none;text-decoration:none;color:inherit href=#ano-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-3><a style=outline:none;text-decoration:none;color:inherit href=#ano-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-4><a style=outline:none;text-decoration:none;color:inherit href=#ano-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-5><a style=outline:none;text-decoration:none;color:inherit href=#ano-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-6><a style=outline:none;text-decoration:none;color:inherit href=#ano-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-7><a style=outline:none;text-decoration:none;color:inherit href=#ano-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-8><a style=outline:none;text-decoration:none;color:inherit href=#ano-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-9><a style=outline:none;text-decoration:none;color:inherit href=#ano-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#55595f" id=ano-10><a style=outline:none;text-decoration:none;color:inherit href=#ano-10>10</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#56b6c2>[</span>vagrant@web ssh<span style=color:#56b6c2>]</span>$ systemctl status  sshd.service
+</span></span><span style=display:flex><span>● sshd.service - OpenSSH server daemon
+</span></span><span style=display:flex><span>   Loaded: loaded <span style=color:#56b6c2>(</span>/usr/lib/systemd/system/sshd.service; enabled; vendor preset: enabled<span style=color:#56b6c2>)</span>
+</span></span><span style=display:flex><span>   Active: active <span style=color:#56b6c2>(</span>running<span style=color:#56b6c2>)</span> since 木 2016-12-08 16:24:22 JST; 48min ago
+</span></span><span style=display:flex><span>     Docs: man:sshd<span style=color:#56b6c2>(</span>8<span style=color:#56b6c2>)</span>
+</span></span><span style=display:flex><span>           man:sshd_config<span style=color:#56b6c2>(</span>5<span style=color:#56b6c2>)</span>
+</span></span><span style=display:flex><span> Main PID: <span style=color:#d19a66>15539</span> <span style=color:#56b6c2>(</span>sshd<span style=color:#56b6c2>)</span>
+</span></span><span style=display:flex><span>   CGroup: /system.slice/sshd.service
+</span></span><span style=display:flex><span>           └─15539 /usr/sbin/sshd -D
+</span></span><span style=display:flex><span><span style=color:#56b6c2>[</span>vagrant@web ssh<span style=color:#56b6c2>]</span>$</span></span></code></pre></td></tr></table></div></div></article></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"></div><div class=grow></div><div class="flex flex-row"><i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1018 0A9 9 0 103 12"/><path d="M14 9.75a3.016 3.016.0 00-4.163.173 2.993 2.993.0 000 4.154A3.016 3.016.0 0014 14.25"/></svg>
+</i>2015 - 2024 TechTeco</div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>
