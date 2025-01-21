@@ -1,1 +1,47 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nodebrew on Jot down for myself</title><link>https://techteco.github.io/tags/nodebrew/</link><description>Recent content in Nodebrew on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Thu, 27 Aug 2015 15:10:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/nodebrew/index.xml" rel="self" type="application/rss+xml"/><item><title>Macでgulpを動かそう #3 gulpをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp3/</link><pubDate>Thu, 27 Aug 2015 15:10:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp3/</guid><description>nodebrewをインストール Node.jsをインストール gulpをインストール ← ここ 3. gulpをインストール gulpは、npmを使ってイン</description></item><item><title>Macでgulpを動かそう #2 Node.jsをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp2/</link><pubDate>Thu, 27 Aug 2015 14:55:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp2/</guid><description>nodebrewをインストール Node.jsをインストール ← ここ gulpをインストール 2. Node.jsをインストール 公式サイト Node.js 最新バージョ</description></item><item><title>Macでgulpを動かそう #1 nodebrewをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp1/</link><pubDate>Thu, 27 Aug 2015 14:11:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp1/</guid><description>nodebrewをインストール ← ここ Node.jsをインストール gulpをインストール 1. nodebrewをインストール インストールの細かい手</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nodebrew on Jot down for myself</title><link>https://techteco.github.io/tags/nodebrew/</link><description>Recent content in Nodebrew on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Thu, 27 Aug 2015 15:10:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/nodebrew/index.xml" rel="self" type="application/rss+xml"/><item><title>Macでgulpを動かそう #3 gulpをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp3/</link><pubDate>Thu, 27 Aug 2015 15:10:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp3/</guid><description>&lt;ol>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp1/">nodebrewをインストール&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp2/">Node.jsをインストール&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp3/">gulpをインストール&lt;/a>
+ ← ここ&lt;/li>
+&lt;/ol>
+&lt;h1 id="3-gulpをインストール">3. gulpをインストール&lt;/h1>
+&lt;p>&lt;strong>gulp&lt;/strong>は、&lt;strong>npm&lt;/strong>を使ってインストールする&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="http://gulpjs.com/" target="_blank" rel="noopener">公式サイト gulp&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="https://www.npmjs.com/" target="_blank" rel="noopener">公式サイト npm&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="npm">npm&lt;/h2>
+&lt;p>&lt;strong>npm&lt;/strong>は、&lt;strong>Node.js&lt;/strong>インストール時に、同時にインストールされている&lt;/p></description></item><item><title>Macでgulpを動かそう #2 Node.jsをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp2/</link><pubDate>Thu, 27 Aug 2015 14:55:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp2/</guid><description>&lt;ol>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp1/">nodebrewをインストール&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp2/">Node.jsをインストール&lt;/a>
+ ← ここ&lt;/li>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp3/">gulpをインストール&lt;/a>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="2-nodejsをインストール">2. Node.jsをインストール&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://nodejs.org/" target="_blank" rel="noopener">公式サイト Node.js&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="最新バージョンをインストール">最新バージョンをインストール&lt;/h2>
+&lt;p>バージョンは、&lt;strong>latest&lt;/strong>を指定することで最新版をインストールする。インストール後は、&lt;strong>ls&lt;/strong>でバージョン確認&lt;/p></description></item><item><title>Macでgulpを動かそう #1 nodebrewをインストール</title><link>https://techteco.github.io/2015/08/27/macgulp1/</link><pubDate>Thu, 27 Aug 2015 14:11:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/27/macgulp1/</guid><description>&lt;ol>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp1/">nodebrewをインストール&lt;/a>
+ ← ここ&lt;/li>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp2/">Node.jsをインストール&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="https://techteco.github.io/2015/08/27/macgulp3/">gulpをインストール&lt;/a>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="1-nodebrewをインストール">1. nodebrewをインストール&lt;/h1>
+&lt;p>インストールの細かい手順は、公式サイトに詳しく書いてあるので、ざっくりと。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/hokaccha/nodebrew/blob/master/README.md" target="_blank" rel="noopener">公式サイト&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="pathを設定">PATHを設定&lt;/h2>
+&lt;p>&lt;strong>.bashrc&lt;/strong>に下記のとおりPATHを設定する&lt;/p></description></item></channel></rss>

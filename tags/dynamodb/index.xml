@@ -1,1 +1,245 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DynamoDB on Jot down for myself</title><link>https://techteco.github.io/tags/dynamodb/</link><description>Recent content in DynamoDB on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 25 Apr 2017 06:30:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/dynamodb/index.xml" rel="self" type="application/rss+xml"/><item><title>DynamoDBをAWS CLIで操作してみる（アイテム操作）</title><link>https://techteco.github.io/2017/04/25/dynamodb-usage-item/</link><pubDate>Tue, 25 Apr 2017 06:30:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/25/dynamodb-usage-item/</guid><description>公式ドキュメント AWS CLI Command Reference dynamodb 前提 DynamoDBローカルを使ってみる が完了している DynamoDBをAWS CLIで操作してみる（テーブル操作）</description></item><item><title>DynamoDBをAWS CLIで操作してみる（テーブル操作）</title><link>https://techteco.github.io/2017/04/22/dynamodb-usage-table/</link><pubDate>Sat, 22 Apr 2017 22:30:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/22/dynamodb-usage-table/</guid><description>公式ドキュメント AWS CLI Command Reference dynamodb 前提 DynamoDBローカルを使ってみる が完了している 参考 コマンドリファレンス aws dynamodb list-tables aws dynamodb create-table aws dynamodb describe-table aws dynamodb update-table aws dynamodb delete-table 事前準</description></item><item><title>DynamoDBローカルを使ってみる</title><link>https://techteco.github.io/2017/04/22/dynamodb-local-setup/</link><pubDate>Sat, 22 Apr 2017 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/22/dynamodb-local-setup/</guid><description>公式ドキュメント DynamoDB ローカル (ダウンロード可能バージョン) のセットアップ 前提 AWS CLIの設定とJavaが導入済み 1 2 3 4 5 6 7 $ aws --version aws-cli/1.11.76 Python/2.7.10 Darwin/16.5.0 botocore/1.5.39 $ java</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DynamoDB on Jot down for myself</title><link>https://techteco.github.io/tags/dynamodb/</link><description>Recent content in DynamoDB on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 25 Apr 2017 06:30:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/dynamodb/index.xml" rel="self" type="application/rss+xml"/><item><title>DynamoDBをAWS CLIで操作してみる（アイテム操作）</title><link>https://techteco.github.io/2017/04/25/dynamodb-usage-item/</link><pubDate>Tue, 25 Apr 2017 06:30:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/25/dynamodb-usage-item/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/index.html#cli-aws-dynamodb" target="_blank" rel="noopener">AWS CLI Command Reference dynamodb&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="前提">前提&lt;/h1>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a href="https://techteco.github.io/2017/04/22/dynamodb-local-setup/">DynamoDBローカルを使ってみる&lt;/a>
+が完了している&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://techteco.github.io/2017/04/22/dynamodb-usage-table/">DynamoDBをAWS CLIで操作してみる（テーブル操作）&lt;/a>
+が完了している&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="参考">参考&lt;/h1>
+&lt;ul>
+&lt;li>コマンドリファレンス
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/put-item.html" target="_blank" rel="noopener">aws dynamodb put-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/get-item.html" target="_blank" rel="noopener">aws dynamodb get-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/update-item.html" target="_blank" rel="noopener">aws dynamodb update-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/delete-item.html" target="_blank" rel="noopener">aws dynamodb delete-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/batch-write-item.html" target="_blank" rel="noopener">aws dynamodb batch-write-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/batch-get-item.html" target="_blank" rel="noopener">aws dynamodb batch-get-item&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="事前準備">事前準備&lt;/h1>
+&lt;ul>
+&lt;li>作業用ディレクトリへ移動
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ &lt;span style="color:#e5c07b">cd&lt;/span> ~/dynamodbwork&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h2 id="テーブル作成">テーブル作成&lt;/h2>
+&lt;p>定義用jsonファイル
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ more ./json/musicTableDefinition.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1"> 1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2"> 2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3"> 3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4"> 4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5"> 5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6"> 6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7"> 7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8"> 8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9"> 9&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-10">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-10">10&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-11">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-11">11&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-12">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-12">12&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-13">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-13">13&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-14">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-14">14&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-15">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-15">15&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-16">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-16">16&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-17">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-17">17&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-18">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-18">18&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-19">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-19">19&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-20">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-20">20&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-21">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-21">21&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-22">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-22">22&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-23">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-23">23&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-24">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-24">24&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-25">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-25">25&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-26">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-26">26&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-27">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-27">27&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;TableName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;Music&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeDefinitions&amp;#34;&lt;/span>: [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;Artist&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeType&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;S&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;SongTitle&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeType&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;S&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;KeySchema&amp;#34;&lt;/span>: [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;KeyType&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;HASH&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;Artist&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;KeyType&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;RANGE&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;SongTitle&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;ProvisionedThroughput&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;WriteCapacityUnits&amp;#34;&lt;/span>: &lt;span style="color:#d19a66">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;ReadCapacityUnits&amp;#34;&lt;/span>: &lt;span style="color:#d19a66">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/p></description></item><item><title>DynamoDBをAWS CLIで操作してみる（テーブル操作）</title><link>https://techteco.github.io/2017/04/22/dynamodb-usage-table/</link><pubDate>Sat, 22 Apr 2017 22:30:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/22/dynamodb-usage-table/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/index.html#cli-aws-dynamodb" target="_blank" rel="noopener">AWS CLI Command Reference dynamodb&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="前提">前提&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://techteco.github.io/2017/04/22/dynamodb-local-setup/">DynamoDBローカルを使ってみる&lt;/a>
+が完了している&lt;/li>
+&lt;/ul>
+&lt;h1 id="参考">参考&lt;/h1>
+&lt;ul>
+&lt;li>コマンドリファレンス
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/list-tables.html" target="_blank" rel="noopener">aws dynamodb list-tables&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/create-table.html" target="_blank" rel="noopener">aws dynamodb create-table&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/describe-table.html" target="_blank" rel="noopener">aws dynamodb describe-table&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/update-table.html" target="_blank" rel="noopener">aws dynamodb update-table&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/delete-table.html" target="_blank" rel="noopener">aws dynamodb delete-table&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="事前準備">事前準備&lt;/h1>
+&lt;ul>
+&lt;li>作業用ディレクトリ作成
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ mkdir -p ~/dynamodbwork/json; &lt;span style="color:#e5c07b">cd&lt;/span> ./dynamodbwork&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h1 id="テーブル操作">テーブル操作&lt;/h1>
+&lt;h2 id="テーブルのリストを表示する">テーブルのリストを表示する&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ aws dynamodb &lt;span style="color:#98c379">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">&lt;/span>list-tables &lt;span style="color:#98c379">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">&lt;/span>--endpoint-url http://localhost:8000 &amp;gt; ./json/list-tables.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ more ./json/list-tables.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;p>出力結果のjsonファイル&lt;/p></description></item><item><title>DynamoDBローカルを使ってみる</title><link>https://techteco.github.io/2017/04/22/dynamodb-local-setup/</link><pubDate>Sat, 22 Apr 2017 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/22/dynamodb-local-setup/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/DynamoDBLocal.html" target="_blank" rel="noopener">DynamoDB ローカル (ダウンロード可能バージョン) のセットアップ&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="前提">前提&lt;/h1>
+&lt;ul>
+&lt;li>AWS CLIの設定とJavaが導入済み
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6">6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7">7&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ aws --version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>aws-cli/1.11.76 Python/2.7.10 Darwin/16.5.0 botocore/1.5.39
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ java -version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>java version &lt;span style="color:#98c379">&amp;#34;1.8.0_121&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Java&lt;span style="color:#56b6c2">(&lt;/span>TM&lt;span style="color:#56b6c2">)&lt;/span> SE Runtime Environment &lt;span style="color:#56b6c2">(&lt;/span>build 1.8.0_121-b13&lt;span style="color:#56b6c2">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Java HotSpot&lt;span style="color:#56b6c2">(&lt;/span>TM&lt;span style="color:#56b6c2">)&lt;/span> 64-Bit Server VM &lt;span style="color:#56b6c2">(&lt;/span>build 25.121-b13, mixed mode&lt;span style="color:#56b6c2">)&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h1 id="ダウンロード">ダウンロード&lt;/h1>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ &lt;span style="color:#e5c07b">cd&lt;/span> your_path
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ mkdir dynamodb_local_latest
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ curl -sL https://s3-ap-northeast-1.amazonaws.com/dynamodb-local-tokyo/dynamodb_local_latest.tar.gz | tar zx -C your_path/dynamodb_local_latest&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h1 id="実行">実行&lt;/h1>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6">6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7">7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8">8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9">9&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ java -Djava.library.path&lt;span style="color:#56b6c2">=&lt;/span>./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Initializing DynamoDB Local with the following configuration:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Port:	&lt;span style="color:#d19a66">8000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>InMemory:	&lt;span style="color:#e5c07b">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DbPath:	null
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SharedDb:	&lt;span style="color:#e5c07b">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>shouldDelayTransientStatuses:	&lt;span style="color:#e5c07b">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>CorsParams:	*&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h1 id="実行オプション">実行オプション&lt;/h1>
+&lt;h2 id="-cors-value">&lt;strong>-cors value&lt;/strong>&lt;/h2>
+&lt;blockquote>
+&lt;p>JavaScript で CORS (Cross-Origin Resource Sharing) のサポートを有効にします。特定のドメインのカンマ区切りの &amp;ldquo;許可&amp;rdquo; リストを指定する必要があります。
+-cors のデフォルト設定は、パブリックアクセスを許可するアスタリスク（*）です。&lt;/p></description></item></channel></rss>

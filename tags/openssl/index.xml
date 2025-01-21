@@ -1,1 +1,94 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Openssl on Jot down for myself</title><link>https://techteco.github.io/tags/openssl/</link><description>Recent content in Openssl on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Wed, 08 Mar 2017 08:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/openssl/index.xml" rel="self" type="application/rss+xml"/><item><title>オレオレSSL証明書</title><link>https://techteco.github.io/2017/03/08/oreoressl/</link><pubDate>Wed, 08 Mar 2017 08:00:00 +0900</pubDate><guid>https://techteco.github.io/2017/03/08/oreoressl/</guid><description>オレオレSSL証明書 情報はググれば沢山でてくるので割愛。久々につくる機会があったので手順を自分用にメモ。 秘密鍵の作成 1 2 3 4 5 6 7 8 $ openssl genrsa -aes256</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Openssl on Jot down for myself</title><link>https://techteco.github.io/tags/openssl/</link><description>Recent content in Openssl on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Wed, 08 Mar 2017 08:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/openssl/index.xml" rel="self" type="application/rss+xml"/><item><title>オレオレSSL証明書</title><link>https://techteco.github.io/2017/03/08/oreoressl/</link><pubDate>Wed, 08 Mar 2017 08:00:00 +0900</pubDate><guid>https://techteco.github.io/2017/03/08/oreoressl/</guid><description>&lt;h1 id="オレオレssl証明書">オレオレSSL証明書&lt;/h1>
+&lt;p>情報はググれば沢山でてくるので割愛。久々につくる機会があったので手順を自分用にメモ。&lt;/p>
+&lt;h2 id="秘密鍵の作成">秘密鍵の作成&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6">6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7">7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8">8&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ openssl genrsa -aes256 -out ./server.key &lt;span style="color:#d19a66">2048&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Generating RSA private key, &lt;span style="color:#d19a66">2048&lt;/span> bit long modulus
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>..............................................................+++
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.......+++
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>unable to write &lt;span style="color:#98c379">&amp;#39;random state&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>e is &lt;span style="color:#d19a66">65537&lt;/span> &lt;span style="color:#56b6c2">(&lt;/span>0x10001&lt;span style="color:#56b6c2">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Enter pass phrase &lt;span style="color:#c678dd">for&lt;/span> ./server.key:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Verifying - Enter pass phrase &lt;span style="color:#c678dd">for&lt;/span> ./server.key:&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="csrの作成">CSRの作成&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1"> 1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2"> 2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3"> 3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4"> 4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5"> 5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6"> 6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7"> 7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8"> 8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9"> 9&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-10">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-10">10&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-11">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-11">11&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-12">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-12">12&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-13">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-13">13&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-14">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-14">14&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-15">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-15">15&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-16">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-16">16&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-17">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-17">17&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-18">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-18">18&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-19">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-19">19&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-20">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-20">20&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-21">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-21">21&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ openssl req -new -sha256 -key ./server.key -out ./server.csr
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Enter pass phrase &lt;span style="color:#c678dd">for&lt;/span> ./server.key:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>You are about to be asked to enter information that will be incorporated
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>into your certificate request.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>What you are about to enter is what is called a Distinguished Name or a DN.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>There are quite a few fields but you can leave some blank
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>For some fields there will be a default value,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>If you enter &lt;span style="color:#98c379">&amp;#39;.&amp;#39;&lt;/span>, the field will be left blank.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-----
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Country Name &lt;span style="color:#56b6c2">(&lt;/span>&lt;span style="color:#d19a66">2&lt;/span> letter code&lt;span style="color:#56b6c2">)&lt;/span> &lt;span style="color:#56b6c2">[&lt;/span>AU&lt;span style="color:#56b6c2">]&lt;/span>:JP
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>State or Province Name &lt;span style="color:#56b6c2">(&lt;/span>full name&lt;span style="color:#56b6c2">)&lt;/span> &lt;span style="color:#56b6c2">[&lt;/span>Some-State&lt;span style="color:#56b6c2">]&lt;/span>:TOKYO
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Locality Name &lt;span style="color:#56b6c2">(&lt;/span>eg, city&lt;span style="color:#56b6c2">)&lt;/span> &lt;span style="color:#56b6c2">[]&lt;/span>:MINATO-KU
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Organization Name &lt;span style="color:#56b6c2">(&lt;/span>eg, company&lt;span style="color:#56b6c2">)&lt;/span> &lt;span style="color:#56b6c2">[&lt;/span>Internet Widgits Pty Ltd&lt;span style="color:#56b6c2">]&lt;/span>:COMPANY
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Organizational Unit Name &lt;span style="color:#56b6c2">(&lt;/span>eg, section&lt;span style="color:#56b6c2">)&lt;/span> &lt;span style="color:#56b6c2">[]&lt;/span>:DEV
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Common Name &lt;span style="color:#56b6c2">(&lt;/span>e.g. server FQDN or YOUR name&lt;span style="color:#56b6c2">)&lt;/span> &lt;span style="color:#56b6c2">[]&lt;/span>:*.local.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Email Address &lt;span style="color:#56b6c2">[]&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Please enter the following &lt;span style="color:#98c379">&amp;#39;extra&amp;#39;&lt;/span> attributes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>to be sent with your certificate request
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>A challenge password &lt;span style="color:#56b6c2">[]&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>An optional company name &lt;span style="color:#56b6c2">[]&lt;/span>:&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="crt作成">CRT作成&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ openssl x509 -in ./server.csr -days &lt;span style="color:#d19a66">3650&lt;/span> -req -signkey ./server.key &amp;gt; ./server.crt&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="パスワード解除">パスワード解除&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ cp ./server.key ./server.key.org
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ openssl rsa -in ./server.key.org -out ./server.key&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

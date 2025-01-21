@@ -1,1 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gvm on Jot down for myself</title><link>https://techteco.github.io/tags/gvm/</link><description>Recent content in Gvm on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 23 Jan 2018 20:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/gvm/index.xml" rel="self" type="application/rss+xml"/><item><title>Golangのバージョン管理GVM(Go Version Manager)の使い方</title><link>https://techteco.github.io/2018/01/23/golang-gvm/</link><pubDate>Tue, 23 Jan 2018 20:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/23/golang-gvm/</guid><description>GVMとは GVM(Github) Go Version Managerの頭文字をとってGVM 一言で言うと GVM provides an interface to manage Go versions. 日本語に直訳すると GVMは、Goバージョンを管理するためのイ</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gvm on Jot down for myself</title><link>https://techteco.github.io/tags/gvm/</link><description>Recent content in Gvm on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 23 Jan 2018 20:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/gvm/index.xml" rel="self" type="application/rss+xml"/><item><title>Golangのバージョン管理GVM(Go Version Manager)の使い方</title><link>https://techteco.github.io/2018/01/23/golang-gvm/</link><pubDate>Tue, 23 Jan 2018 20:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/23/golang-gvm/</guid><description>&lt;h1 id="gvmとは">GVMとは&lt;/h1>
+&lt;p>&lt;a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">GVM(Github)&lt;/a>
+&lt;/p>
+&lt;p>&lt;em>&lt;strong>Go Version Manager&lt;/strong>&lt;/em>の頭文字をとって&lt;em>&lt;strong>GVM&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>一言で言うと&lt;/p>
+&lt;blockquote>
+&lt;p>GVM provides an interface to manage Go versions.&lt;/p>
+&lt;/blockquote>
+&lt;p>日本語に直訳すると&lt;/p>
+&lt;blockquote>
+&lt;p>GVMは、Goバージョンを管理するためのインタフェースを提供します。&lt;/p></description></item></channel></rss>

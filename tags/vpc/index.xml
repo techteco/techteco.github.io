@@ -1,1 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VPC on Jot down for myself</title><link>https://techteco.github.io/tags/vpc/</link><description>Recent content in VPC on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Mon, 29 Jan 2018 22:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/vpc/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS Cloudformationでネットワークの基本設定</title><link>https://techteco.github.io/2018/01/29/cloudformation/</link><pubDate>Mon, 29 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/29/cloudformation/</guid><description>基本的な使い方 設定内容 ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いで</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VPC on Jot down for myself</title><link>https://techteco.github.io/tags/vpc/</link><description>Recent content in VPC on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Mon, 29 Jan 2018 22:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/vpc/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS Cloudformationでネットワークの基本設定</title><link>https://techteco.github.io/2018/01/29/cloudformation/</link><pubDate>Mon, 29 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/29/cloudformation/</guid><description>&lt;h1 id="基本的な使い方">基本的な使い方&lt;/h1>
+&lt;h2 id="設定内容">設定内容&lt;/h2>
+&lt;p>ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いです。&lt;/p>
+&lt;ul>
+&lt;li>VPC設定&lt;/li>
+&lt;li>Internet Gateway設定&lt;/li>
+&lt;li>Subnetの設定&lt;/li>
+&lt;li>DHCP Optionの設定&lt;/li>
+&lt;li>Route Tableの設定&lt;/li>
+&lt;li>ACLの設定&lt;/li>
+&lt;/ul>
+&lt;p>※設定値は参考までに。&lt;/p></description></item></channel></rss>

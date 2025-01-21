@@ -1,1 +1,37 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TypeScript on Jot down for myself</title><link>https://techteco.github.io/tags/typescript/</link><description>Recent content in TypeScript on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Fri, 31 May 2024 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/typescript/index.xml" rel="self" type="application/rss+xml"/><item><title>【開発環境】VSC+Dev Containers+Remix+TypeScript</title><link>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</link><pubDate>Fri, 31 May 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</guid><description>VSC(Visual Studio Code) Dev Containers環境 PC（mac）のセットアップが面倒 VSC(Visual Studio Code) インストール済 Docker はインストール済 Dev Containers Dev Containers 公式 設定ファイル Specification Dev Container metadata reference 設</description></item><item><title>gulpでtypescriptから出力されたjavascriptをminifyする</title><link>https://techteco.github.io/2015/09/04/gulp-minify-js/</link><pubDate>Fri, 04 Sep 2015 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2015/09/04/gulp-minify-js/</guid><description>jsファイルをminifyするためのgulup設定 前回作成した、typescript環境にjavascriptのminifyを追加してみる。</description></item><item><title>gulpでtypescript環境を構築する</title><link>https://techteco.github.io/2015/09/02/gulp-typescript/</link><pubDate>Wed, 02 Sep 2015 17:22:00 +0900</pubDate><guid>https://techteco.github.io/2015/09/02/gulp-typescript/</guid><description>typescriptをやってみる 公式サイト typescript typescriptでも触ってみようということで、gulpで環境をつくってみます ゴールは、 tsフ</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TypeScript on Jot down for myself</title><link>https://techteco.github.io/tags/typescript/</link><description>Recent content in TypeScript on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Fri, 31 May 2024 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/typescript/index.xml" rel="self" type="application/rss+xml"/><item><title>【開発環境】VSC+Dev Containers+Remix+TypeScript</title><link>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</link><pubDate>Fri, 31 May 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
+&lt;ul>
+&lt;li>PC（mac）のセットアップが面倒&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code" target="_blank" rel="noopener">VSC(Visual Studio Code)&lt;/a>
+インストール済&lt;/li>
+&lt;li>&lt;a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">Docker&lt;/a>
+はインストール済&lt;/li>
+&lt;/ul>
+&lt;h2 id="dev-containers">Dev Containers&lt;/h2>
+&lt;p>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener">Dev Containers 公式&lt;/a>
+&lt;/p>
+&lt;h3 id="設定ファイル">設定ファイル&lt;/h3>
+&lt;ul>
+&lt;li>&lt;a href="https://containers.dev/implementors/json_reference/" target="_blank" rel="noopener">Specification Dev Container metadata reference&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;p>設定ファイルは以下の通り。
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>.devcontainer/devcontainer.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/p></description></item><item><title>gulpでtypescriptから出力されたjavascriptをminifyする</title><link>https://techteco.github.io/2015/09/04/gulp-minify-js/</link><pubDate>Fri, 04 Sep 2015 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2015/09/04/gulp-minify-js/</guid><description>&lt;h1 id="jsファイルをminifyするためのgulup設定">jsファイルをminifyするためのgulup設定&lt;/h1>
+&lt;p>前回作成した、typescript環境にjavascriptのminifyを追加してみる。ついでに、npm installも試してみる&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://techteco.github.io/2015/09/02/gulp-typescript/">前回 gulpでtypescript環境を構築する&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="packagejson">package.json&lt;/h2>
+&lt;p>新しいプロジェクトディレクトリを作成して、そこに前回利用したpackage.jsonを置く&lt;/p></description></item><item><title>gulpでtypescript環境を構築する</title><link>https://techteco.github.io/2015/09/02/gulp-typescript/</link><pubDate>Wed, 02 Sep 2015 17:22:00 +0900</pubDate><guid>https://techteco.github.io/2015/09/02/gulp-typescript/</guid><description>&lt;h1 id="typescriptをやってみる">typescriptをやってみる&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://www.typescriptlang.org/" target="_blank" rel="noopener">公式サイト typescript&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;p>typescriptでも触ってみようということで、gulpで環境をつくってみます&lt;/p>
+&lt;p>ゴールは、&lt;/p>
+&lt;ul>
+&lt;li>tsファイルを監視して、ファイルが更新されたら、コンパイルしてjsファイルを出力する&lt;/li>
+&lt;/ul>
+&lt;h1 id="構築">構築&lt;/h1>
+&lt;h2 id="packagejsonを作成">package.jsonを作成&lt;/h2>
+&lt;p>npm init コマンドでpackage.jsonのひな形を作成。入力内容は適当に。&lt;/p></description></item></channel></rss>

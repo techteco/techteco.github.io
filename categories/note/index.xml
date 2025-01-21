@@ -1,1 +1,81 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Note on Jot down for myself</title><link>https://techteco.github.io/categories/note/</link><description>Recent content in Note on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 02 Apr 2019 21:53:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/categories/note/index.xml" rel="self" type="application/rss+xml"/><item><title>Macでmozjpegを使う</title><link>https://techteco.github.io/2019/04/02/mozjpeg/</link><pubDate>Tue, 02 Apr 2019 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2019/04/02/mozjpeg/</guid><description>Macでmozjpegを使う mozjpeg https://github.com/mozilla/mozjpeg 説明不要かと思いますが、mozillaプロジェクトのjpegエンコードです ちなみに、オンラインツールでも提供</description></item><item><title>Macのsipsコマンドの使い方メモ</title><link>https://techteco.github.io/2019/04/02/sips/</link><pubDate>Tue, 02 Apr 2019 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2019/04/02/sips/</guid><description>sipsコマンド sipsは**scriptable image processing system.**の略です。 This tool is used to query or modify raster image files and ColorSync ICC profiles. Its functionality can also be used through the &amp;ldquo;Image Events&amp;rdquo; AppleScript suite. 簡単</description></item><item><title>LAWS OF UX というサイトの紹介</title><link>https://techteco.github.io/2018/01/31/laws-of-ux/</link><pubDate>Wed, 31 Jan 2018 16:30:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/31/laws-of-ux/</guid><description>Laws Of UX Laws Of UX UXを考えるときに考慮するといいであろう法則がまとめられています。 サイトのデザインもきれいです。 Fitts’s Law Fitts’s Law</description></item><item><title>【メモ】Hugoの基本的な使い方</title><link>https://techteco.github.io/2016/11/22/hugo-install/</link><pubDate>Tue, 22 Nov 2016 07:45:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/22/hugo-install/</guid><description>Hugoの基本的な使い方メモ bloggerからhugoに移行にしたので、簡単に使い方のメモ 環境 OS X El Capitan 10.11.6 Homebrew 設定済み golangインストール済</description></item><item><title>【メモ】MACにwgetをインストール</title><link>https://techteco.github.io/2015/09/28/mac-wget/</link><pubDate>Mon, 28 Sep 2015 22:29:00 +0900</pubDate><guid>https://techteco.github.io/2015/09/28/mac-wget/</guid><description>wgetをインストール 今更ながらmacにwgetが入ってないことに気づく。。とういうわけで、macにwgetをインストールしてみる 公式サイト</description></item><item><title>【小ネタ】簡単に連番のディレクトリを作る方法</title><link>https://techteco.github.io/2015/09/10/seq-dir/</link><pubDate>Thu, 10 Sep 2015 18:05:00 +0900</pubDate><guid>https://techteco.github.io/2015/09/10/seq-dir/</guid><description>連番のディレクトリを作成 作業用に、とにかく連番でディレクトリを作りたいことがあって、便利なコマンドさがしてたらとても簡単んだったのでメモ。 1</description></item><item><title>Macにtreeコマンドをいれる</title><link>https://techteco.github.io/2015/08/26/mac-tree-command/</link><pubDate>Wed, 26 Aug 2015 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/26/mac-tree-command/</guid><description>treeコマンド コマンドでディレクトリ構造を表示する方法さがしてたら、便利なのがありました。ていうか、知らないのが恥ずかしいレベルなのか。。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Note on Jot down for myself</title><link>https://techteco.github.io/categories/note/</link><description>Recent content in Note on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 02 Apr 2019 21:53:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/categories/note/index.xml" rel="self" type="application/rss+xml"/><item><title>Macでmozjpegを使う</title><link>https://techteco.github.io/2019/04/02/mozjpeg/</link><pubDate>Tue, 02 Apr 2019 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2019/04/02/mozjpeg/</guid><description>&lt;h1 id="macでmozjpegを使う">Macでmozjpegを使う&lt;/h1>
+&lt;h2 id="mozjpeg">mozjpeg&lt;/h2>
+&lt;p>&lt;a href="https://github.com/mozilla/mozjpeg" target="_blank" rel="noopener">https://github.com/mozilla/mozjpeg&lt;/a>
+&lt;/p>
+&lt;p>説明不要かと思いますが、mozillaプロジェクトのjpegエンコードです&lt;/p>
+&lt;p>ちなみに、オンラインツールでも提供されてます。&lt;/p>
+&lt;p>&lt;a href="https://mozjpeg.codelove.de/" target="_blank" rel="noopener">https://mozjpeg.codelove.de/&lt;/a>
+&lt;/p>
+&lt;h3 id="インストール">インストール&lt;/h3>
+&lt;p>macへのインストールはbrewコマンドでできます。&lt;/p></description></item><item><title>Macのsipsコマンドの使い方メモ</title><link>https://techteco.github.io/2019/04/02/sips/</link><pubDate>Tue, 02 Apr 2019 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2019/04/02/sips/</guid><description>&lt;h1 id="sipsコマンド">sipsコマンド&lt;/h1>
+&lt;p>sipsは**scriptable image processing system.**の略です。&lt;/p>
+&lt;blockquote>
+&lt;p>This tool is used to query or modify raster image files and ColorSync ICC profiles.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Its functionality can also be used through the &amp;ldquo;Image Events&amp;rdquo; AppleScript suite.&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="簡単な使い方">簡単な使い方&lt;/h1>
+&lt;h2 id="画像の情報を参照">画像の情報を参照&lt;/h2>
+&lt;p>スマフォで撮影した画像を見てみるとこんな感じの情報が取得できました。&lt;/p></description></item><item><title>LAWS OF UX というサイトの紹介</title><link>https://techteco.github.io/2018/01/31/laws-of-ux/</link><pubDate>Wed, 31 Jan 2018 16:30:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/31/laws-of-ux/</guid><description>&lt;h1 id="laws-of-ux">Laws Of UX&lt;/h1>
+&lt;p>&lt;a href="https://lawsofux.com/" target="_blank" rel="noopener">Laws Of UX&lt;/a>
+&lt;/p>
+&lt;p>UXを考えるときに考慮するといいであろう法則がまとめられています。&lt;/p>
+&lt;p>サイトのデザインもきれいです。&lt;/p>
+&lt;h2 id="fittss-law">Fitts’s Law&lt;/h2>
+&lt;p>&lt;a href="https://lawsofux.com/fittss-law" target="_blank" rel="noopener">Fitts’s Law&lt;/a>
+&lt;/p>
+&lt;blockquote>
+&lt;p>The time to acquire a target is a function of the distance to and size of the target.&lt;/p></description></item><item><title>【メモ】Hugoの基本的な使い方</title><link>https://techteco.github.io/2016/11/22/hugo-install/</link><pubDate>Tue, 22 Nov 2016 07:45:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/22/hugo-install/</guid><description>&lt;h1 id="hugoの基本的な使い方メモ">Hugoの基本的な使い方メモ&lt;/h1>
+&lt;ul>
+&lt;li>bloggerからhugoに移行にしたので、簡単に使い方のメモ&lt;/li>
+&lt;/ul>
+&lt;h2 id="環境">環境&lt;/h2>
+&lt;ul>
+&lt;li>OS X El Capitan 10.11.6&lt;/li>
+&lt;li>&lt;a href="http://brew.sh/" target="_blank" rel="noopener">Homebrew&lt;/a>
+設定済み&lt;/li>
+&lt;li>golangインストール済み&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ go version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go version go1.7.3 darwin/amd64&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="インストール">インストール&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ brew install hugo&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="プロジェクト作成">プロジェクト作成&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ hugo new site co.techte&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="テーマ適用hugomdl">テーマ適用(HugoMDL)&lt;/h2>
+&lt;p>&lt;a href="http://themes.gohugo.io/hugo-mdl/" target="_blank" rel="noopener">このサイトで使ったテーマ&lt;/a>
+&lt;/p></description></item><item><title>【メモ】MACにwgetをインストール</title><link>https://techteco.github.io/2015/09/28/mac-wget/</link><pubDate>Mon, 28 Sep 2015 22:29:00 +0900</pubDate><guid>https://techteco.github.io/2015/09/28/mac-wget/</guid><description>&lt;h1 id="wgetをインストール">wgetをインストール&lt;/h1>
+&lt;p>今更ながらmacにwgetが入ってないことに気づく。。とういうわけで、macにwgetをインストールしてみる&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="http://ftp.gnu.org/gnu/wget/" target="_blank" rel="noopener">公式サイト wget&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;p>この時点での最新版は1.16ですね。&lt;/p></description></item><item><title>【小ネタ】簡単に連番のディレクトリを作る方法</title><link>https://techteco.github.io/2015/09/10/seq-dir/</link><pubDate>Thu, 10 Sep 2015 18:05:00 +0900</pubDate><guid>https://techteco.github.io/2015/09/10/seq-dir/</guid><description>&lt;h1 id="連番のディレクトリを作成">連番のディレクトリを作成&lt;/h1>
+&lt;p>作業用に、とにかく連番でディレクトリを作りたいことがあって、便利なコマンドさがしてたらとても簡単んだったのでメモ。
+1から10までのディレクトリを作る場合&lt;/p></description></item><item><title>Macにtreeコマンドをいれる</title><link>https://techteco.github.io/2015/08/26/mac-tree-command/</link><pubDate>Wed, 26 Aug 2015 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/26/mac-tree-command/</guid><description>&lt;h1 id="treeコマンド">treeコマンド&lt;/h1>
+&lt;p>コマンドでディレクトリ構造を表示する方法さがしてたら、便利なのがありました。ていうか、知らないのが恥ずかしいレベルなのか。。&lt;/p>
+&lt;h2 id="インストール">インストール&lt;/h2>
+&lt;p>macにbrewを使ってインストールする&lt;/p></description></item></channel></rss>

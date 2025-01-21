@@ -1,1 +1,42 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on Jot down for myself</title><link>https://techteco.github.io/tags/hugo/</link><description>Recent content in Hugo on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 22 Nov 2016 07:45:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>【メモ】Hugoの基本的な使い方</title><link>https://techteco.github.io/2016/11/22/hugo-install/</link><pubDate>Tue, 22 Nov 2016 07:45:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/22/hugo-install/</guid><description>Hugoの基本的な使い方メモ bloggerからhugoに移行にしたので、簡単に使い方のメモ 環境 OS X El Capitan 10.11.6 Homebrew 設定済み golangインストール済</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on Jot down for myself</title><link>https://techteco.github.io/tags/hugo/</link><description>Recent content in Hugo on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 22 Nov 2016 07:45:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>【メモ】Hugoの基本的な使い方</title><link>https://techteco.github.io/2016/11/22/hugo-install/</link><pubDate>Tue, 22 Nov 2016 07:45:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/22/hugo-install/</guid><description>&lt;h1 id="hugoの基本的な使い方メモ">Hugoの基本的な使い方メモ&lt;/h1>
+&lt;ul>
+&lt;li>bloggerからhugoに移行にしたので、簡単に使い方のメモ&lt;/li>
+&lt;/ul>
+&lt;h2 id="環境">環境&lt;/h2>
+&lt;ul>
+&lt;li>OS X El Capitan 10.11.6&lt;/li>
+&lt;li>&lt;a href="http://brew.sh/" target="_blank" rel="noopener">Homebrew&lt;/a>
+設定済み&lt;/li>
+&lt;li>golangインストール済み&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ go version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go version go1.7.3 darwin/amd64&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="インストール">インストール&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ brew install hugo&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="プロジェクト作成">プロジェクト作成&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ hugo new site co.techte&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="テーマ適用hugomdl">テーマ適用(HugoMDL)&lt;/h2>
+&lt;p>&lt;a href="http://themes.gohugo.io/hugo-mdl/" target="_blank" rel="noopener">このサイトで使ったテーマ&lt;/a>
+&lt;/p></description></item></channel></rss>

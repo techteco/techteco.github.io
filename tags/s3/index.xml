@@ -1,1 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>S3 on Jot down for myself</title><link>https://techteco.github.io/tags/s3/</link><description>Recent content in S3 on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Fri, 09 Feb 2018 22:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/s3/index.xml" rel="self" type="application/rss+xml"/><item><title>LambdaのGolangでS3を操作する</title><link>https://techteco.github.io/2018/02/09/lambda-go-s3/</link><pubDate>Fri, 09 Feb 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/02/09/lambda-go-s3/</guid><description>やること S3に保存されたファイルを取得して、データを追記して保存する S3上のファイル存在確認(ListObjectsV2) ファイルが存在すれ</description></item><item><title>【メモ】AWS CLIをつかってS3にファイルアップロード</title><link>https://techteco.github.io/2016/11/22/s3-sync/</link><pubDate>Tue, 22 Nov 2016 08:10:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/22/s3-sync/</guid><description>AWS CLIをつかってS3にファイルアップロード hugoで出力されたファイルをS3にアップするコマンドのメモ 前提 awscliでインストール済 対象</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>S3 on Jot down for myself</title><link>https://techteco.github.io/tags/s3/</link><description>Recent content in S3 on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Fri, 09 Feb 2018 22:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/s3/index.xml" rel="self" type="application/rss+xml"/><item><title>LambdaのGolangでS3を操作する</title><link>https://techteco.github.io/2018/02/09/lambda-go-s3/</link><pubDate>Fri, 09 Feb 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/02/09/lambda-go-s3/</guid><description>&lt;h1 id="やること">やること&lt;/h1>
+&lt;p>S3に保存されたファイルを取得して、データを追記して保存する&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>S3上のファイル存在確認&lt;a href="https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.ListObjectsV2" target="_blank" rel="noopener">(ListObjectsV2)&lt;/a>
+&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ファイルが存在すれば、ファイル取得&lt;a href="https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.GetObject" target="_blank" rel="noopener">(GetObject)&lt;/a>
+&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>追記してS3に保存&lt;a href="https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.PutObject" target="_blank" rel="noopener">(PutObject)&lt;/a>
+&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="lambdaの作成">Lambdaの作成&lt;/h1>
+&lt;p>さっそく&lt;/p></description></item><item><title>【メモ】AWS CLIをつかってS3にファイルアップロード</title><link>https://techteco.github.io/2016/11/22/s3-sync/</link><pubDate>Tue, 22 Nov 2016 08:10:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/22/s3-sync/</guid><description>&lt;h1 id="aws-cliをつかってs3にファイルアップロード">AWS CLIをつかってS3にファイルアップロード&lt;/h1>
+&lt;ul>
+&lt;li>hugoで出力されたファイルをS3にアップするコマンドのメモ&lt;/li>
+&lt;/ul>
+&lt;h2 id="前提">前提&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://techte.co/2016/11/19/aws-cli-install/" target="_blank" rel="noopener">awscliでインストール済&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/access_policies_examples.html#iam-policy-example-s3" target="_blank" rel="noopener">対象のバケットのアクセスポリシー設定済&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="コマンド">コマンド&lt;/h2>
+&lt;p>public配下を、公開用のS3バケットにsyncする&lt;/p></description></item></channel></rss>

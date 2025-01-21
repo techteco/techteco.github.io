@@ -1,1 +1,434 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AWS on Jot down for myself</title><link>https://techteco.github.io/categories/aws/</link><description>Recent content in AWS on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 09 Jul 2024 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/categories/aws/index.xml" rel="self" type="application/rss+xml"/><item><title>【開発環境】VSC+Dev Containers+AWS CLI</title><link>https://techteco.github.io/2024/07/09/vsc-aws-cli/</link><pubDate>Tue, 09 Jul 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/07/09/vsc-aws-cli/</guid><description>VSC(Visual Studio Code) Dev Containers環境 PC（mac）のセットアップが面倒 VSC(Visual Studio Code) インストール済 Docker はインストール済 Dev Containers Dev Containers 公式 AWS CLIを利用するためD</description></item><item><title>【開発環境】VSC+Dev Containers+AWS SAM+Lambda</title><link>https://techteco.github.io/2024/06/06/vsc-aws-sam-lambda/</link><pubDate>Thu, 06 Jun 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/06/06/vsc-aws-sam-lambda/</guid><description>VSC(Visual Studio Code) Dev Containers環境 PC（mac）のセットアップが面倒 VSC(Visual Studio Code) インストール済 Docker はインストール済 Dev Containers Dev Containers 公式 AWS SAMを利用するためD</description></item><item><title>AWS CodeBuildをローカル環境で動かす</title><link>https://techteco.github.io/2018/09/19/aws-codebuild-local/</link><pubDate>Wed, 19 Sep 2018 19:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/09/19/aws-codebuild-local/</guid><description>AWS CodeBuildとは CodeBuildは使ったことはありましたが、検証が面倒くさいところがありました。 ビルド自体は動き出すとなかなか変</description></item><item><title>AWS SAM CLIを使ってlambdaのローカル開発</title><link>https://techteco.github.io/2018/08/31/aws-sam-cli/</link><pubDate>Fri, 31 Aug 2018 19:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/08/31/aws-sam-cli/</guid><description>AWS SAM CLIとは AWS SAM自体は以前の投稿 でも書いているので割愛。 AWS SAM CLIは、もともとsam localと呼ばれていたものの進化版？のようですね</description></item><item><title>LambdaのGolangでS3を操作する</title><link>https://techteco.github.io/2018/02/09/lambda-go-s3/</link><pubDate>Fri, 09 Feb 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/02/09/lambda-go-s3/</guid><description>やること S3に保存されたファイルを取得して、データを追記して保存する S3上のファイル存在確認(ListObjectsV2) ファイルが存在すれ</description></item><item><title>Lambda(Golang)からAWS KMSを復号化する方法</title><link>https://techteco.github.io/2018/01/30/lambda-go-kms/</link><pubDate>Tue, 30 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/30/lambda-go-kms/</guid><description>KMSについては、AWS KMSの使い方 を参考 環境構築 暗号化データ 暗号化する。ここでは、shared(alias)というkeyを使う。 ※自分の</description></item><item><title>AWS Cloudformationでネットワークの基本設定</title><link>https://techteco.github.io/2018/01/29/cloudformation/</link><pubDate>Mon, 29 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/29/cloudformation/</guid><description>基本的な使い方 設定内容 ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いで</description></item><item><title>LambdaのGolangでSlackにメッセージを送る</title><link>https://techteco.github.io/2018/01/28/lambda-go-slack/</link><pubDate>Sun, 28 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/28/lambda-go-slack/</guid><description>Slackの設定 Incoming WebHooks Incoming WebHooksを使って、Lambdaからメッセージ送信をする。 詳細は割愛しますが、ドキュメント [Slack API] (https://api.slack.com/incoming-webhooks ) をみると使い方</description></item><item><title>AWS SAMを使ってみる</title><link>https://techteco.github.io/2018/01/27/lambda-go-sample-sam/</link><pubDate>Sat, 27 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/27/lambda-go-sample-sam/</guid><description>AWS SAMとは Github : AWS Serverless Application Model (AWS SAM) The goal of AWS SAM is to define a standard application model for serverless applications. This GitHub project is the starting point for AWS SAM, and contains general information, information about the model, and examples of common applications. 日本語訳 AWS SAMの目標は、サーバレス</description></item><item><title>AWS KMSの使い方</title><link>https://techteco.github.io/2018/01/26/kms/</link><pubDate>Fri, 26 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/26/kms/</guid><description>AWS KMSとは AWS Key Management Service とは AWS Key Management Service (AWS KMS) は、データの暗号化に使用される暗号化キーの作成と管理を容易にするマネージド型サービスです。AWS KMS は、A</description></item><item><title>AWS CloudformationをAWS CLIから使ってみる</title><link>https://techteco.github.io/2018/01/25/cloudformation/</link><pubDate>Thu, 25 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/25/cloudformation/</guid><description>公式ドキュメント AWS CLI Command Reference cloudformation 基本的な使い方 事前準備 実行パス設定 1 $ CF_PATH=file://~/cfsample AWS CLIのprofileを指定（複数設定している場合） 必要に応じて、AWS</description></item><item><title>待望のAWS LambdaのGolang対応！</title><link>https://techteco.github.io/2018/01/24/lambda-go-sample/</link><pubDate>Wed, 24 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/24/lambda-go-sample/</guid><description>公式ドキュメント Announcing Go Support for AWS Lambda Programming Model for Authoring Lambda Functions in Go サンプル Lambda Function Handler (Go) を読んで、サンプルを動かしてみる 前提 実行環境 1 2 $ go version go version go1.9.3 darwin/amd64 サンプルコード 適当</description></item><item><title>DynamoDBをAWS CLIで操作してみる（アイテム操作）</title><link>https://techteco.github.io/2017/04/25/dynamodb-usage-item/</link><pubDate>Tue, 25 Apr 2017 06:30:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/25/dynamodb-usage-item/</guid><description>公式ドキュメント AWS CLI Command Reference dynamodb 前提 DynamoDBローカルを使ってみる が完了している DynamoDBをAWS CLIで操作してみる（テーブル操作）</description></item><item><title>DynamoDBをAWS CLIで操作してみる（テーブル操作）</title><link>https://techteco.github.io/2017/04/22/dynamodb-usage-table/</link><pubDate>Sat, 22 Apr 2017 22:30:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/22/dynamodb-usage-table/</guid><description>公式ドキュメント AWS CLI Command Reference dynamodb 前提 DynamoDBローカルを使ってみる が完了している 参考 コマンドリファレンス aws dynamodb list-tables aws dynamodb create-table aws dynamodb describe-table aws dynamodb update-table aws dynamodb delete-table 事前準</description></item><item><title>DynamoDBローカルを使ってみる</title><link>https://techteco.github.io/2017/04/22/dynamodb-local-setup/</link><pubDate>Sat, 22 Apr 2017 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/22/dynamodb-local-setup/</guid><description>公式ドキュメント DynamoDB ローカル (ダウンロード可能バージョン) のセットアップ 前提 AWS CLIの設定とJavaが導入済み 1 2 3 4 5 6 7 $ aws --version aws-cli/1.11.76 Python/2.7.10 Darwin/16.5.0 botocore/1.5.39 $ java</description></item><item><title>AWS CLIでCloudfrontのキャッシュクリア</title><link>https://techteco.github.io/2017/04/09/cloudfront-create-invalidation/</link><pubDate>Sun, 09 Apr 2017 11:10:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/09/cloudfront-create-invalidation/</guid><description>公式ドキュメント AWS CLI Command Reference AWS CLI コマンドの実行 頻度とかファイル数にもよるけど、とりあえずざっくり全クリア。 XXXXXXXXXXXXXXはdist</description></item><item><title>【メモ】AWS CLIをつかってS3にファイルアップロード</title><link>https://techteco.github.io/2016/11/22/s3-sync/</link><pubDate>Tue, 22 Nov 2016 08:10:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/22/s3-sync/</guid><description>AWS CLIをつかってS3にファイルアップロード hugoで出力されたファイルをS3にアップするコマンドのメモ 前提 awscliでインストール済 対象</description></item><item><title>MacにAWS CLIインストール</title><link>https://techteco.github.io/2016/11/19/aws-cli-install/</link><pubDate>Sat, 19 Nov 2016 20:11:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/19/aws-cli-install/</guid><description>MacにAWS CLIインストール AWS 公式：Installing the AWS Command Line Interface AWS 公式：Configuring the AWS Command Line Interface インストールスクリプト pip のウェ</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AWS on Jot down for myself</title><link>https://techteco.github.io/categories/aws/</link><description>Recent content in AWS on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 09 Jul 2024 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/categories/aws/index.xml" rel="self" type="application/rss+xml"/><item><title>【開発環境】VSC+Dev Containers+AWS CLI</title><link>https://techteco.github.io/2024/07/09/vsc-aws-cli/</link><pubDate>Tue, 09 Jul 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/07/09/vsc-aws-cli/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
+&lt;ul>
+&lt;li>PC（mac）のセットアップが面倒&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code" target="_blank" rel="noopener">VSC(Visual Studio Code)&lt;/a>
+インストール済&lt;/li>
+&lt;li>&lt;a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">Docker&lt;/a>
+はインストール済&lt;/li>
+&lt;/ul>
+&lt;h2 id="dev-containers">Dev Containers&lt;/h2>
+&lt;p>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener">Dev Containers 公式&lt;/a>
+&lt;/p>
+&lt;p>AWS CLIを利用するため&lt;a href="https://containers.dev/features" target="_blank" rel="noopener">Dev Container Features&lt;/a>
+を使う&lt;/p></description></item><item><title>【開発環境】VSC+Dev Containers+AWS SAM+Lambda</title><link>https://techteco.github.io/2024/06/06/vsc-aws-sam-lambda/</link><pubDate>Thu, 06 Jun 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/06/06/vsc-aws-sam-lambda/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
+&lt;ul>
+&lt;li>PC（mac）のセットアップが面倒&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code" target="_blank" rel="noopener">VSC(Visual Studio Code)&lt;/a>
+インストール済&lt;/li>
+&lt;li>&lt;a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">Docker&lt;/a>
+はインストール済&lt;/li>
+&lt;/ul>
+&lt;h2 id="dev-containers">Dev Containers&lt;/h2>
+&lt;p>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener">Dev Containers 公式&lt;/a>
+&lt;/p>
+&lt;p>AWS SAMを利用するため&lt;a href="https://containers.dev/features" target="_blank" rel="noopener">Dev Container Features&lt;/a>
+を使う&lt;/p></description></item><item><title>AWS CodeBuildをローカル環境で動かす</title><link>https://techteco.github.io/2018/09/19/aws-codebuild-local/</link><pubDate>Wed, 19 Sep 2018 19:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/09/19/aws-codebuild-local/</guid><description>&lt;h1 id="aws-codebuildとは">AWS CodeBuildとは&lt;/h1>
+&lt;p>CodeBuildは使ったことはありましたが、検証が面倒くさいところがありました。&lt;/p>
+&lt;p>ビルド自体は動き出すとなかなか変更する機会がなく、今回ようやくローカル環境でのテストを試すことになりました。&lt;/p></description></item><item><title>AWS SAM CLIを使ってlambdaのローカル開発</title><link>https://techteco.github.io/2018/08/31/aws-sam-cli/</link><pubDate>Fri, 31 Aug 2018 19:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/08/31/aws-sam-cli/</guid><description>&lt;h1 id="aws-sam-cliとは">AWS SAM CLIとは&lt;/h1>
+&lt;p>AWS SAM自体は&lt;a href="https://techteco.github.io/2018/01/27/lambda-go-sample-sam/">以前の投稿&lt;/a>
+でも書いているので割愛。&lt;/p>
+&lt;p>AWS SAM CLIは、もともとsam localと呼ばれていたものの進化版？のようですね。&lt;/p>
+&lt;p>sam localは何度かつかってましたが、sam cliになったのを機に再度整理する。&lt;/p></description></item><item><title>LambdaのGolangでS3を操作する</title><link>https://techteco.github.io/2018/02/09/lambda-go-s3/</link><pubDate>Fri, 09 Feb 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/02/09/lambda-go-s3/</guid><description>&lt;h1 id="やること">やること&lt;/h1>
+&lt;p>S3に保存されたファイルを取得して、データを追記して保存する&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>S3上のファイル存在確認&lt;a href="https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.ListObjectsV2" target="_blank" rel="noopener">(ListObjectsV2)&lt;/a>
+&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ファイルが存在すれば、ファイル取得&lt;a href="https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.GetObject" target="_blank" rel="noopener">(GetObject)&lt;/a>
+&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>追記してS3に保存&lt;a href="https://docs.aws.amazon.com/sdk-for-go/api/service/s3/#S3.PutObject" target="_blank" rel="noopener">(PutObject)&lt;/a>
+&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="lambdaの作成">Lambdaの作成&lt;/h1>
+&lt;p>さっそく&lt;/p></description></item><item><title>Lambda(Golang)からAWS KMSを復号化する方法</title><link>https://techteco.github.io/2018/01/30/lambda-go-kms/</link><pubDate>Tue, 30 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/30/lambda-go-kms/</guid><description>&lt;p>KMSについては、&lt;a href="https://techteco.github.io/2018/01/26/kms/">AWS KMSの使い方&lt;/a>
+を参考&lt;/p>
+&lt;h1 id="環境構築">環境構築&lt;/h1>
+&lt;h2 id="暗号化データ">暗号化データ&lt;/h2>
+&lt;p>暗号化する。ここでは、&lt;em>&lt;strong>shared&lt;/strong>&lt;/em>(alias)というkeyを使う。&lt;/p>
+&lt;p>※自分の環境に合わせて。&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ aws kms encrypt &lt;span style="color:#98c379">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">&lt;/span>--key-id alias/shared &lt;span style="color:#98c379">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">&lt;/span>--plaintext &lt;span style="color:#98c379">&amp;#34;I am seacret word&amp;#34;&lt;/span> &lt;span style="color:#98c379">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">&lt;/span>--output text &lt;span style="color:#98c379">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">&lt;/span>--query CiphertextBlob&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;p>ここで出力された値をLambdaの環境変数に渡します。&lt;/p></description></item><item><title>AWS Cloudformationでネットワークの基本設定</title><link>https://techteco.github.io/2018/01/29/cloudformation/</link><pubDate>Mon, 29 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/29/cloudformation/</guid><description>&lt;h1 id="基本的な使い方">基本的な使い方&lt;/h1>
+&lt;h2 id="設定内容">設定内容&lt;/h2>
+&lt;p>ざっくりですが、こんな項目を設定します。詳細はCloudformationのテンプレートの内容を見てもらった方が早いです。&lt;/p>
+&lt;ul>
+&lt;li>VPC設定&lt;/li>
+&lt;li>Internet Gateway設定&lt;/li>
+&lt;li>Subnetの設定&lt;/li>
+&lt;li>DHCP Optionの設定&lt;/li>
+&lt;li>Route Tableの設定&lt;/li>
+&lt;li>ACLの設定&lt;/li>
+&lt;/ul>
+&lt;p>※設定値は参考までに。&lt;/p></description></item><item><title>LambdaのGolangでSlackにメッセージを送る</title><link>https://techteco.github.io/2018/01/28/lambda-go-slack/</link><pubDate>Sun, 28 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/28/lambda-go-slack/</guid><description>&lt;h1 id="slackの設定">Slackの設定&lt;/h1>
+&lt;h2 id="incoming-webhooks">Incoming WebHooks&lt;/h2>
+&lt;p>&lt;em>&lt;strong>Incoming WebHooks&lt;/strong>&lt;/em>を使って、Lambdaからメッセージ送信をする。&lt;/p>
+&lt;p>詳細は割愛しますが、ドキュメント [Slack API] (&lt;a href="https://api.slack.com/incoming-webhooks" target="_blank" rel="noopener">https://api.slack.com/incoming-webhooks&lt;/a>
+) をみると使い方は簡単です。&lt;/p>
+&lt;p>Slackの管理画面&lt;a href="https://XXXXXXXX.slack.com/apps" target="_blank" rel="noopener">https://XXXXXXXX.slack.com/apps&lt;/a>
+からIncoming WebHooksの設定を行い、Webhook URLが取得できたら、curlコマンドでテストしてみる。&lt;/p></description></item><item><title>AWS SAMを使ってみる</title><link>https://techteco.github.io/2018/01/27/lambda-go-sample-sam/</link><pubDate>Sat, 27 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/27/lambda-go-sample-sam/</guid><description>&lt;h1 id="aws-samとは">AWS SAMとは&lt;/h1>
+&lt;p>&lt;a href="https://github.com/awslabs/serverless-application-model" target="_blank" rel="noopener">Github : AWS Serverless Application Model (AWS SAM)&lt;/a>
+&lt;/p>
+&lt;blockquote>
+&lt;p>The goal of AWS SAM is to define a standard application model for serverless applications.
+This GitHub project is the starting point for AWS SAM, and contains general information, information about the model, and examples of common applications.&lt;/p>
+&lt;/blockquote>
+&lt;p>日本語訳&lt;/p>
+&lt;blockquote>
+&lt;p>AWS SAMの目標は、サーバレスアプリケーション用の標準アプリケーションモデルを定義することです。このGitHubプロジェクトは、AWS SAMの出発点であり、一般的な情報、モデルに関する情報、一般的なアプリケーションの例を含んでいます。&lt;/p></description></item><item><title>AWS KMSの使い方</title><link>https://techteco.github.io/2018/01/26/kms/</link><pubDate>Fri, 26 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/26/kms/</guid><description>&lt;h1 id="aws-kmsとは">AWS KMSとは&lt;/h1>
+&lt;p>&lt;a href="https://docs.aws.amazon.com/ja_jp/kms/latest/developerguide/overview.html" target="_blank" rel="noopener">AWS Key Management Service とは&lt;/a>
+&lt;/p>
+&lt;blockquote>
+&lt;p>AWS Key Management Service (AWS KMS) は、データの暗号化に使用される暗号化キーの作成と管理を容易にするマネージド型サービスです。AWS KMS は、Amazon Elastic Block Store (Amazon EBS)、Amazon Simple Storage Service (Amazon S3)、Amazon Redshift、Amazon Elastic Transcoder、Amazon WorkMail、Amazon Relational Database Service (Amazon RDS) などの他の AWS サービスと統合されており、ユーザーが管理する暗号化キーでのデータの暗号化を簡単にします。また AWS KMS は AWS CloudTrail とも統合されており、キーの使用ログを表示できるため、監査、規制、およびコンプライアンスの要求に応えるために役立ちます。&lt;/p></description></item><item><title>AWS CloudformationをAWS CLIから使ってみる</title><link>https://techteco.github.io/2018/01/25/cloudformation/</link><pubDate>Thu, 25 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/25/cloudformation/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://docs.aws.amazon.com/ja_jp/cli/latest/reference/cloudformation/index.html" target="_blank" rel="noopener">AWS CLI Command Reference cloudformation&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="基本的な使い方">基本的な使い方&lt;/h1>
+&lt;h2 id="事前準備">事前準備&lt;/h2>
+&lt;h3 id="実行パス設定">実行パス設定&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ &lt;span style="color:#e06c75">CF_PATH&lt;/span>&lt;span style="color:#56b6c2">=&lt;/span>file://~/cfsample&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h3 id="aws-cliのprofileを指定複数設定している場合">AWS CLIのprofileを指定（複数設定している場合）&lt;/h3>
+&lt;p>必要に応じて、AWS CLIのprofileを指定&lt;/p>
+&lt;p>確認方法は、&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cat ~/.aws/credentials
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat ~/.aws/config&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;p>必要に応じて設定する&lt;/p></description></item><item><title>待望のAWS LambdaのGolang対応！</title><link>https://techteco.github.io/2018/01/24/lambda-go-sample/</link><pubDate>Wed, 24 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/24/lambda-go-sample/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://aws.amazon.com/jp/blogs/compute/announcing-go-support-for-aws-lambda/" target="_blank" rel="noopener">Announcing Go Support for AWS Lambda&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/go-programming-model.html" target="_blank" rel="noopener">Programming Model for Authoring Lambda Functions in Go&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="サンプル">サンプル&lt;/h1>
+&lt;p>&lt;a href="https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/go-programming-model-handler-types.html" target="_blank" rel="noopener">Lambda Function Handler (Go)&lt;/a>
+を読んで、サンプルを動かしてみる&lt;/p>
+&lt;h1 id="前提">前提&lt;/h1>
+&lt;ul>
+&lt;li>実行環境
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ go version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>go version go1.9.3 darwin/amd64&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h1 id="サンプルコード">サンプルコード&lt;/h1>
+&lt;p>適当なディレクトリを作成して、&lt;em>&lt;strong>main.go&lt;/strong>&lt;/em>という名前でサンプルをそのまま貼り付ける。&lt;/p></description></item><item><title>DynamoDBをAWS CLIで操作してみる（アイテム操作）</title><link>https://techteco.github.io/2017/04/25/dynamodb-usage-item/</link><pubDate>Tue, 25 Apr 2017 06:30:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/25/dynamodb-usage-item/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/index.html#cli-aws-dynamodb" target="_blank" rel="noopener">AWS CLI Command Reference dynamodb&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="前提">前提&lt;/h1>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a href="https://techteco.github.io/2017/04/22/dynamodb-local-setup/">DynamoDBローカルを使ってみる&lt;/a>
+が完了している&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://techteco.github.io/2017/04/22/dynamodb-usage-table/">DynamoDBをAWS CLIで操作してみる（テーブル操作）&lt;/a>
+が完了している&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="参考">参考&lt;/h1>
+&lt;ul>
+&lt;li>コマンドリファレンス
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/put-item.html" target="_blank" rel="noopener">aws dynamodb put-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/get-item.html" target="_blank" rel="noopener">aws dynamodb get-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/update-item.html" target="_blank" rel="noopener">aws dynamodb update-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/delete-item.html" target="_blank" rel="noopener">aws dynamodb delete-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/batch-write-item.html" target="_blank" rel="noopener">aws dynamodb batch-write-item&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/batch-get-item.html" target="_blank" rel="noopener">aws dynamodb batch-get-item&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="事前準備">事前準備&lt;/h1>
+&lt;ul>
+&lt;li>作業用ディレクトリへ移動
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ &lt;span style="color:#e5c07b">cd&lt;/span> ~/dynamodbwork&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h2 id="テーブル作成">テーブル作成&lt;/h2>
+&lt;p>定義用jsonファイル
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ more ./json/musicTableDefinition.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1"> 1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2"> 2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3"> 3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4"> 4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5"> 5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6"> 6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7"> 7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8"> 8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9"> 9&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-10">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-10">10&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-11">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-11">11&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-12">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-12">12&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-13">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-13">13&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-14">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-14">14&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-15">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-15">15&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-16">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-16">16&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-17">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-17">17&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-18">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-18">18&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-19">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-19">19&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-20">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-20">20&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-21">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-21">21&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-22">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-22">22&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-23">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-23">23&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-24">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-24">24&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-25">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-25">25&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-26">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-26">26&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-27">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-27">27&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;TableName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;Music&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeDefinitions&amp;#34;&lt;/span>: [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;Artist&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeType&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;S&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;SongTitle&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeType&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;S&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;KeySchema&amp;#34;&lt;/span>: [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;KeyType&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;HASH&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;Artist&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;KeyType&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;RANGE&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;AttributeName&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;SongTitle&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;ProvisionedThroughput&amp;#34;&lt;/span>: {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;WriteCapacityUnits&amp;#34;&lt;/span>: &lt;span style="color:#d19a66">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">&amp;#34;ReadCapacityUnits&amp;#34;&lt;/span>: &lt;span style="color:#d19a66">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/p></description></item><item><title>DynamoDBをAWS CLIで操作してみる（テーブル操作）</title><link>https://techteco.github.io/2017/04/22/dynamodb-usage-table/</link><pubDate>Sat, 22 Apr 2017 22:30:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/22/dynamodb-usage-table/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/index.html#cli-aws-dynamodb" target="_blank" rel="noopener">AWS CLI Command Reference dynamodb&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="前提">前提&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://techteco.github.io/2017/04/22/dynamodb-local-setup/">DynamoDBローカルを使ってみる&lt;/a>
+が完了している&lt;/li>
+&lt;/ul>
+&lt;h1 id="参考">参考&lt;/h1>
+&lt;ul>
+&lt;li>コマンドリファレンス
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/list-tables.html" target="_blank" rel="noopener">aws dynamodb list-tables&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/create-table.html" target="_blank" rel="noopener">aws dynamodb create-table&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/describe-table.html" target="_blank" rel="noopener">aws dynamodb describe-table&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/update-table.html" target="_blank" rel="noopener">aws dynamodb update-table&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/dynamodb/delete-table.html" target="_blank" rel="noopener">aws dynamodb delete-table&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="事前準備">事前準備&lt;/h1>
+&lt;ul>
+&lt;li>作業用ディレクトリ作成
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ mkdir -p ~/dynamodbwork/json; &lt;span style="color:#e5c07b">cd&lt;/span> ./dynamodbwork&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h1 id="テーブル操作">テーブル操作&lt;/h1>
+&lt;h2 id="テーブルのリストを表示する">テーブルのリストを表示する&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ aws dynamodb &lt;span style="color:#98c379">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">&lt;/span>list-tables &lt;span style="color:#98c379">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379">&lt;/span>--endpoint-url http://localhost:8000 &amp;gt; ./json/list-tables.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ more ./json/list-tables.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;p>出力結果のjsonファイル&lt;/p></description></item><item><title>DynamoDBローカルを使ってみる</title><link>https://techteco.github.io/2017/04/22/dynamodb-local-setup/</link><pubDate>Sat, 22 Apr 2017 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/22/dynamodb-local-setup/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/DynamoDBLocal.html" target="_blank" rel="noopener">DynamoDB ローカル (ダウンロード可能バージョン) のセットアップ&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="前提">前提&lt;/h1>
+&lt;ul>
+&lt;li>AWS CLIの設定とJavaが導入済み
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6">6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7">7&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ aws --version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>aws-cli/1.11.76 Python/2.7.10 Darwin/16.5.0 botocore/1.5.39
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ java -version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>java version &lt;span style="color:#98c379">&amp;#34;1.8.0_121&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Java&lt;span style="color:#56b6c2">(&lt;/span>TM&lt;span style="color:#56b6c2">)&lt;/span> SE Runtime Environment &lt;span style="color:#56b6c2">(&lt;/span>build 1.8.0_121-b13&lt;span style="color:#56b6c2">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Java HotSpot&lt;span style="color:#56b6c2">(&lt;/span>TM&lt;span style="color:#56b6c2">)&lt;/span> 64-Bit Server VM &lt;span style="color:#56b6c2">(&lt;/span>build 25.121-b13, mixed mode&lt;span style="color:#56b6c2">)&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h1 id="ダウンロード">ダウンロード&lt;/h1>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ &lt;span style="color:#e5c07b">cd&lt;/span> your_path
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ mkdir dynamodb_local_latest
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ curl -sL https://s3-ap-northeast-1.amazonaws.com/dynamodb-local-tokyo/dynamodb_local_latest.tar.gz | tar zx -C your_path/dynamodb_local_latest&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h1 id="実行">実行&lt;/h1>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6">6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7">7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8">8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9">9&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ java -Djava.library.path&lt;span style="color:#56b6c2">=&lt;/span>./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Initializing DynamoDB Local with the following configuration:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Port:	&lt;span style="color:#d19a66">8000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>InMemory:	&lt;span style="color:#e5c07b">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DbPath:	null
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SharedDb:	&lt;span style="color:#e5c07b">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>shouldDelayTransientStatuses:	&lt;span style="color:#e5c07b">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>CorsParams:	*&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h1 id="実行オプション">実行オプション&lt;/h1>
+&lt;h2 id="-cors-value">&lt;strong>-cors value&lt;/strong>&lt;/h2>
+&lt;blockquote>
+&lt;p>JavaScript で CORS (Cross-Origin Resource Sharing) のサポートを有効にします。特定のドメインのカンマ区切りの &amp;ldquo;許可&amp;rdquo; リストを指定する必要があります。
+-cors のデフォルト設定は、パブリックアクセスを許可するアスタリスク（*）です。&lt;/p></description></item><item><title>AWS CLIでCloudfrontのキャッシュクリア</title><link>https://techteco.github.io/2017/04/09/cloudfront-create-invalidation/</link><pubDate>Sun, 09 Apr 2017 11:10:00 +0900</pubDate><guid>https://techteco.github.io/2017/04/09/cloudfront-create-invalidation/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/cli/latest/reference/cloudfront/create-invalidation.html" target="_blank" rel="noopener">AWS CLI Command Reference&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="aws-cli-コマンドの実行">AWS CLI コマンドの実行&lt;/h1>
+&lt;p>頻度とかファイル数にもよるけど、とりあえずざっくり全クリア。&lt;/p>
+&lt;p>XXXXXXXXXXXXXXはdistribution-id、確認方法はこちらで。
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ aws cloudfront list-distributions&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/p></description></item><item><title>【メモ】AWS CLIをつかってS3にファイルアップロード</title><link>https://techteco.github.io/2016/11/22/s3-sync/</link><pubDate>Tue, 22 Nov 2016 08:10:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/22/s3-sync/</guid><description>&lt;h1 id="aws-cliをつかってs3にファイルアップロード">AWS CLIをつかってS3にファイルアップロード&lt;/h1>
+&lt;ul>
+&lt;li>hugoで出力されたファイルをS3にアップするコマンドのメモ&lt;/li>
+&lt;/ul>
+&lt;h2 id="前提">前提&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://techte.co/2016/11/19/aws-cli-install/" target="_blank" rel="noopener">awscliでインストール済&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/access_policies_examples.html#iam-policy-example-s3" target="_blank" rel="noopener">対象のバケットのアクセスポリシー設定済&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="コマンド">コマンド&lt;/h2>
+&lt;p>public配下を、公開用のS3バケットにsyncする&lt;/p></description></item><item><title>MacにAWS CLIインストール</title><link>https://techteco.github.io/2016/11/19/aws-cli-install/</link><pubDate>Sat, 19 Nov 2016 20:11:00 +0900</pubDate><guid>https://techteco.github.io/2016/11/19/aws-cli-install/</guid><description>&lt;h1 id="macにaws-cliインストール">MacにAWS CLIインストール&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/ja_jp/cli/latest/userguide/installing.html" target="_blank" rel="noopener">AWS 公式：Installing the AWS Command Line Interface&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="http://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-chap-getting-started.html" target="_blank" rel="noopener">AWS 公式：Configuring the AWS Command Line Interface&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="インストールスクリプト">インストールスクリプト&lt;/h2>
+&lt;p>&lt;a href="https://pip.pypa.io/en/latest/installing/" target="_blank" rel="noopener">pip&lt;/a>
+ のウェブサイトからインストールスクリプトをダウンロードし実行します。&lt;/p></description></item></channel></rss>

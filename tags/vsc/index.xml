@@ -1,1 +1,50 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VSC on Jot down for myself</title><link>https://techteco.github.io/tags/vsc/</link><description>Recent content in VSC on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 09 Jul 2024 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/vsc/index.xml" rel="self" type="application/rss+xml"/><item><title>【開発環境】VSC+Dev Containers+AWS CLI</title><link>https://techteco.github.io/2024/07/09/vsc-aws-cli/</link><pubDate>Tue, 09 Jul 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/07/09/vsc-aws-cli/</guid><description>VSC(Visual Studio Code) Dev Containers環境 PC（mac）のセットアップが面倒 VSC(Visual Studio Code) インストール済 Docker はインストール済 Dev Containers Dev Containers 公式 AWS CLIを利用するためD</description></item><item><title>【開発環境】VSC+Dev Containers+AWS SAM+Lambda</title><link>https://techteco.github.io/2024/06/06/vsc-aws-sam-lambda/</link><pubDate>Thu, 06 Jun 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/06/06/vsc-aws-sam-lambda/</guid><description>VSC(Visual Studio Code) Dev Containers環境 PC（mac）のセットアップが面倒 VSC(Visual Studio Code) インストール済 Docker はインストール済 Dev Containers Dev Containers 公式 AWS SAMを利用するためD</description></item><item><title>【開発環境】VSC+Dev Containers+GO</title><link>https://techteco.github.io/2024/05/31/vsc-go/</link><pubDate>Fri, 31 May 2024 15:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/05/31/vsc-go/</guid><description>VSC(Visual Studio Code) Dev Containers環境 参考 : 【開発環境】VSC(Visual Studio Code)のDev Containersを使って、Remix+Type</description></item><item><title>【開発環境】VSC+Dev Containers+Remix+TypeScript</title><link>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</link><pubDate>Fri, 31 May 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</guid><description>VSC(Visual Studio Code) Dev Containers環境 PC（mac）のセットアップが面倒 VSC(Visual Studio Code) インストール済 Docker はインストール済 Dev Containers Dev Containers 公式 設定ファイル Specification Dev Container metadata reference 設</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VSC on Jot down for myself</title><link>https://techteco.github.io/tags/vsc/</link><description>Recent content in VSC on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Tue, 09 Jul 2024 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/vsc/index.xml" rel="self" type="application/rss+xml"/><item><title>【開発環境】VSC+Dev Containers+AWS CLI</title><link>https://techteco.github.io/2024/07/09/vsc-aws-cli/</link><pubDate>Tue, 09 Jul 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/07/09/vsc-aws-cli/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
+&lt;ul>
+&lt;li>PC（mac）のセットアップが面倒&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code" target="_blank" rel="noopener">VSC(Visual Studio Code)&lt;/a>
+インストール済&lt;/li>
+&lt;li>&lt;a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">Docker&lt;/a>
+はインストール済&lt;/li>
+&lt;/ul>
+&lt;h2 id="dev-containers">Dev Containers&lt;/h2>
+&lt;p>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener">Dev Containers 公式&lt;/a>
+&lt;/p>
+&lt;p>AWS CLIを利用するため&lt;a href="https://containers.dev/features" target="_blank" rel="noopener">Dev Container Features&lt;/a>
+を使う&lt;/p></description></item><item><title>【開発環境】VSC+Dev Containers+AWS SAM+Lambda</title><link>https://techteco.github.io/2024/06/06/vsc-aws-sam-lambda/</link><pubDate>Thu, 06 Jun 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/06/06/vsc-aws-sam-lambda/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
+&lt;ul>
+&lt;li>PC（mac）のセットアップが面倒&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code" target="_blank" rel="noopener">VSC(Visual Studio Code)&lt;/a>
+インストール済&lt;/li>
+&lt;li>&lt;a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">Docker&lt;/a>
+はインストール済&lt;/li>
+&lt;/ul>
+&lt;h2 id="dev-containers">Dev Containers&lt;/h2>
+&lt;p>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener">Dev Containers 公式&lt;/a>
+&lt;/p>
+&lt;p>AWS SAMを利用するため&lt;a href="https://containers.dev/features" target="_blank" rel="noopener">Dev Container Features&lt;/a>
+を使う&lt;/p></description></item><item><title>【開発環境】VSC+Dev Containers+GO</title><link>https://techteco.github.io/2024/05/31/vsc-go/</link><pubDate>Fri, 31 May 2024 15:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/05/31/vsc-go/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
+&lt;ul>
+&lt;li>参考 : &lt;a href="2024/05/31/vsc-remix-typescript/">【開発環境】VSC(Visual Studio Code)のDev Containersを使って、Remix+TypeScript環境を作る&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="dev-containers">Dev Containers&lt;/h2>
+&lt;h3 id="設定ファイル">設定ファイル&lt;/h3>
+&lt;p>設定ファイルは以下の通り。
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>.devcontainer/devcontainer.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/p></description></item><item><title>【開発環境】VSC+Dev Containers+Remix+TypeScript</title><link>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</link><pubDate>Fri, 31 May 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
+&lt;ul>
+&lt;li>PC（mac）のセットアップが面倒&lt;/li>
+&lt;li>&lt;a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code" target="_blank" rel="noopener">VSC(Visual Studio Code)&lt;/a>
+インストール済&lt;/li>
+&lt;li>&lt;a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">Docker&lt;/a>
+はインストール済&lt;/li>
+&lt;/ul>
+&lt;h2 id="dev-containers">Dev Containers&lt;/h2>
+&lt;p>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener">Dev Containers 公式&lt;/a>
+&lt;/p>
+&lt;h3 id="設定ファイル">設定ファイル&lt;/h3>
+&lt;ul>
+&lt;li>&lt;a href="https://containers.dev/implementors/json_reference/" target="_blank" rel="noopener">Specification Dev Container metadata reference&lt;/a>
+&lt;/li>
+&lt;/ul>
+&lt;p>設定ファイルは以下の通り。
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>.devcontainer/devcontainer.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/p></description></item></channel></rss>

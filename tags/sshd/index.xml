@@ -1,1 +1,468 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sshd on Jot down for myself</title><link>https://techteco.github.io/tags/sshd/</link><description>Recent content in Sshd on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Thu, 08 Dec 2016 17:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/sshd/index.xml" rel="self" type="application/rss+xml"/><item><title>ansibleでsshdの設定</title><link>https://techteco.github.io/2016/12/08/ansible-sshd/</link><pubDate>Thu, 08 Dec 2016 17:00:00 +0900</pubDate><guid>https://techteco.github.io/2016/12/08/ansible-sshd/</guid><description>前提 ここまで終わってること ansible実行用のhostをvagrantのansible_localで設定 hostからansibleでcen</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sshd on Jot down for myself</title><link>https://techteco.github.io/tags/sshd/</link><description>Recent content in Sshd on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Thu, 08 Dec 2016 17:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/sshd/index.xml" rel="self" type="application/rss+xml"/><item><title>ansibleでsshdの設定</title><link>https://techteco.github.io/2016/12/08/ansible-sshd/</link><pubDate>Thu, 08 Dec 2016 17:00:00 +0900</pubDate><guid>https://techteco.github.io/2016/12/08/ansible-sshd/</guid><description>&lt;h1 id="前提">前提&lt;/h1>
+&lt;p>ここまで終わってること&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="https://techteco.github.io/2016/11/28/vagrant-ansible-local-1/">ansible実行用のhostをvagrantのansible_localで設定&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="https://techteco.github.io/2016/11/29/vagrant-ansible-local-2/">hostからansibleでcentOS 7.2の基本設定&lt;/a>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="やること">やること&lt;/h1>
+&lt;ol>
+&lt;li>ansibleでsshdの設定&lt;/li>
+&lt;li>ansible実行で設定反映&lt;/li>
+&lt;li>sshdの起動確認&lt;/li>
+&lt;/ol>
+&lt;h1 id="1ansibleでsshdの設定">1.ansibleでsshdの設定&lt;/h1>
+&lt;h2 id="ファイル構成">ファイル構成&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1"> 1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2"> 2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3"> 3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4"> 4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5"> 5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6"> 6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7"> 7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8"> 8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9"> 9&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-10">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-10">10&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-11">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-11">11&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-12">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-12">12&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-13">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-13">13&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-14">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-14">14&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-15">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-15">15&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-16">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-16">16&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-17">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-17">17&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-18">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-18">18&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-19">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-19">19&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-20">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-20">20&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-21">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-21">21&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-22">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-22">22&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-23">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-23">23&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-24">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-24">24&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-25">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-25">25&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-26">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-26">26&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-27">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-27">27&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-28">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-28">28&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-29">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-29">29&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-30">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-30">30&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-31">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-31">31&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-32">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-32">32&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-33">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-33">33&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-34">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-34">34&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-35">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-35">35&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-36">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-36">36&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ tree
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── Vagrantfile
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── ansible.cfg
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── provision
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├── development
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├── group_vars
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   └── web.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├── host
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├── roles
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   ├── CentOS7.2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   ├── handlers
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   └── main.yml &lt;span style="color:#56b6c2">&amp;lt;&amp;lt;&amp;lt;&lt;/span>&amp;lt; 変更
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   ├── tasks
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   ├── chrony.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   ├── env.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   ├── locale.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   ├── main.yml &lt;span style="color:#56b6c2">&amp;lt;&amp;lt;&amp;lt;&lt;/span>&amp;lt; 変更
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   ├── selinux.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   ├── sshd.yml &lt;span style="color:#56b6c2">&amp;lt;&amp;lt;&amp;lt;&lt;/span>&amp;lt; 追加
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   └── yumallupdate.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   ├── templates
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   ├── alias.sh.j2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   │   └── chrony.conf.j2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   └── vars
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   └── main.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   └── ansible
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   ├── tasks
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   ├── main.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   │   └── ssh.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   └── templates
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   └── ssh
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │   └── config.j2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └── site.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d19a66">12&lt;/span> directories, &lt;span style="color:#d19a66">20&lt;/span> files&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="各ファイル">各ファイル&lt;/h2>
+&lt;h3 id="provisionrolescentos72tasksmainyml">provision/roles/CentOS7.2/tasks/main.yml&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1">1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2">2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3">3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4">4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5">5&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-diff" data-lang="diff">&lt;span style="display:flex;">&lt;span>@@ -6,3 +6,4 @@
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - include: chrony.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - include: env.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - include: selinux.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379;font-weight:bold">+- include: sshd.yml
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h3 id="provisionrolescentos72taskssshyml">provision/roles/CentOS7.2/tasks/ssh.yml&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1"> 1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2"> 2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3"> 3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4"> 4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5"> 5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6"> 6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7"> 7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8"> 8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9"> 9&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-10">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-10">10&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-11">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-11">11&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-12">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-12">12&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-13">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-13">13&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-14">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-14">14&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-15">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-15">15&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-16">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-16">16&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-17">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-17">17&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-18">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-18">18&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-19">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-19">19&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-20">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-20">20&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-21">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-21">21&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-22">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-22">22&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-23">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-23">23&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-24">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-24">24&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-25">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-25">25&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-26">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-26">26&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-27">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-27">27&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-28">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-28">28&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-29">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-29">29&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-30">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-30">30&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-31">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-31">31&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-32">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-32">32&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-33">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-33">33&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-34">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-34">34&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-35">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-35">35&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-36">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-36">36&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-37">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-37">37&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-38">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-38">38&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-39">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-39">39&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-40">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-40">40&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-41">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-41">41&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-42">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-42">42&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-43">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-43">43&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-44">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-44">44&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-45">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-45">45&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-46">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-46">46&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-47">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-47">47&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-48">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-48">48&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-49">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-49">49&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#e06c75">---&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#7f848e"># file: ./CentOS7.2/tasks/sshd.yml&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#e06c75">block&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">name&lt;/span>: check existing sshd_config backup file
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">stat&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">path&lt;/span>: /etc/ssh/sshd_config.bk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">register&lt;/span>: sshd_config_bkup
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">debug&lt;/span>: var=sshd_config_bkup
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">name&lt;/span>: copy sshd_config to bk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">command&lt;/span>: cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">when&lt;/span>: sshd_config_bkup.stat.exists == False
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">name&lt;/span>: modify sshd_config
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">lineinfile&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">dest&lt;/span>: /etc/ssh/sshd_config
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">state&lt;/span>: present
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">backrefs&lt;/span>: &lt;span style="color:#e5c07b">yes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">regexp&lt;/span>: &lt;span style="color:#98c379">&amp;#39;{{ item.regexp }}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">line&lt;/span>: &lt;span style="color:#98c379">&amp;#39;{{ item.line }}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">with_items&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">regexp&lt;/span>: &lt;span style="color:#98c379">&amp;#39;^#?\s*Port&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">line&lt;/span>: &lt;span style="color:#98c379">&amp;#39;Port {{ ansible_port }}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">regexp&lt;/span>: &lt;span style="color:#98c379">&amp;#39;^#?\s*PermitRootLogin&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">line&lt;/span>: &lt;span style="color:#98c379">&amp;#39;PermitRootLogin no&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">regexp&lt;/span>: &lt;span style="color:#98c379">&amp;#39;^PasswordAuthentication yes&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">line&lt;/span>: &lt;span style="color:#98c379">&amp;#39;PasswordAuthentication no&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">regexp&lt;/span>: &lt;span style="color:#98c379">&amp;#39;^#?\s*PubkeyAuthentication&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">line&lt;/span>: &lt;span style="color:#98c379">&amp;#39;PubkeyAuthentication yes&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">notify&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - restart sshd
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">tags&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - construct
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - ssh
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">name&lt;/span>: check sshd_config changed
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">command&lt;/span>: diff /etc/ssh/sshd_config /etc/ssh/sshd_config.bk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">register&lt;/span>: sshd_config_diff
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">ignore_errors&lt;/span>: &lt;span style="color:#e5c07b">yes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#e06c75">debug&lt;/span>: var=sshd_config_diff.stdout_lines
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">become&lt;/span>: &lt;span style="color:#e5c07b">yes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e06c75">tags&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - construct
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - sshd&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h3 id="provisionrolescentos72handlersmainyml">provision/roles/CentOS7.2/handlers/main.yml&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1"> 1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2"> 2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3"> 3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4"> 4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5"> 5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6"> 6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7"> 7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8"> 8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9"> 9&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-10">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-10">10&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-11">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-11">11&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-diff" data-lang="diff">&lt;span style="display:flex;">&lt;span>@@ -8,3 +8,10 @@
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> name: chronyd
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> state: restarted
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> enabled: yes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379;font-weight:bold">+
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379;font-weight:bold">+ - name: restart sshd
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379;font-weight:bold">+ become: yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379;font-weight:bold">+ service:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379;font-weight:bold">+ name: sshd
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379;font-weight:bold">+ state: restarted
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#98c379;font-weight:bold">+ enabled: yes
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="ansible実行で設定反映">ansible実行で設定反映&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1"> 1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2"> 2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3"> 3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4"> 4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5"> 5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6"> 6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7"> 7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8"> 8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9"> 9&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-10">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-10">10&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-11">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-11">11&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-12">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-12">12&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-13">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-13">13&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-14">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-14">14&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-15">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-15">15&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-16">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-16">16&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-17">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-17">17&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-18">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-18">18&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-19">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-19">19&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-20">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-20">20&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-21">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-21">21&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-22">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-22">22&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-23">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-23">23&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-24">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-24">24&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-25">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-25">25&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-26">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-26">26&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-27">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-27">27&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-28">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-28">28&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-29">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-29">29&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-30">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-30">30&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-31">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-31">31&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-32">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-32">32&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-33">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-33">33&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-34">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-34">34&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-35">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-35">35&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-36">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-36">36&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-37">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-37">37&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-38">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-38">38&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-39">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-39">39&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-40">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-40">40&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-41">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-41">41&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-42">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-42">42&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-43">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-43">43&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-44">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-44">44&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-45">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-45">45&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-46">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-46">46&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-47">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-47">47&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-48">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-48">48&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-49">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-49">49&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-50">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-50">50&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-51">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-51">51&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-52">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-52">52&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-53">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-53">53&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-54">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-54">54&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-55">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-55">55&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-56">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-56">56&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-57">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-57">57&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-58">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-58">58&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-59">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-59">59&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-60">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-60">60&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-61">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-61">61&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-62">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-62">62&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-63">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-63">63&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-64">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-64">64&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-65">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-65">65&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-66">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-66">66&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-67">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-67">67&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-68">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-68">68&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-69">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-69">69&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-70">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-70">70&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-71">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-71">71&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-72">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-72">72&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-73">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-73">73&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-74">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-74">74&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-75">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-75">75&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-76">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-76">76&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-77">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-77">77&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-78">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-78">78&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-79">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-79">79&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-80">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-80">80&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-81">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-81">81&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-82">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-82">82&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-83">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-83">83&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-84">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-84">84&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-85">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-85">85&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-86">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-86">86&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-87">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-87">87&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-88">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-88">88&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-89">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-89">89&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-90">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-90">90&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-91">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-91">91&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-92">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-92">92&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-93">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-93">93&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ ansible-playbook -i /vagrant/development /vagrant/site.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PLAY &lt;span style="color:#56b6c2">[&lt;/span>web&lt;span style="color:#56b6c2">]&lt;/span> *********************************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>setup&lt;span style="color:#56b6c2">]&lt;/span> *******************************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : yum update all&lt;span style="color:#56b6c2">]&lt;/span> **********************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : check CentOS version&lt;span style="color:#56b6c2">]&lt;/span> ****************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : &lt;span style="color:#e5c07b">set&lt;/span> LANG&lt;span style="color:#56b6c2">]&lt;/span> ****************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : &lt;span style="color:#e5c07b">set&lt;/span> keymap&lt;span style="color:#56b6c2">]&lt;/span> **************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : &lt;span style="color:#e5c07b">set&lt;/span> timezone&lt;span style="color:#56b6c2">]&lt;/span> ************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : install chrony&lt;span style="color:#56b6c2">]&lt;/span> **********************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : start chrony&lt;span style="color:#56b6c2">]&lt;/span> ************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : copy chrony.conf template&lt;span style="color:#56b6c2">]&lt;/span> ***********************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : copy /etc/profile.d/alias.sh template&lt;span style="color:#56b6c2">]&lt;/span> ***********************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : install selinux util&lt;span style="color:#56b6c2">]&lt;/span> ****************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span> &lt;span style="color:#56b6c2">=&lt;/span>&amp;gt; &lt;span style="color:#56b6c2">(&lt;/span>&lt;span style="color:#e06c75">item&lt;/span>&lt;span style="color:#56b6c2">=[&lt;/span>u&lt;span style="color:#98c379">&amp;#39;libselinux-python&amp;#39;&lt;/span>, u&lt;span style="color:#98c379">&amp;#39;libselinux-utils&amp;#39;&lt;/span>, u&lt;span style="color:#98c379">&amp;#39;selinux-policy&amp;#39;&lt;/span>, u&lt;span style="color:#98c379">&amp;#39;selinux-policy-targeted&amp;#39;&lt;/span>&lt;span style="color:#56b6c2">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : disable selinux&lt;span style="color:#56b6c2">]&lt;/span> *********************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : check existing sshd_config backup file&lt;span style="color:#56b6c2">]&lt;/span> **********************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : debug&lt;span style="color:#56b6c2">]&lt;/span> *******************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span> &lt;span style="color:#56b6c2">=&lt;/span>&amp;gt; &lt;span style="color:#56b6c2">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;sshd_config_bkup&amp;#34;&lt;/span>: &lt;span style="color:#56b6c2">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;changed&amp;#34;&lt;/span>: false,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;stat&amp;#34;&lt;/span>: &lt;span style="color:#56b6c2">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;exists&amp;#34;&lt;/span>: &lt;span style="color:#e5c07b">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#56b6c2">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#56b6c2">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#56b6c2">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : copy sshd_config to bk&lt;span style="color:#56b6c2">]&lt;/span> **************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : modify sshd_config&lt;span style="color:#56b6c2">]&lt;/span> ******************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span> &lt;span style="color:#56b6c2">=&lt;/span>&amp;gt; &lt;span style="color:#56b6c2">(&lt;/span>&lt;span style="color:#e06c75">item&lt;/span>&lt;span style="color:#56b6c2">={&lt;/span>u&lt;span style="color:#98c379">&amp;#39;regexp&amp;#39;&lt;/span>: u&lt;span style="color:#98c379">&amp;#39;^#?\\s*Port&amp;#39;&lt;/span>, u&lt;span style="color:#98c379">&amp;#39;line&amp;#39;&lt;/span>: u&lt;span style="color:#98c379">&amp;#39;Port 22&amp;#39;&lt;/span>&lt;span style="color:#56b6c2">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span> &lt;span style="color:#56b6c2">=&lt;/span>&amp;gt; &lt;span style="color:#56b6c2">(&lt;/span>&lt;span style="color:#e06c75">item&lt;/span>&lt;span style="color:#56b6c2">={&lt;/span>u&lt;span style="color:#98c379">&amp;#39;regexp&amp;#39;&lt;/span>: u&lt;span style="color:#98c379">&amp;#39;^#?\\s*PermitRootLogin&amp;#39;&lt;/span>, u&lt;span style="color:#98c379">&amp;#39;line&amp;#39;&lt;/span>: u&lt;span style="color:#98c379">&amp;#39;PermitRootLogin no&amp;#39;&lt;/span>&lt;span style="color:#56b6c2">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span> &lt;span style="color:#56b6c2">=&lt;/span>&amp;gt; &lt;span style="color:#56b6c2">(&lt;/span>&lt;span style="color:#e06c75">item&lt;/span>&lt;span style="color:#56b6c2">={&lt;/span>u&lt;span style="color:#98c379">&amp;#39;regexp&amp;#39;&lt;/span>: u&lt;span style="color:#98c379">&amp;#39;^PasswordAuthentication yes&amp;#39;&lt;/span>, u&lt;span style="color:#98c379">&amp;#39;line&amp;#39;&lt;/span>: u&lt;span style="color:#98c379">&amp;#39;PasswordAuthentication no&amp;#39;&lt;/span>&lt;span style="color:#56b6c2">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span> &lt;span style="color:#56b6c2">=&lt;/span>&amp;gt; &lt;span style="color:#56b6c2">(&lt;/span>&lt;span style="color:#e06c75">item&lt;/span>&lt;span style="color:#56b6c2">={&lt;/span>u&lt;span style="color:#98c379">&amp;#39;regexp&amp;#39;&lt;/span>: u&lt;span style="color:#98c379">&amp;#39;^#?\\s*PubkeyAuthentication&amp;#39;&lt;/span>, u&lt;span style="color:#98c379">&amp;#39;line&amp;#39;&lt;/span>: u&lt;span style="color:#98c379">&amp;#39;PubkeyAuthentication yes&amp;#39;&lt;/span>&lt;span style="color:#56b6c2">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : check sshd_config changed&lt;span style="color:#56b6c2">]&lt;/span> ***********************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>fatal: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>: FAILED! &lt;span style="color:#56b6c2">=&lt;/span>&amp;gt; &lt;span style="color:#56b6c2">{&lt;/span>&lt;span style="color:#98c379">&amp;#34;changed&amp;#34;&lt;/span>: true, &lt;span style="color:#98c379">&amp;#34;cmd&amp;#34;&lt;/span>: &lt;span style="color:#56b6c2">[&lt;/span>&lt;span style="color:#98c379">&amp;#34;diff&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;/etc/ssh/sshd_config&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;/etc/ssh/sshd_config.bk&amp;#34;&lt;/span>&lt;span style="color:#56b6c2">]&lt;/span>, &lt;span style="color:#98c379">&amp;#34;delta&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;0:00:00.002562&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;end&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;2016-12-08 16:24:22.570969&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;failed&amp;#34;&lt;/span>: true, &lt;span style="color:#98c379">&amp;#34;rc&amp;#34;&lt;/span>: 1, &lt;span style="color:#98c379">&amp;#34;start&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;2016-12-08 16:24:22.568407&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;stderr&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;stdout&amp;#34;&lt;/span>: &lt;span style="color:#98c379">&amp;#34;17c17\n&amp;lt; Port 22\n---\n&amp;gt; #Port 22\n49c49\n&amp;lt; PermitRootLogin no\n---\n&amp;gt; #PermitRootLogin yes\n55c55\n&amp;lt; PubkeyAuthentication yes\n---\n&amp;gt; #PubkeyAuthentication yes\n79c79\n&amp;lt; PasswordAuthentication no\n---\n&amp;gt; PasswordAuthentication yes&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;stdout_lines&amp;#34;&lt;/span>: &lt;span style="color:#56b6c2">[&lt;/span>&lt;span style="color:#98c379">&amp;#34;17c17&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;lt; Port 22&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;---&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;gt; #Port 22&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;49c49&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;lt; PermitRootLogin no&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;---&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;gt; #PermitRootLogin yes&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;55c55&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;lt; PubkeyAuthentication yes&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;---&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;gt; #PubkeyAuthentication yes&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;79c79&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;lt; PasswordAuthentication no&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;---&amp;#34;&lt;/span>, &lt;span style="color:#98c379">&amp;#34;&amp;gt; PasswordAuthentication yes&amp;#34;&lt;/span>&lt;span style="color:#56b6c2">]&lt;/span>, &lt;span style="color:#98c379">&amp;#34;warnings&amp;#34;&lt;/span>: &lt;span style="color:#56b6c2">[]}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...ignoring
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>TASK &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : debug&lt;span style="color:#56b6c2">]&lt;/span> *******************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ok: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span> &lt;span style="color:#56b6c2">=&lt;/span>&amp;gt; &lt;span style="color:#56b6c2">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;sshd_config_diff.stdout_lines&amp;#34;&lt;/span>: &lt;span style="color:#56b6c2">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;17c17&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;&amp;lt; Port 22&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;---&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;&amp;gt; #Port 22&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;49c49&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;&amp;lt; PermitRootLogin no&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;---&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;&amp;gt; #PermitRootLogin yes&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;55c55&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;&amp;lt; PubkeyAuthentication yes&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;---&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;&amp;gt; #PubkeyAuthentication yes&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;79c79&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;&amp;lt; PasswordAuthentication no&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;---&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#98c379">&amp;#34;&amp;gt; PasswordAuthentication yes&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#56b6c2">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>RUNNING HANDLER &lt;span style="color:#56b6c2">[&lt;/span>CentOS7.2 : restart sshd&lt;span style="color:#56b6c2">]&lt;/span> *************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>changed: &lt;span style="color:#56b6c2">[&lt;/span>192.168.52.52&lt;span style="color:#56b6c2">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>PLAY RECAP *********************************************************************
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>192.168.52.52 : &lt;span style="color:#e06c75">ok&lt;/span>&lt;span style="color:#56b6c2">=&lt;/span>&lt;span style="color:#d19a66">19&lt;/span> &lt;span style="color:#e06c75">changed&lt;/span>&lt;span style="color:#56b6c2">=&lt;/span>&lt;span style="color:#d19a66">7&lt;/span> &lt;span style="color:#e06c75">unreachable&lt;/span>&lt;span style="color:#56b6c2">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span> &lt;span style="color:#e06c75">failed&lt;/span>&lt;span style="color:#56b6c2">=&lt;/span>&lt;span style="color:#d19a66">0&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="sshdの起動確認">sshdの起動確認&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-1">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-1"> 1&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-2">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-2"> 2&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-3">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-3"> 3&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-4">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-4"> 4&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-5">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-5"> 5&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-6">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-6"> 6&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-7">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-7"> 7&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-8">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-8"> 8&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-9">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-9"> 9&lt;/a>
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#55595f" id="ano-10">&lt;a style="outline:none;text-decoration:none;color:inherit" href="#ano-10">10&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#56b6c2">[&lt;/span>vagrant@web ssh&lt;span style="color:#56b6c2">]&lt;/span>$ systemctl status sshd.service
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>● sshd.service - OpenSSH server daemon
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Loaded: loaded &lt;span style="color:#56b6c2">(&lt;/span>/usr/lib/systemd/system/sshd.service; enabled; vendor preset: enabled&lt;span style="color:#56b6c2">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Active: active &lt;span style="color:#56b6c2">(&lt;/span>running&lt;span style="color:#56b6c2">)&lt;/span> since 木 2016-12-08 16:24:22 JST; 48min ago
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Docs: man:sshd&lt;span style="color:#56b6c2">(&lt;/span>8&lt;span style="color:#56b6c2">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> man:sshd_config&lt;span style="color:#56b6c2">(&lt;/span>5&lt;span style="color:#56b6c2">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Main PID: &lt;span style="color:#d19a66">15539&lt;/span> &lt;span style="color:#56b6c2">(&lt;/span>sshd&lt;span style="color:#56b6c2">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> CGroup: /system.slice/sshd.service
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─15539 /usr/sbin/sshd -D
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#56b6c2">[&lt;/span>vagrant@web ssh&lt;span style="color:#56b6c2">]&lt;/span>$&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
