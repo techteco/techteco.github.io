@@ -1,4 +1,56 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jot down for myself</title><link>https://techteco.github.io/</link><description>Recent content on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Sun, 02 Feb 2025 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>React Router v7のチュートリアルを試す</title><link>https://techteco.github.io/2025/02/02/reactrouter-address-book/</link><pubDate>Sun, 02 Feb 2025 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2025/02/02/reactrouter-address-book/</guid><description>&lt;h1 id="react-router-v7のチュートリアル">React Router v7のチュートリアル&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jot down for myself</title><link>https://techteco.github.io/</link><description>Recent content on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Fri, 07 Feb 2025 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>【開発環境】Visual Studio CodeのTypeScript Inlay hintsを設定する</title><link>https://techteco.github.io/2025/02/07/vsc-typescript-inlay-hints/</link><pubDate>Fri, 07 Feb 2025 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2025/02/07/vsc-typescript-inlay-hints/</guid><description>&lt;h1 id="vscvisual-studio-codetypescript-inlay-hints">VSC(Visual Studio Code)　TypeScript Inlay hints&lt;/h1>
+&lt;p>&lt;a href="https://code.visualstudio.com/docs/typescript/typescript-editing#_inlay-hints" target="_blank" rel="noopener">Inlay hints（公式ページ）&lt;/a>
+&lt;/p>
+&lt;h2 id="設定したパラメータ">設定したパラメータ&lt;/h2>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>設定&lt;/th>
+ &lt;th>説明&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.enumMemberValues.enabled&lt;/td>
+ &lt;td>列挙型メンバーの値をエディタ上にインラインで表示します。これにより、列挙値の実際の値が確認しやすくなります。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.functionLikeReturnTypes.enabled&lt;/td>
+ &lt;td>関数やメソッドなど、関数ライクなコード要素の戻り値のタイプをインラインで表示します。型推論による戻り値も明示的に確認できるため、コードの読みやすさが向上します。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.parameterNames.enabled&lt;/td>
+ &lt;td>関数呼び出し時に引数の横にパラメータ名をインラインで表示します。ここでは全ての引数に対して名前が表示され、どの値がどのパラメータに対応しているかを把握しやすくなります。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName&lt;/td>
+ &lt;td>関数呼び出し時、引数の名前とパラメータ名が一致する場合はそのヒント表示を抑制します。冗長な表示を避け、必要な場合のみ追加情報を提供します。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.parameterTypes.enabled&lt;/td>
+ &lt;td>関数宣言時に各パラメータの型情報をインラインで表示します。これにより、関数定義の時に各パラメータの型をすぐに確認できます。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.propertyDeclarationTypes.enabled&lt;/td>
+ &lt;td>クラスやオブジェクトのプロパティ宣言の型情報をインラインで表示します。型が明示されていない場合でも推論された型が確認できます。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.variableTypes.enabled&lt;/td>
+ &lt;td>変数宣言時に型情報をインラインで表示します。変数の型が明示されていなくても補助的な情報として表示されます。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.variableTypes.suppressWhenExpressionIsLiteral&lt;/td>
+ &lt;td>リテラル（例えば、文字列や数値など）の場合、冗長な型のヒント表示を抑制します。よりシンプルにして不要な情報の表示を防ぎます。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>typescript.inlayHints.enabled&lt;/td>
+ &lt;td>上記の各種 inlay hint 機能全体を有効にします。&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="設定ファイル">設定ファイル&lt;/h2>
+&lt;p>DevContainerを利用する前提で以下のファイルに追加する。
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>.devcontainer/devcontainer.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/p></description></item><item><title>React Router v7のチュートリアルを試す</title><link>https://techteco.github.io/2025/02/02/reactrouter-address-book/</link><pubDate>Sun, 02 Feb 2025 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2025/02/02/reactrouter-address-book/</guid><description>&lt;h1 id="react-router-v7のチュートリアル">React Router v7のチュートリアル&lt;/h1>
 &lt;p>Remixを使っていたので、React Router v7になってどうなるのかをチュートリアルを触ってみる&lt;/p>
 &lt;p>基本的には&lt;a href="https://reactrouter.com/tutorials/address-book#address-book" target="_blank" rel="noopener">公式&lt;/a>
 の手順どおりやってみるだけ&lt;/p></description></item><item><title>【開発環境】VSC+Dev Containers+AWS CLI</title><link>https://techteco.github.io/2024/07/09/vsc-aws-cli/</link><pubDate>Tue, 09 Jul 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/07/09/vsc-aws-cli/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
