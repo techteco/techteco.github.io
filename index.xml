@@ -119,11 +119,9 @@
 &lt;p>macへのインストールはbrewコマンドでできます。&lt;/p></description></item><item><title>Macのsipsコマンドの使い方メモ</title><link>https://techteco.github.io/2019/04/02/sips/</link><pubDate>Tue, 02 Apr 2019 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2019/04/02/sips/</guid><description>&lt;h1 id="sipsコマンド">sipsコマンド&lt;/h1>
 &lt;p>sipsは**scriptable image processing system.**の略です。&lt;/p>
 &lt;blockquote>
-&lt;p>This tool is used to query or modify raster image files and ColorSync ICC profiles.&lt;/p>
-&lt;/blockquote>
+&lt;p>This tool is used to query or modify raster image files and ColorSync ICC profiles.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Its functionality can also be used through the &amp;ldquo;Image Events&amp;rdquo; AppleScript suite.&lt;/p>
-&lt;/blockquote>
+&lt;p>Its functionality can also be used through the &amp;ldquo;Image Events&amp;rdquo; AppleScript suite.&lt;/p>&lt;/blockquote>
 &lt;h1 id="簡単な使い方">簡単な使い方&lt;/h1>
 &lt;h2 id="画像の情報を参照">画像の情報を参照&lt;/h2>
 &lt;p>スマフォで撮影した画像を見てみるとこんな感じの情報が取得できました。&lt;/p></description></item><item><title>AWS CodeBuildをローカル環境で動かす</title><link>https://techteco.github.io/2018/09/19/aws-codebuild-local/</link><pubDate>Wed, 19 Sep 2018 19:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/09/19/aws-codebuild-local/</guid><description>&lt;h1 id="aws-codebuildとは">AWS CodeBuildとは&lt;/h1>
@@ -202,8 +200,7 @@
 &lt;/p>
 &lt;blockquote>
 &lt;p>The goal of AWS SAM is to define a standard application model for serverless applications.
-This GitHub project is the starting point for AWS SAM, and contains general information, information about the model, and examples of common applications.&lt;/p>
-&lt;/blockquote>
+This GitHub project is the starting point for AWS SAM, and contains general information, information about the model, and examples of common applications.&lt;/p>&lt;/blockquote>
 &lt;p>日本語訳&lt;/p>
 &lt;blockquote>
 &lt;p>AWS SAMの目標は、サーバレスアプリケーション用の標準アプリケーションモデルを定義することです。このGitHubプロジェクトは、AWS SAMの出発点であり、一般的な情報、モデルに関する情報、一般的なアプリケーションの例を含んでいます。&lt;/p></description></item><item><title>AWS KMSの使い方</title><link>https://techteco.github.io/2018/01/26/kms/</link><pubDate>Fri, 26 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/26/kms/</guid><description>&lt;h1 id="aws-kmsとは">AWS KMSとは&lt;/h1>
@@ -270,8 +267,7 @@ This GitHub project is the starting point for AWS SAM, and contains general info
 &lt;p>&lt;em>&lt;strong>Go Version Manager&lt;/strong>&lt;/em>の頭文字をとって&lt;em>&lt;strong>GVM&lt;/strong>&lt;/em>&lt;/p>
 &lt;p>一言で言うと&lt;/p>
 &lt;blockquote>
-&lt;p>GVM provides an interface to manage Go versions.&lt;/p>
-&lt;/blockquote>
+&lt;p>GVM provides an interface to manage Go versions.&lt;/p>&lt;/blockquote>
 &lt;p>日本語に直訳すると&lt;/p>
 &lt;blockquote>
 &lt;p>GVMは、Goバージョンを管理するためのインタフェースを提供します。&lt;/p></description></item><item><title>AnsibleでMacの開発環境を構築する</title><link>https://techteco.github.io/2018/01/22/ansible-mac/</link><pubDate>Mon, 22 Jan 2018 20:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/22/ansible-mac/</guid><description>&lt;p>&lt;em>&lt;strong>※2018年12月12日更新&lt;/strong>&lt;/em>&lt;/p>
@@ -633,8 +629,7 @@ This GitHub project is the starting point for AWS SAM, and contains general info
 &lt;p>&lt;a href="https://lumen.laravel.com/" target="_blank" rel="noopener">Limenのオフィシャルページ&lt;/a>
 &lt;/p>
 &lt;blockquote>
-&lt;p>The stunningly fast micro-framework by Laravel.&lt;/p>
-&lt;/blockquote>
+&lt;p>The stunningly fast micro-framework by Laravel.&lt;/p>&lt;/blockquote>
 &lt;p>直訳すると、&amp;ldquo;Laravelによるほどろくほど高速なマイクロフレームワーク&amp;quot;ってことですね。&lt;/p>
 &lt;p>現時点（2017年2月14日）では、バージョン5.4が最新のようです。&lt;a href="https://lumen.laravel.com/docs/5.4" target="_blank" rel="noopener">Limen Documentation&lt;/a>
 &lt;/p></description></item><item><title>ansibleでsshdの設定</title><link>https://techteco.github.io/2016/12/08/ansible-sshd/</link><pubDate>Thu, 08 Dec 2016 17:00:00 +0900</pubDate><guid>https://techteco.github.io/2016/12/08/ansible-sshd/</guid><description>&lt;h1 id="前提">前提&lt;/h1>
@@ -1368,4 +1363,4 @@ This GitHub project is the starting point for AWS SAM, and contains general info
 &lt;p>&lt;strong>.bashrc&lt;/strong>に下記のとおりPATHを設定する&lt;/p></description></item><item><title>Macにtreeコマンドをいれる</title><link>https://techteco.github.io/2015/08/26/mac-tree-command/</link><pubDate>Wed, 26 Aug 2015 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2015/08/26/mac-tree-command/</guid><description>&lt;h1 id="treeコマンド">treeコマンド&lt;/h1>
 &lt;p>コマンドでディレクトリ構造を表示する方法さがしてたら、便利なのがありました。ていうか、知らないのが恥ずかしいレベルなのか。。&lt;/p>
 &lt;h2 id="インストール">インストール&lt;/h2>
-&lt;p>macにbrewを使ってインストールする&lt;/p></description></item><item><title/><link>https://techteco.github.io/manifest.json</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/manifest.json</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.de/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.de/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.en/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.en/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.es/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.es/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.fr/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.fr/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.hi/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.hi/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.jp/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.jp/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.nl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.nl/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.pl/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.pl/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.ru/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.ru/</guid><description/></item><item><title/><link>https://techteco.github.io/search/_index.zh-cn/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/search/_index.zh-cn/</guid><description/></item></channel></rss>
+&lt;p>macにbrewを使ってインストールする&lt;/p></description></item><item><title/><link>https://techteco.github.io/manifest.json</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://techteco.github.io/manifest.json</guid><description/></item></channel></rss>

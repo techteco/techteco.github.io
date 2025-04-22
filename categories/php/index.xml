@@ -2,8 +2,7 @@
 &lt;p>&lt;a href="https://lumen.laravel.com/" target="_blank" rel="noopener">Limenのオフィシャルページ&lt;/a>
 &lt;/p>
 &lt;blockquote>
-&lt;p>The stunningly fast micro-framework by Laravel.&lt;/p>
-&lt;/blockquote>
+&lt;p>The stunningly fast micro-framework by Laravel.&lt;/p>&lt;/blockquote>
 &lt;p>直訳すると、&amp;ldquo;Laravelによるほどろくほど高速なマイクロフレームワーク&amp;quot;ってことですね。&lt;/p>
 &lt;p>現時点（2017年2月14日）では、バージョン5.4が最新のようです。&lt;a href="https://lumen.laravel.com/docs/5.4" target="_blank" rel="noopener">Limen Documentation&lt;/a>
 &lt;/p></description></item><item><title>【FuelPHP】ログの出力先を変更する</title><link>https://techteco.github.io/2016/01/07/fuelphp-log/</link><pubDate>Thu, 07 Jan 2016 13:11:00 +0900</pubDate><guid>https://techteco.github.io/2016/01/07/fuelphp-log/</guid><description>&lt;h1 id="fuelphpログの出力先を変更する">【FuelPHP】ログの出力先を変更する&lt;/h1>

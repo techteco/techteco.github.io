@@ -56,8 +56,7 @@
 &lt;/p>
 &lt;blockquote>
 &lt;p>The goal of AWS SAM is to define a standard application model for serverless applications.
-This GitHub project is the starting point for AWS SAM, and contains general information, information about the model, and examples of common applications.&lt;/p>
-&lt;/blockquote>
+This GitHub project is the starting point for AWS SAM, and contains general information, information about the model, and examples of common applications.&lt;/p>&lt;/blockquote>
 &lt;p>日本語訳&lt;/p>
 &lt;blockquote>
 &lt;p>AWS SAMの目標は、サーバレスアプリケーション用の標準アプリケーションモデルを定義することです。このGitHubプロジェクトは、AWS SAMの出発点であり、一般的な情報、モデルに関する情報、一般的なアプリケーションの例を含んでいます。&lt;/p></description></item><item><title>待望のAWS LambdaのGolang対応！</title><link>https://techteco.github.io/2018/01/24/lambda-go-sample/</link><pubDate>Wed, 24 Jan 2018 22:00:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/24/lambda-go-sample/</guid><description>&lt;h1 id="公式ドキュメント">公式ドキュメント&lt;/h1>
@@ -91,8 +90,7 @@ This GitHub project is the starting point for AWS SAM, and contains general info
 &lt;p>&lt;em>&lt;strong>Go Version Manager&lt;/strong>&lt;/em>の頭文字をとって&lt;em>&lt;strong>GVM&lt;/strong>&lt;/em>&lt;/p>
 &lt;p>一言で言うと&lt;/p>
 &lt;blockquote>
-&lt;p>GVM provides an interface to manage Go versions.&lt;/p>
-&lt;/blockquote>
+&lt;p>GVM provides an interface to manage Go versions.&lt;/p>&lt;/blockquote>
 &lt;p>日本語に直訳すると&lt;/p>
 &lt;blockquote>
 &lt;p>GVMは、Goバージョンを管理するためのインタフェースを提供します。&lt;/p></description></item></channel></rss>

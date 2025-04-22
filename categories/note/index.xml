@@ -10,11 +10,9 @@
 &lt;p>macへのインストールはbrewコマンドでできます。&lt;/p></description></item><item><title>Macのsipsコマンドの使い方メモ</title><link>https://techteco.github.io/2019/04/02/sips/</link><pubDate>Tue, 02 Apr 2019 21:53:00 +0900</pubDate><guid>https://techteco.github.io/2019/04/02/sips/</guid><description>&lt;h1 id="sipsコマンド">sipsコマンド&lt;/h1>
 &lt;p>sipsは**scriptable image processing system.**の略です。&lt;/p>
 &lt;blockquote>
-&lt;p>This tool is used to query or modify raster image files and ColorSync ICC profiles.&lt;/p>
-&lt;/blockquote>
+&lt;p>This tool is used to query or modify raster image files and ColorSync ICC profiles.&lt;/p>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>Its functionality can also be used through the &amp;ldquo;Image Events&amp;rdquo; AppleScript suite.&lt;/p>
-&lt;/blockquote>
+&lt;p>Its functionality can also be used through the &amp;ldquo;Image Events&amp;rdquo; AppleScript suite.&lt;/p>&lt;/blockquote>
 &lt;h1 id="簡単な使い方">簡単な使い方&lt;/h1>
 &lt;h2 id="画像の情報を参照">画像の情報を参照&lt;/h2>
 &lt;p>スマフォで撮影した画像を見てみるとこんな感じの情報が取得できました。&lt;/p></description></item><item><title>LAWS OF UX というサイトの紹介</title><link>https://techteco.github.io/2018/01/31/laws-of-ux/</link><pubDate>Wed, 31 Jan 2018 16:30:00 +0900</pubDate><guid>https://techteco.github.io/2018/01/31/laws-of-ux/</guid><description>&lt;h1 id="laws-of-ux">Laws Of UX&lt;/h1>
