@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>React on Jot down for myself</title><link>https://techteco.github.io/tags/react/</link><description>Recent content in React on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Sun, 02 Feb 2025 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/react/index.xml" rel="self" type="application/rss+xml"/><item><title>React Router v7のチュートリアルを試す</title><link>https://techteco.github.io/2025/02/02/reactrouter-address-book/</link><pubDate>Sun, 02 Feb 2025 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2025/02/02/reactrouter-address-book/</guid><description>&lt;h1 id="react-router-v7のチュートリアル">React Router v7のチュートリアル&lt;/h1>
-&lt;p>Remixを使っていたので、React Router v7になってどうなるのかをチュートリアルを触ってみる&lt;/p>
-&lt;p>基本的には&lt;a href="https://reactrouter.com/tutorials/address-book#address-book" target="_blank" rel="noopener">公式&lt;/a>
-の手順どおりやってみるだけ&lt;/p></description></item><item><title>【開発環境】VSC+Dev Containers+Remix+TypeScript</title><link>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</link><pubDate>Fri, 31 May 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境">VSC(Visual Studio Code) Dev Containers環境&lt;/h1>
-&lt;ul>
-&lt;li>PC（mac）のセットアップが面倒&lt;/li>
-&lt;li>&lt;a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code" target="_blank" rel="noopener">VSC(Visual Studio Code)&lt;/a>
-インストール済&lt;/li>
-&lt;li>&lt;a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">Docker&lt;/a>
-はインストール済&lt;/li>
-&lt;/ul>
-&lt;h2 id="dev-containers">Dev Containers&lt;/h2>
-&lt;p>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener">Dev Containers 公式&lt;/a>
-&lt;/p>
-&lt;h3 id="設定ファイル">設定ファイル&lt;/h3>
-&lt;ul>
-&lt;li>&lt;a href="https://containers.dev/implementors/json_reference/" target="_blank" rel="noopener">Specification Dev Container metadata reference&lt;/a>
-&lt;/li>
-&lt;/ul>
-&lt;p>設定ファイルは以下の通り。
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>.devcontainer/devcontainer.json&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>React on Jot down for myself</title><link>https://techteco.github.io/tags/react/</link><description>Recent content in React on Jot down for myself</description><generator>Hugo</generator><language>ja</language><copyright>TechTeco</copyright><lastBuildDate>Sun, 02 Feb 2025 12:00:00 +0900</lastBuildDate><atom:link href="https://techteco.github.io/tags/react/index.xml" rel="self" type="application/rss+xml"/><item><title>React Router v7のチュートリアルを試す</title><link>https://techteco.github.io/2025/02/02/reactrouter-address-book/</link><pubDate>Sun, 02 Feb 2025 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2025/02/02/reactrouter-address-book/</guid><description>&lt;h1 id="react-router-v7のチュートリアル"&gt;React Router v7のチュートリアル&lt;/h1&gt;
+&lt;p&gt;Remixを使っていたので、React Router v7になってどうなるのかをチュートリアルを触ってみる&lt;/p&gt;
+&lt;p&gt;基本的には&lt;a href="https://reactrouter.com/tutorials/address-book#address-book" target="_blank" rel="noopener"&gt;公式&lt;/a&gt;
+の手順どおりやってみるだけ&lt;/p&gt;</description></item><item><title>【開発環境】VSC+Dev Containers+Remix+TypeScript</title><link>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</link><pubDate>Fri, 31 May 2024 12:00:00 +0900</pubDate><guid>https://techteco.github.io/2024/05/31/vsc-remix-typescript/</guid><description>&lt;h1 id="vscvisual-studio-code-dev-containers環境"&gt;VSC(Visual Studio Code) Dev Containers環境&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;PC（mac）のセットアップが面倒&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code" target="_blank" rel="noopener"&gt;VSC(Visual Studio Code)&lt;/a&gt;
+インストール済&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener"&gt;Docker&lt;/a&gt;
+はインストール済&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="dev-containers"&gt;Dev Containers&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener"&gt;Dev Containers 公式&lt;/a&gt;
+&lt;/p&gt;
+&lt;h3 id="設定ファイル"&gt;設定ファイル&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://containers.dev/implementors/json_reference/" target="_blank" rel="noopener"&gt;Specification Dev Container metadata reference&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;設定ファイルは以下の通り。
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#abb2bf;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.devcontainer/devcontainer.json&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;</description></item></channel></rss>
